@@ -2,7 +2,17 @@
   "name": "aice-magazine-manager",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "author": {
+    "name": "Daniel Herrero"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "concurrently --kill-others \"npm run start:front\" \"npm run start:back\"",
+    "start:front": "nx serve app-front",
+    "start:back": "nx serve app-back"
+  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "~18.0.0",
@@ -34,6 +44,7 @@
     "@types/node": "18.16.9",
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",
+    "concurrently": "^8.2.2",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^9.0.0",
     "jest": "^29.4.1",
