@@ -19,7 +19,8 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/app-front/public"
+            "input": "apps/app-front/public",
+            "output": "/assets"
           }
         ],
         "styles": ["apps/app-front/src/styles.scss"],
@@ -27,6 +28,12 @@
       },
       "configurations": {
         "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/app-front/src/environments/environment.ts",
+              "with": "apps/app-front/src/environments/environment.prod.ts"
+            }
+          ],
           "budgets": [
             {
               "type": "initial",

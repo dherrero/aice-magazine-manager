@@ -1,0 +1,53 @@
+name: aice-magazine-manager
+services:
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: elastic
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - back-network
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    container_name: kibana
+    restart: unless-stopped
+    ports:
+      - 5601:5601
+    networks:
+      - back-network
+    depends_on:
+      - elastic
+  back:
+    build:
+      context: apps/app-back
+      target: builder
+    container_name: back
+    restart: unless-stopped
+    ports:
+      - 3200:3200
+    networks:
+      - back-network
+      - front-network
+    depends_on:
+      - elastic
+  front:
+    build:
+      context: apps/app-front
+      target: builder
+    container_name: front
+    restart: unless-stopped
+    ports:
+      - 4200:80
+    depends_on:
+      - back
+    networks:
+      - front-network
+networks:
+  back-network:
+    driver: bridge
+  front-network:

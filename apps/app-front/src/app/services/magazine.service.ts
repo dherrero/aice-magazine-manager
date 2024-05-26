@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { env } from '../../environment/environment';
+import { env } from '../../environments/environment';
 import { Magazine, MagazineState } from '../models/magazine.model';
 import { AbstractState } from './abstract-state.class';
 
