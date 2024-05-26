@@ -5,6 +5,28 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/app-back",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/app-back/src/main.ts",
+        "tsConfig": "apps/app-back/tsconfig.app.json",
+        "assets": ["apps/app-back/src/assets"],
+        "external": ["pg", "pg-hstore"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      }
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",

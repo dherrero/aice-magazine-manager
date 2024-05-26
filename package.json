@@ -12,7 +12,11 @@
   "scripts": {
     "start": "concurrently --kill-others \"npm run start:front\" \"npm run start:back\"",
     "start:front": "nx serve app-front",
-    "start:back": "nx serve app-back"
+    "start:back": "nx serve app-back",
+    "build": "npm run build:front && npm run build:back",
+    "build:front": "nx build app-front --skip-nx-cache",
+    "build:back": "nx build app-back --skip-nx-cache",
+    "docker:up": "npm run build && docker-compose up"
   },
   "private": true,
   "devDependencies": {
@@ -28,6 +32,7 @@
     "@angular/localize": "~17.3.0",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@nx/angular": "^19.1.0",
+    "@nx/esbuild": "^19.1.0",
     "@nx/eslint": "19.1.0",
     "@nx/eslint-plugin": "19.1.0",
     "@nx/express": "^19.1.0",
@@ -48,6 +53,7 @@
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",
     "concurrently": "^8.2.2",
+    "esbuild": "^0.19.2",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^9.0.0",
     "jest": "^29.4.1",

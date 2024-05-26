@@ -7,7 +7,7 @@ RUN getent group app-back || addgroup --system app-back && \
 
 WORKDIR ${APP_DIR}
 
-ARG BUILD_DIR=../../../dist/apps/app-back
+ARG BUILD_DIR=./dist/apps/app-back
 
 COPY ${BUILD_DIR} ${APP_DIR}
 

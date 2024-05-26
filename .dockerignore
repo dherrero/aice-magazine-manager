@@ -1,8 +1,6 @@
-## Use this .dockerignore in order to skip unnecessary files and speed up the build process
 
-## Exclude all files
-*
-
-## Include only dist directory
-!dist/
-!nginx/
+node_modules
+.git
+.angular
+.vscode
+.idea

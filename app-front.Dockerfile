@@ -4,10 +4,10 @@ USER root
 
 ENV APP_DIR /usr/share/nginx/html/
 
-COPY ../../../nginx/mime.types /etc/nginx/conf.d/mime.types
-COPY ../../../nginx/gzip.conf /etc/nginx/conf.d/gzip.conf
-COPY ../../../nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY ../../../nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/mime.types /etc/nginx/conf.d/mime.types
+COPY ./nginx/gzip.conf /etc/nginx/conf.d/gzip.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN groupadd app-front && \
     useradd -g 0 -l -m -s /bin/bash -u 109012 app-front && \
@@ -27,5 +27,5 @@ EXPOSE 80
 
 USER app-front
 
-ARG BUILD_DIR=../../../dist/apps/app-front/browser
+ARG BUILD_DIR=./dist/apps/app-front
 COPY ${BUILD_DIR} ${APP_DIR}

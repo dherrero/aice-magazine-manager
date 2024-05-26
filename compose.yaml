@@ -24,8 +24,7 @@ services:
       - elastic
   back:
     build:
-      context: apps/app-back
-      target: builder
+      dockerfile: app-back.Dockerfile
     container_name: back
     restart: unless-stopped
     ports:
@@ -37,8 +36,7 @@ services:
       - elastic
   front:
     build:
-      context: apps/app-front
-      target: builder
+      dockerfile: app-front.Dockerfile
     container_name: front
     restart: unless-stopped
     ports:
