@@ -9,9 +9,10 @@ Requisitos:
 - Git
 
 Pasos:
-- Clonar el repositorio
+- Clonar el proyecto y acceder
   ```shell
     git clone git@github.com:dherrero/aice-magazine-manager.git
+    cd aice-magazine-manager
   ```
 - Installar
   ```shell
