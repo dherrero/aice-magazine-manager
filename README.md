@@ -5,9 +5,9 @@ Proyecto para la gestión de la revista de la **Federación de Asociaciones de I
 ## Trabajar en local
 
 Requisitos:
--  NodeJS 22.2.0
--  Git
+-NodeJS 22.2.0
+-Git
 
 Pasos:
-- Clonar el repositorio
-- Installar ```npm install```
+-Clonar el repositorio
+-Installar `npm install`
