@@ -5,9 +5,20 @@ Proyecto sin ánimo de lucro para la gestión y consultas de las revistas de la 
 ## Trabajar en local
 
 Requisitos:
-- NodeJS 22.2.0
+- NodeJS 20.12.2
 - Git
 
 Pasos:
 - Clonar el repositorio
-- Installar `npm install`
+  ```shell
+    git clone git@github.com:dherrero/aice-magazine-manager.git
+  ```
+- Installar
+  ```shell
+    npm install
+  ```
+- Levantar el proyecto, back y front
+  ```shell
+    npm start
+  ```
+
