@@ -11,6 +11,8 @@ import {
   NgbDatepickerModule,
   NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
+import { CardComponent } from '../../components/card/card.component';
+import { HighlightQueryPipe } from '../../pipes/highlightQuery.pipe';
 
 @UntilDestroy()
 @Component({
@@ -21,6 +23,8 @@ import {
     ReactiveFormsModule,
     UploadComponent,
     NgbDatepickerModule,
+    CardComponent,
+    HighlightQueryPipe,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],

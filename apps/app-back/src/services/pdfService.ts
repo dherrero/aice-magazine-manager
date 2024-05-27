@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse';
 import { Op } from 'sequelize';
-import { magazine, page } from '../models';
+import { Magazine, Page } from '../models';
 
 interface PdfContent {
   textByPage: { pageNumber: number; text: string }[];
@@ -27,7 +27,7 @@ export const savePdfContent = async (
   publicationNumber: string,
   fileName: string
 ) => {
-  const newMagazine = await magazine.create({
+  const newMagazine = await Magazine.create({
     number: Number(publicationNumber),
     path: fileName,
   });
@@ -41,24 +41,27 @@ export const savePdfContent = async (
     },
   ]);
   try {
-    await page.bulkCreate(pages);
+    await Page.bulkCreate(pages);
   } catch (e) {
-    await magazine.destroy({ where: { id: newMagazine.id } });
+    await Magazine.destroy({ where: { id: newMagazine.id } });
     throw e;
   }
   return newMagazine;
 };
 
 export const searchInIndexedContent = async (query: string) => {
-  const results = await page.findAll({
+  const results = await Page.findAll({
+    include: Magazine,
     where: {
-      [Op.or]: {
+      [Op.and]: {
         content: {
           [Op.iLike]: `%${query}%`,
         },
-        title: {
+        deleted: false,
+        /*     title: {
           [Op.iLike]: `%${query}%`,
         },
+       */
       },
     },
   });

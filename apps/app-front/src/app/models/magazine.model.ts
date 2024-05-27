@@ -1,7 +1,7 @@
-import { PageDTO } from '@dto';
+import { SearchDTO } from '@dto';
 
 export interface MagazineState {
   uploading: boolean;
   loading: boolean;
-  pages: PageDTO[];
+  results: SearchDTO[];
 }

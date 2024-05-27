@@ -14,7 +14,7 @@ export interface MagazineModel
       InferCreationAttributes<MagazineModel>
     > {}
 
-export default db.define<MagazineModel>(
+const Magazine = db.define<MagazineModel>(
   'Magazine',
   {
     id: {
@@ -54,3 +54,4 @@ export default db.define<MagazineModel>(
   },
   { tableName: 'magazine' }
 );
+export default Magazine;

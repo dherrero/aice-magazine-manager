@@ -37,3 +37,7 @@ export interface PageDTO {
   updatedAt?: Date;
   deletedAt?: Date;
 }
+
+export interface SearchDTO extends PageDTO {
+  Magazine: MagazineDTO;
+}

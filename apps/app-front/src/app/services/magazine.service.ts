@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { PageDTO } from '@dto';
+import { SearchDTO } from '@dto';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { env } from '../../environments/environment';
 import { MagazineState } from '../models/magazine.model';
@@ -13,7 +13,7 @@ export class MagazineService extends AbstractState<MagazineState> {
   #http = inject(HttpClient);
   loading = this.select('loading');
   uploading = this.select('uploading');
-  pages = this.select('pages');
+  results = this.select('results');
 
   constructor() {
     super({
@@ -21,7 +21,7 @@ export class MagazineService extends AbstractState<MagazineState> {
       defaultState: {
         uploading: false,
         loading: false,
-        pages: [],
+        results: [],
       },
     });
   }
@@ -29,12 +29,12 @@ export class MagazineService extends AbstractState<MagazineState> {
   searchMagazines(query: string) {
     this.update((state) => ({ ...state, loading: true }));
     this.#http
-      .get<PageDTO[]>(env.api + '/search', {
+      .get<SearchDTO[]>(env.api + '/search', {
         params: { query },
       })
       .subscribe({
-        next: (magazines: PageDTO[]) => {
-          this.update((state) => ({ ...state, magazines, loading: false }));
+        next: (results: SearchDTO[]) => {
+          this.update((state) => ({ ...state, results, loading: false }));
         },
         error: (error) => {
           console.error(error);

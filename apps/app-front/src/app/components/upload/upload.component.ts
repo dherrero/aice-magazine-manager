@@ -12,13 +12,15 @@ import { MagazineService } from '../../services/magazine.service';
 })
 export class UploadComponent {
   @Input() afterSave!: () => void;
+  @Input() afterError!: () => void;
 
   selectedFile: File | null = null;
   publicationNumber = '';
   #magazineService = inject(MagazineService);
 
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+  onFileSelected(event: Event) {
+    const { files } = event.currentTarget as HTMLInputElement;
+    if (files) this.selectedFile = files[0];
   }
 
   onUpload() {
@@ -35,10 +37,18 @@ export class UploadComponent {
     formData.append('file', this.selectedFile);
     formData.append('publicationNumber', this.publicationNumber);
 
-    this.#magazineService.uploadMagazine(formData).subscribe(() => {
-      if (this.afterSave) {
-        this.afterSave();
-      }
+    this.#magazineService.uploadMagazine(formData).subscribe({
+      next: () => {
+        if (this.afterSave) {
+          this.afterSave();
+        }
+      },
+      error: (error) => {
+        if (this.afterError) {
+          this.afterError();
+        }
+        console.error(error);
+      },
     });
   }
 }

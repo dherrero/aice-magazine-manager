@@ -11,7 +11,7 @@ export interface UserModel
   extends UserDTO,
     Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {}
 
-export default db.define<UserModel>(
+const User = db.define<UserModel>(
   'User',
   {
     id: {
@@ -59,3 +59,4 @@ export default db.define<UserModel>(
   },
   { tableName: 'user' }
 );
+export default User;

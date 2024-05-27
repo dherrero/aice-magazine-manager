@@ -5,13 +5,14 @@ import {
   InferCreationAttributes,
   Model,
 } from 'sequelize';
+import { Magazine } from '.';
 import { db } from '../adapters/db/connection';
 
 export interface PageModel
   extends PageDTO,
     Model<InferAttributes<PageModel>, InferCreationAttributes<PageModel>> {}
 
-export default db.define<PageModel>(
+const Page = db.define<PageModel>(
   'Page',
   {
     id: {
@@ -60,3 +61,7 @@ export default db.define<PageModel>(
   },
   { tableName: 'page' }
 );
+
+Page.belongsTo(Magazine, { foreignKey: 'magazineId' });
+
+export default Page;

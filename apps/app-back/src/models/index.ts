@@ -1,5 +1,5 @@
-import magazine, { MagazineModel } from './MagazineModel';
-import page, { PageModel } from './PageModel';
-import user, { UserModel } from './UserModel';
+import Magazine, { MagazineModel } from './MagazineModel';
+import Page, { PageModel } from './PageModel';
+import User, { UserModel } from './UserModel';
 
-export { MagazineModel, PageModel, UserModel, magazine, page, user };
+export { Magazine, MagazineModel, Page, PageModel, User, UserModel };
