@@ -29,6 +29,8 @@ services:
       dockerfile: app-back.Dockerfile
     container_name: back
     restart: unless-stopped
+    environment:
+      - PORT=3200
     ports:
       - 3200:3200
     networks:
