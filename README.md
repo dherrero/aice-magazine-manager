@@ -1,13 +1,25 @@
-# AiceMagazineManager
+# Aice Magazine Manager
 
-Proyecto para la gestión de la revista de la **Federación de Asociaciones de Implantados Cocleares de España**
+Proyecto sin ánimo de lucro para la gestión y consultas de las revistas de la **Federación de Asociaciones de Implantados Cocleares de España**
 
 ## Trabajar en local
 
 Requisitos:
--NodeJS 22.2.0
--Git
+- NodeJS 20.12.2
+- Git
 
 Pasos:
--Clonar el repositorio
--Installar `npm install`
+- Clonar el proyecto y acceder
+  ```shell
+    git clone git@github.com:dherrero/aice-magazine-manager.git
+    cd aice-magazine-manager
+  ```
+- Installar
+  ```shell
+    npm install
+  ```
+- Levantar el proyecto, back y front
+  ```shell
+    npm start
+  ```
+
