@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { PageDTO } from '@dto';
+import { Observable, catchError, of, tap } from 'rxjs';
 import { env } from '../../environments/environment';
-import { Magazine, MagazineState } from '../models/magazine.model';
+import { MagazineState } from '../models/magazine.model';
 import { AbstractState } from './abstract-state.class';
 
 @Injectable({
@@ -10,14 +12,16 @@ import { AbstractState } from './abstract-state.class';
 export class MagazineService extends AbstractState<MagazineState> {
   #http = inject(HttpClient);
   loading = this.select('loading');
-  magazines = this.select('magazines');
+  uploading = this.select('uploading');
+  pages = this.select('pages');
 
   constructor() {
     super({
       stateName: 'Magazine',
       defaultState: {
+        uploading: false,
         loading: false,
-        magazines: [],
+        pages: [],
       },
     });
   }
@@ -25,11 +29,11 @@ export class MagazineService extends AbstractState<MagazineState> {
   searchMagazines(query: string) {
     this.update((state) => ({ ...state, loading: true }));
     this.#http
-      .get<Magazine[]>(env.api + '/magazines', {
+      .get<PageDTO[]>(env.api + '/search', {
         params: { query },
       })
       .subscribe({
-        next: (magazines: Magazine[]) => {
+        next: (magazines: PageDTO[]) => {
           this.update((state) => ({ ...state, magazines, loading: false }));
         },
         error: (error) => {
@@ -37,5 +41,19 @@ export class MagazineService extends AbstractState<MagazineState> {
           this.update((state) => ({ ...state, loading: false }));
         },
       });
+  }
+
+  uploadMagazine(formData: FormData): Observable<null> {
+    this.update((state) => ({ ...state, uploading: true }));
+    return this.#http.post<null>(env.api + '/upload', formData).pipe(
+      tap(() => {
+        this.update((state) => ({ ...state, uploading: false, magazines: [] }));
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        this.update((state) => ({ ...state, uploading: false }));
+        return of();
+      })
+    );
   }
 }

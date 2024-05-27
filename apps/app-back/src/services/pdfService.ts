@@ -1,7 +1,6 @@
-import { Client } from '@elastic/elasticsearch';
 import pdf from 'pdf-parse';
-
-const client = new Client({ node: 'http://elasticsearch:9200' });
+import { Op } from 'sequelize';
+import { magazine, page } from '../models';
 
 interface PdfContent {
   textByPage: { pageNumber: number; text: string }[];
@@ -23,40 +22,46 @@ export const parsePdf = async (fileBuffer: Buffer): Promise<PdfContent> => {
   };
 };
 
-export const indexPdfContent = async (pdfData: PdfContent, pdfId: string) => {
-  const body = pdfData.textByPage.flatMap((page) => [
+export const savePdfContent = async (
+  pdfData: PdfContent,
+  publicationNumber: string,
+  fileName: string
+) => {
+  const newMagazine = await magazine.create({
+    number: Number(publicationNumber),
+    path: fileName,
+  });
+  const pages = pdfData.textByPage.flatMap((page) => [
     {
-      index: {
-        _index: 'magazines',
-        _id: `${pdfId}-page-${page.pageNumber}`,
-      },
-    },
-    {
-      pdfId: pdfId,
+      number: page.pageNumber,
+      publicationNumber: publicationNumber,
       title: pdfData.metadata,
       content: page.text,
-      pageNumber: page.pageNumber,
+      magazineId: newMagazine.id,
     },
   ]);
-
-  await client.bulk({ refresh: true, body });
+  try {
+    await page.bulkCreate(pages);
+  } catch (e) {
+    await magazine.destroy({ where: { id: newMagazine.id } });
+    throw e;
+  }
+  return newMagazine;
 };
 
 export const searchInIndexedContent = async (query: string) => {
-  const result = await client.search({
-    index: 'magazines',
-    body: {
-      query: {
-        multi_match: {
-          query,
-          fields: ['title', 'content'],
+  const results = await page.findAll({
+    where: {
+      [Op.or]: {
+        content: {
+          [Op.iLike]: `%${query}%`,
+        },
+        title: {
+          [Op.iLike]: `%${query}%`,
         },
       },
     },
   });
 
-  return result.hits.hits.map((hit: any) => ({
-    ref: hit._id,
-    ...hit._source,
-  }));
+  return results;
 };

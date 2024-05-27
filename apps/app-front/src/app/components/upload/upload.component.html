@@ -1,0 +1,15 @@
+<div class="row">
+  <input
+    class="col-12 form-control"
+    type="file"
+    (change)="onFileSelected($event)"
+  />
+  <input
+    class="col-12 mt-2 form-control"
+    type="number"
+    placeholder="Número de publicación"
+    min="1"
+    [(ngModel)]="publicationNumber"
+  />
+  <button class="btn btn-primary mt-2" (click)="onUpload()">Upload</button>
+</div>

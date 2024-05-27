@@ -1,13 +1,7 @@
-export interface MagazineState {
-  loading: boolean;
-  magazines: Magazine[];
-}
+import { PageDTO } from '@dto';
 
-export interface Magazine {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  date: string;
-  url: string;
+export interface MagazineState {
+  uploading: boolean;
+  loading: boolean;
+  pages: PageDTO[];
 }
