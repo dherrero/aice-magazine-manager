@@ -43,6 +43,8 @@ export default class HomeComponent implements OnInit {
     this.search.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
       if (value.query && value.query.length > 3) {
         this.magazineService.searchMagazines(value.query);
+      } else {
+        this.magazineService.cleanResults();
       }
     });
   }

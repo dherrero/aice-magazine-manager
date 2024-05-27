@@ -56,4 +56,8 @@ export class MagazineService extends AbstractState<MagazineState> {
       })
     );
   }
+
+  cleanResults() {
+    this.update((state) => ({ ...state, results: [] }));
+  }
 }
