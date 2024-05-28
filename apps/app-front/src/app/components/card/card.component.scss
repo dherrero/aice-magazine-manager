@@ -1,0 +1,24 @@
+:host {
+  height: 500px;
+  min-height: 500px;
+  max-height: 500px;
+
+  .card-title {
+    height: 50px;
+    max-height: 50px;
+    min-height: 50px;
+    overflow: hidden;
+  }
+  .card-text {
+    height: 350px;
+    max-height: 350px;
+    min-height: 350px;
+    overflow: hidden auto;
+  }
+  .card-footer {
+    height: 50px;
+    max-height: 50px;
+    min-height: 50px;
+    text-align: right;
+  }
+}

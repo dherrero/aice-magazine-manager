@@ -10,7 +10,7 @@
       formControlName="query"
     />
     <button class="btn btn-lg" (click)="open(content)" title="subir revista">
-      +
+      <h2>+</h2>
     </button>
   </form>
 </section>
@@ -28,9 +28,9 @@
   <div class="col-12 row d-flex flex-wrap justify-content-between">
     @for (result of magazineService.results(); track $index) {
     <app-card
-      class="col-4"
+      class="col-xs-12 col-sm-6 col-md-4 mb-2"
       [title]="
-        'Revista nº' + result.Magazine.number + ' página ' + result.number
+        'Revista nº ' + result.Magazine.number + ' página ' + result.number
       "
       [content]="
         result.content | highlightQuery : search.get('query')?.value ?? ''
