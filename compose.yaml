@@ -3,13 +3,12 @@ services:
   postgresdb:
     image: postgres
     restart: unless-stopped
-    env_file: ./.env.local
     environment:
-      - POSTGRES_USER=$POSTGRESDB_USER
-      - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
-      - POSTGRES_DB=$POSTGRESDB_DATABASE
+      - POSTGRES_USER=${POSTGRESDB_USER}
+      - POSTGRES_PASSWORD=${POSTGRESDB_ROOT_PASSWORD}
+      - POSTGRES_DB=${POSTGRESDB_DATABASE}
     ports:
-      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+      - ${POSTGRESDB_LOCAL_PORT}:${POSTGRESDB_DOCKER_PORT}
     volumes:
       - postgresdb:/var/lib/postgres
       - ./db:/docker-entrypoint-initdb.d
@@ -20,44 +19,44 @@ services:
       - postgresdb
     image: dpage/pgadmin4
     restart: unless-stopped
-    env_file: ./.env.local
     environment:
-      - PGADMIN_DEFAULT_EMAIL=$PGADMIN_DEFAULT_EMAIL
-      - PGADMIN_DEFAULT_PASSWORD=$PGADMIN_DEFAULT_PASSWORD
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - $PGADMIN_LOCAL_PORT:$PGADMIN_DOCKER_PORT
+      - ${PGADMIN_LOCAL_PORT}:${PGADMIN_DOCKER_PORT}
     volumes:
       - pgadmindb:/var/lib/postgres
       - ./pgadmin_config.json:/pgadmin4/servers.json
     networks:
       - back-network
-  # back:
-  #   depends_on:
-  #     - postgresdb
-  #   build:
-  #     dockerfile: app-back.Dockerfile
-  #   container_name: back
-  #   restart: unless-stopped
-  #   env_file: ./.env.local
-  #   environment:
-  #     - NODE_PORT=$NODE_PORT
-  #     - NODE_POSTGRESDB_USER=$NODE_POSTGRESDB_USER
-  #     - NODE_POSTGRESDB_PASSWORD=$NODE_POSTGRESDB_PASSWORD
-  #     - NODE_POSTGRESDB_ROOT_PASSWORD=$NODE_POSTGRESDB_ROOT_PASSWORD
-  #     - NODE_POSTGRESDB_DATABASE=$NODE_POSTGRESDB_DATABASE
-  #     - NODE_POSTGRESDB_LOCAL_PORT=$NODE_POSTGRESDB_LOCAL_PORT
-  #     - NODE_POSTGRESDB_DOCKER_PORT=$NODE_POSTGRESDB_DOCKER_PORT
-  #     - NODE_POSTGRESDB_HOST=$NODE_POSTGRESDB_HOST
-  #     - NODE_JWT_SECRET=$NODE_JWT_SECRET
-  #     - NODE_JWT_ACCESS_EXPIRES_IN=$NODE_JWT_ACCESS_EXPIRES_IN
-  #     - NODE_JWT_REFRESH_EXPIRES_IN=$NODE_JWT_REFRESH_EXPIRES_IN
-  #     - NODE_HASH_SALT_ROUNDS=$NODE_HASH_SALT_ROUNDS
-  #     - NODE_PRODUCTION=$NODE_PRODUCTION
-  #     - NODE_UPLOAD_FILES_PATH=$NODE_UPLOAD_FILES_PATH
-  #   ports:
-  #     - $NODE_PORT:$NODE_PORT
-  #   networks:
-  #     - back-network
+  back:
+    depends_on:
+      - postgresdb
+    build:
+      dockerfile: app-back.Dockerfile
+    container_name: back
+    restart: unless-stopped
+    environment:
+      - NODE_PORT=${NODE_PORT}
+      - NODE_POSTGRESDB_USER=${NODE_POSTGRESDB_USER}
+      - NODE_POSTGRESDB_PASSWORD=${NODE_POSTGRESDB_PASSWORD}
+      - NODE_POSTGRESDB_ROOT_PASSWORD=${NODE_POSTGRESDB_ROOT_PASSWORD}
+      - NODE_POSTGRESDB_DATABASE=${NODE_POSTGRESDB_DATABASE}
+      - NODE_POSTGRESDB_LOCAL_PORT=${NODE_POSTGRESDB_LOCAL_PORT}
+      - NODE_POSTGRESDB_DOCKER_PORT=${NODE_POSTGRESDB_DOCKER_PORT}
+      - NODE_POSTGRESDB_HOST=${NODE_POSTGRESDB_HOST}
+      - NODE_JWT_SECRET=${NODE_JWT_SECRET}
+      - NODE_JWT_ACCESS_EXPIRES_IN=${NODE_JWT_ACCESS_EXPIRES_IN}
+      - NODE_JWT_REFRESH_EXPIRES_IN=${NODE_JWT_REFRESH_EXPIRES_IN}
+      - NODE_HASH_SALT_ROUNDS=${NODE_HASH_SALT_ROUNDS}
+      - NODE_PRODUCTION=${NODE_PRODUCTION}
+      - NODE_UPLOAD_FILES:${NODE_UPLOAD_FILES}
+    ports:
+      - ${NODE_PORT}:${NODE_PORT}
+    networks:
+      - back-network
+    volumes:
+      - upload_files:/home/app-back/${NODE_UPLOAD_FILES}
   # front:
   #   build:
   #     dockerfile: app-front.Dockerfile
@@ -72,5 +71,6 @@ services:
 volumes:
   postgresdb:
   pgadmindb:
+  upload_files:
 networks:
   back-network:

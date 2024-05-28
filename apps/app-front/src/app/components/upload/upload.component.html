@@ -1,15 +1,27 @@
 <div class="row">
-  <input
-    class="col-12 form-control"
-    type="file"
-    (change)="onFileSelected($event)"
-  />
-  <input
-    class="col-12 mt-2 form-control"
-    type="number"
-    placeholder="Número de publicación"
-    min="1"
-    [(ngModel)]="publicationNumber"
-  />
-  <button class="btn btn-primary mt-2" (click)="onUpload()">Upload</button>
+  <div class="col-12">
+    <input class="form-control" type="file" (change)="onFileSelected($event)" />
+  </div>
+  <div class="col-6 mt-2">
+    <input
+      class="form-control"
+      type="number"
+      placeholder="Número de publicación"
+      min="1"
+      [(ngModel)]="publicationNumber"
+    />
+  </div>
+  <div class="col-6 mt-2">
+    <input
+      class="form-control"
+      type="date"
+      placeholder="Número de publicación"
+      min="1"
+      [(ngModel)]="publhishedAt"
+    />
+  </div>
+
+  <div class="col-12 d-flex justify-content-center">
+    <button class="btn btn-primary mt-2" (click)="onUpload()">Upload</button>
+  </div>
 </div>

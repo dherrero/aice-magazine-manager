@@ -9,4 +9,5 @@ export const db = new Sequelize({
   database: process.env.NODE_POSTGRESDB_DATABASE ?? 'postgres',
   username: process.env.NODE_POSTGRESDB_USER ?? 'postgres',
   password: process.env.NODE_POSTGRESDB_PASSWORD ?? 'postgres',
+  logging: Boolean(process.env.NODE_PRODUCTION),
 });

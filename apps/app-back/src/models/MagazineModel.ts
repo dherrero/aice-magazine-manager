@@ -30,6 +30,16 @@ const Magazine = db.define<MagazineModel>(
       type: DataTypes.STRING(250),
       allowNull: false,
     },
+    publhishedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: 'publhishedat',
+    },
+    image: {
+      type: DataTypes.BLOB,
+      allowNull: true,
+      defaultValue: null,
+    },
     deleted: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

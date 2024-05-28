@@ -3,7 +3,7 @@
     <h5 class="card-title">{{ title }}</h5>
     <div class="card-text" [innerHTML]="content"></div>
     <div class="card-footer">
-      <a href="#" class="card-link">Ver PDF</a>
+      <a [href]="pdfURL" target="_blank" class="card-link">Ver PDF</a>
     </div>
   </div>
 </div>

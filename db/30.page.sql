@@ -2,7 +2,6 @@ CREATE TABLE public.page (
     id bigint NOT NULL,
     number integer NOT NULL,
     content text NOT NULL,
-    title text NOT NULL,
     magazine_id bigint NOT NULL REFERENCES public.magazine (id),
     deleted boolean DEFAULT false,
     createdAt timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,

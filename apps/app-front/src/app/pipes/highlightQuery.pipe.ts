@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class HighlightQueryPipe implements PipeTransform {
   transform(content: string, query: string): string {
-    const maxWords = 100;
+    const maxWords = 150;
     const words = content.split(' ').flat();
     const lowerWords = content.toLowerCase().split(' ').flat();
     const queryIndex = lowerWords.indexOf(query.toLowerCase());

@@ -20,6 +20,8 @@ export interface MagazineDTO {
   id: CreationOptional<number>;
   number: number;
   path: string;
+  publhishedAt: Date;
+  image?: unknown;
   deleted: boolean;
   createdAt: Date;
   updatedAt?: Date;
@@ -30,7 +32,6 @@ export interface PageDTO {
   id: CreationOptional<number>;
   number: number;
   content: string;
-  title?: string;
   magazineId: number;
   deleted: boolean;
   createdAt: Date;

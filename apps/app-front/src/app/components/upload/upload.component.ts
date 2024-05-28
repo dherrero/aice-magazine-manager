@@ -16,6 +16,7 @@ export class UploadComponent {
 
   selectedFile: File | null = null;
   publicationNumber = '';
+  publhishedAt = '';
   #magazineService = inject(MagazineService);
 
   onFileSelected(event: Event) {
@@ -27,15 +28,17 @@ export class UploadComponent {
     if (
       !this.selectedFile ||
       !this.publicationNumber ||
-      isNaN(Number(this.publicationNumber))
+      isNaN(Number(this.publicationNumber)) ||
+      !this.publhishedAt
     ) {
-      alert('Please select a file and enter the publication number');
+      alert('Todos los campos son requeridos');
       return;
     }
 
     const formData = new FormData();
     formData.append('file', this.selectedFile);
     formData.append('publicationNumber', this.publicationNumber);
+    formData.append('publhishedAt', this.publhishedAt);
 
     this.#magazineService.uploadMagazine(formData).subscribe({
       next: () => {

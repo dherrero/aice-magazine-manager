@@ -2,6 +2,8 @@ CREATE TABLE public.magazine (
     id bigint NOT NULL,
     number integer NOT NULL,
     path character varying(250) NOT NULL,
+    image bytea DEFAULT NULL,
+    publhishedAt date NOT NULL,
     deleted boolean DEFAULT false,
     createdAt timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updatedAt timestamp without time zone,
