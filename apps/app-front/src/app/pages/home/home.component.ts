@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, inject } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { UploadComponent } from '../../components/upload/upload.component';
-import { MagazineService } from '../../services/magazine.service';
+import { SearchService } from '../../services/search.service';
 
 import {
   NgbDatepickerModule,
@@ -33,7 +33,7 @@ import { HighlightQueryPipe } from '../../pipes/highlightQuery.pipe';
 })
 export default class HomeComponent {
   #modalService = inject(NgbModal);
-  magazineService = inject(MagazineService);
+  magazineService = inject(SearchService);
   closeResult = '';
   search = '';
 
