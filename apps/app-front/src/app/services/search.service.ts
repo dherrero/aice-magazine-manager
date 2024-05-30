@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpEventType,
+} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { SearchDTO } from '@dto';
 import { Observable, catchError, of, tap } from 'rxjs';
@@ -20,6 +24,7 @@ export class SearchService extends AbstractState<MagazineState> {
       stateName: 'Magazine',
       defaultState: {
         uploading: false,
+        progressUpload: 0,
         loading: false,
         results: [],
       },
@@ -34,18 +39,42 @@ export class SearchService extends AbstractState<MagazineState> {
     }
   }
 
-  uploadMagazine(formData: FormData): Observable<null> {
+  uploadMagazine(formData: FormData, fileSize: number): Observable<unknown> {
     this.update((state) => ({ ...state, uploading: true }));
-    return this.#http.post<null>(env.api + '/upload', formData).pipe(
-      tap(() => {
-        this.update((state) => ({ ...state, uploading: false, magazines: [] }));
-      }),
-      catchError((error: HttpErrorResponse) => {
-        console.error(error);
-        this.update((state) => ({ ...state, uploading: false }));
-        return of();
+    return this.#http
+      .post<null>(env.api + '/upload', formData, {
+        reportProgress: true,
+        observe: 'events',
       })
-    );
+      .pipe(
+        tap((resp) => {
+          if (resp.type === HttpEventType.Response) {
+            this.update((state) => ({
+              ...state,
+              uploading: false,
+              magazines: [],
+            }));
+          } else if (resp.type === HttpEventType.Sent) {
+            this.update((state) => ({
+              ...state,
+              uploading: true,
+              progressUpload: 0,
+            }));
+          } else if (resp.type === HttpEventType.UploadProgress) {
+            const progressUpload = Math.round((100 * resp.loaded) / fileSize);
+            this.update((state) => ({
+              ...state,
+              uploading: true,
+              progressUpload,
+            }));
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
+          this.update((state) => ({ ...state, uploading: false }));
+          return of();
+        })
+      );
   }
 
   cleanResults() {

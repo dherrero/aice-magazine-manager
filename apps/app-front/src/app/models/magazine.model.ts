@@ -3,6 +3,7 @@ import { SearchDTO } from '@dto';
 export interface MagazineState {
   uploading: boolean;
   loading: boolean;
+  progressUpload: number;
   results: SearchDTO[];
 }
 
