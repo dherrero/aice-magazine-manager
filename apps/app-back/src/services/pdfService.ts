@@ -1,7 +1,8 @@
+import { FilterhMagazineType } from '@dto';
 import pdf from 'pdf-parse';
 import { fromBuffer } from 'pdf2pic';
 import { WriteImageResponse } from 'pdf2pic/dist/types/convertResponse';
-import { Op } from 'sequelize';
+import { Includeable, Op } from 'sequelize';
 import { APP_DIR } from '../globals';
 import { Magazine, Page } from '../models';
 interface PdfContent {
@@ -79,9 +80,14 @@ export default class PdfService {
     return newMagazine;
   }
 
-  static async searchInIndexedContent(query: string) {
+  static async searchInIndexedContent(
+    query: string,
+    type?: string,
+    number?: string
+  ) {
+    const include = this.#getIncludeValue(type, number);
     const results = await Page.findAll({
-      include: Magazine,
+      include,
       where: {
         [Op.and]: {
           content: {
@@ -93,5 +99,33 @@ export default class PdfService {
     });
 
     return results;
+  }
+
+  static #getIncludeValue(type?: string, number?: string): Includeable {
+    if (!type || !number) {
+      return Magazine;
+    }
+    const filterByNumber = {};
+    let opType;
+    switch (+type) {
+      case FilterhMagazineType.EQUAL:
+        opType = Op.eq;
+        break;
+      case FilterhMagazineType.GREATERTHAN:
+        opType = Op.gt;
+        break;
+      case FilterhMagazineType.GREATERTHANEQUAL:
+        opType = Op.gte;
+        break;
+      case FilterhMagazineType.LESSTHAN:
+        opType = Op.lt;
+        break;
+      case FilterhMagazineType.LESSTHANEQUAL:
+        opType = Op.lte;
+        break;
+    }
+    filterByNumber['number'] = {};
+    filterByNumber['number'][opType] = number;
+    return { model: Magazine, where: filterByNumber };
   }
 }

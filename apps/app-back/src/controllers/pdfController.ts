@@ -63,8 +63,12 @@ export default class PdfController {
 
   static async searchPdf(req: Request, res: Response) {
     try {
-      const { query } = req.query;
-      const results = await PdfService.searchInIndexedContent(query as string);
+      const { query, type, number } = req.query;
+      const results = await PdfService.searchInIndexedContent(
+        query as string,
+        type as string,
+        number as string
+      );
       res.status(200).json(results);
     } catch (error) {
       res.status(500).json({ message: 'Error searching PDFs', error });

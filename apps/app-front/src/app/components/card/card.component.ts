@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { env } from '../../../environments/environment';
+import { HideImageOnErrorDirectiveModule } from './error-image/error-image.directive';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, NgbTooltipModule],
+  imports: [CommonModule, NgbTooltipModule, HideImageOnErrorDirectiveModule],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
 })
@@ -26,5 +27,10 @@ export class CardComponent implements OnInit {
     this.pdfURL = `${pdfURL.href}#page=${this.page}`;
     if (this.frontPage)
       this.imageUrl = this.frontPage.replace('/home/app-back/', this.#basePdf);
+  }
+
+  imageError(event: any): void {
+    console.log(event);
+    event.target.style.display = 'none';
   }
 }

@@ -3,19 +3,20 @@
 
   .card-body {
     justify-content: space-between;
-    padding-bottom: 0px;
+    padding: 0 5px;
 
     .card-title {
       overflow: hidden;
       text-align: center;
       border-bottom: 1px solid grey;
-      padding-bottom: 8px;
+      padding: 5px 0 8px 0;
       align-content: start;
+      margin: 0px;
     }
     .card-text {
       max-height: 260px;
       min-height: 260px;
-      margin-bottom: 20px;
+      padding: 10px 5px;
       overflow: hidden auto;
     }
     .card-footer {

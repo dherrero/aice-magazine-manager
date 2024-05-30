@@ -1,6 +1,11 @@
 <div class="card w-100 h-100">
   @if (imageUrl) {
-  <img [src]="imageUrl" class="card-img-top" alt="{{ title }}" />
+  <img
+    [src]="imageUrl"
+    class="card-img-top"
+    alt="{{ title }}"
+    appImageOnError
+  />
   }
   <div class="card-body d-flex flex-column">
     <h5 class="card-title">{{ title }}</h5>

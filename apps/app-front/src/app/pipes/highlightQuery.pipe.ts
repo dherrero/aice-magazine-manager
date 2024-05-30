@@ -8,40 +8,11 @@ export class HighlightQueryPipe implements PipeTransform {
   transform(
     originalText: string,
     searchValues: string,
-    caseSensitive = false,
     cssClass = 'highlight'
   ): string {
     if (typeof originalText !== 'string' || !searchValues) {
       return originalText;
     }
-
-    if (caseSensitive) {
-      return this._transformWithCaseSensitive(
-        originalText,
-        searchValues,
-        cssClass
-      );
-    }
-    return this._transformWithoutCaseSensitive(
-      originalText,
-      searchValues,
-      cssClass
-    );
-  }
-
-  /**
-   * Transform function when caseSensitive is false
-   *
-   * @param {string} originalText original text where to search
-   * @param {string} searchValues values to search
-   * @param {string} cssClass css class, used to modify styles of results of search
-   * @returns {string} original text or modified text with search results
-   */
-  private _transformWithoutCaseSensitive(
-    originalText: string,
-    searchValues: string,
-    cssClass: string
-  ): string {
     const foundWords: Map<number, string> = new Map<number, string>();
 
     const normalizedText = originalText
@@ -93,25 +64,5 @@ export class HighlightQueryPipe implements PipeTransform {
     });
 
     return output;
-  }
-
-  /**
-   * Transform function when caseSensitive is true
-   *
-   * @param {string} originalText original text where to search
-   * @param {string} searchValues values to search
-   * @param {string} cssClass css class, used to modify styles of results of search
-   * @returns {string} original text or modified text with search results
-   */
-  private _transformWithCaseSensitive(
-    originalText: string,
-    searchValues: string,
-    cssClass: string
-  ): string {
-    const regex = new RegExp(searchValues, 'g');
-    return originalText.replace(
-      regex,
-      (match) => `<span class="${cssClass}">${match}</span>`
-    );
   }
 }

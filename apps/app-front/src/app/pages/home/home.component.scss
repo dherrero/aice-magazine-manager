@@ -1,14 +1,3 @@
 .loading {
   min-height: 70vh;
 }
-.input-clean {
-  width: fit-content;
-  cursor: pointer;
-  font-size: 1.4rem;
-  margin: -38px 0 0 calc(100 - var(--bs-gutter-x) * -0.5);
-  color: olivedrab;
-  text-align: right;
-  &:hover {
-    color: darkolivegreen;
-  }
-}
