@@ -1,0 +1,85 @@
+<form
+  class="row w-100 d-flex align-items-center justify-content-center"
+  [formGroup]="search"
+>
+  <div class="col-12">
+    <div class="row p-0">
+      <div class="col-12 p-0">
+        <input
+          type="text"
+          class="form-control-lg w-100"
+          placeholder="Escribe aquí para empezar a buscar..."
+          formControlName="query"
+          aria-label="Escribe aquí para empezar a buscar..."
+        />
+      </div>
+      <div class="input-clean" (click)="cleanQuery()">
+        <i
+          class="lni lni-close"
+          ngbTooltip="Reiniciar búsqueda"
+          placement="left"
+          aria-label="Reiniciar busqueda"
+        ></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 search-filters p-0">
+    <div
+      ngbAccordion
+      (hidden)="filtersOpen = false"
+      (show)="filtersOpen = true"
+    >
+      <div ngbAccordionItem>
+        <div ngbAccordionHeader class="text-end" aria-label="ver filtros">
+          <button ngbAccordionButton>
+            {{ !filtersOpen ? 'Ver' : 'Ocultar' }} filtros
+            <span class="filter-alert">{{
+              !filtersOpen && search.value.number && search.value.type
+                ? ' ¡Antención! se están aplicando filtros de búsqueda.'
+                : ''
+            }}</span>
+          </button>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div class="row">
+                <label for="inputRevista" class="col-sm-6 col-form-label"
+                  >Filtrar entre las revistas cuyo número sean</label
+                >
+                <div class="col-sm-3">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    formControlName="type"
+                  >
+                    @for(type of typeOptions; track $index){
+                    <option [value]="type">
+                      {{ typeDescription[$index] }}
+                    </option>
+                    }
+                  </select>
+                </div>
+
+                <div class="col-2">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="inputRevista"
+                    placeholder="Número de revista"
+                    formControlName="number"
+                  />
+                </div>
+                <div class="col-1">
+                  <button class="btn btn-primary" (click)="searchByFilters()">
+                    Filtrar
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

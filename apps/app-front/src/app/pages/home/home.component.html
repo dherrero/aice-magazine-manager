@@ -1,20 +1,6 @@
-<section class="searcher row d-flex flex-column align-items-center m-2">
-  <form
-    class="col-12 d-flex align-items-center justify-content-center"
-    [formGroup]="search"
-  >
-    <input
-      type="text"
-      class="form-control-lg w-100"
-      placeholder="Escribe aquí para empezar a buscar..."
-      formControlName="query"
-    />
-    <button class="btn btn-lg" (click)="open(content)" title="subir revista">
-      <h2>+</h2>
-    </button>
-  </form>
+<section class="m-2 w-100 d-flex flex-column align-items-center">
+  <app-search (searchValue)="setSearch($event)"></app-search>
 </section>
-<hr />
 <section class="results row h-90">
   @if (magazineService.loading()){
   <div
@@ -24,19 +10,24 @@
       <span class="sr-only">Buscando...</span>
     </div>
   </div>
+  } @else if(magazineService.results().length === 0 && search.length > 3){
+  <div
+    class="col-12 d-flex flex-colum align-items-center justify-content-center"
+  >
+    <h2>No se encontraron resultados</h2>
+  </div>
   } @else {
-  <div class="col-12 row d-flex flex-wrap justify-content-between">
-    @for (result of magazineService.results(); track $index) {
+  <div class="col-12 row d-flex flex-wrap">
+    @for (result of magazineService.results(); track result.id) {
     <app-card
-      class="col-xs-12 col-sm-6 col-md-4 mb-2"
+      class="mb-2 col-12 col-sm-6 col-md-4 col-xxl-3"
       [title]="
         'Revista nº ' + result.Magazine.number + ' página ' + result.number
       "
-      [content]="
-        result.content | highlightQuery : search.get('query')?.value ?? ''
-      "
+      [content]="result.content | highlightQuery : search"
       [pdfPath]="result.Magazine.path"
       [page]="result.number"
+      [frontPage]="result.Magazine.image"
     ></app-card>
     }
   </div>
@@ -50,7 +41,7 @@
       type="button"
       class="btn-close"
       aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
+      (click)="modal.dismiss()"
     ></button>
   </div>
   <div class="modal-body">

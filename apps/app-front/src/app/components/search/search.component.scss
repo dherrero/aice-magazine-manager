@@ -1,0 +1,33 @@
+:host {
+  width: 100%;
+
+  .input-clean {
+    position: absolute;
+    width: fit-content;
+    cursor: pointer;
+    font-size: 1.4rem;
+    margin: 12px 0 0 85%;
+    color: olivedrab;
+    font-weight: bold;
+    text-align: right;
+    &:hover {
+      color: darkolivegreen;
+    }
+  }
+
+  .search-filters {
+    .accordion {
+      --bs-accordion-bg: transparent;
+
+      .accordion-button:not(.collapsed) {
+        color: black;
+        background-color: rgb(128 128 0 / 20%);
+      }
+
+      .filter-alert {
+        color: orange;
+        margin-left: 5px;
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { SearchDTO } from '@dto';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { env } from '../../environments/environment';
-import { MagazineState } from '../models/magazine.model';
+import { MagazineState, SearchType } from '../models/magazine.model';
 import { AbstractState } from './abstract-state.class';
 
 @Injectable({
@@ -26,21 +26,12 @@ export class MagazineService extends AbstractState<MagazineState> {
     });
   }
 
-  searchMagazines(query: string) {
-    this.update((state) => ({ ...state, loading: true }));
-    this.#http
-      .get<SearchDTO[]>(env.api + '/search', {
-        params: { query },
-      })
-      .subscribe({
-        next: (results: SearchDTO[]) => {
-          this.update((state) => ({ ...state, results, loading: false }));
-        },
-        error: (error) => {
-          console.error(error);
-          this.update((state) => ({ ...state, loading: false }));
-        },
-      });
+  searchMagazines(search: SearchType) {
+    if (search.query && search.query.length > 3) {
+      this.#searchMagazines(search);
+    } else {
+      this.cleanResults();
+    }
   }
 
   uploadMagazine(formData: FormData): Observable<null> {
@@ -59,5 +50,24 @@ export class MagazineService extends AbstractState<MagazineState> {
 
   cleanResults() {
     this.update((state) => ({ ...state, results: [] }));
+  }
+
+  #searchMagazines(query: SearchType) {
+    this.update((state) => ({ ...state, loading: true }));
+    this.#http
+      .get<SearchDTO[]>(env.api + '/search', {
+        params: Object.entries(query)
+          .filter(([, value]) => value !== undefined && value !== null)
+          .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}),
+      })
+      .subscribe({
+        next: (results: SearchDTO[]) => {
+          this.update((state) => ({ ...state, results, loading: false }));
+        },
+        error: (error) => {
+          console.error(error);
+          this.update((state) => ({ ...state, loading: false }));
+        },
+      });
   }
 }

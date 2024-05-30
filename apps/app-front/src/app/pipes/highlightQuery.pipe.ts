@@ -5,40 +5,64 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class HighlightQueryPipe implements PipeTransform {
-  transform(content: string, query: string): string {
-    const maxWords = 150;
-    const words = content.split(' ').flat();
-    const lowerWords = content.toLowerCase().split(' ').flat();
-    const queryIndex = lowerWords.indexOf(query.toLowerCase());
+  transform(
+    originalText: string,
+    searchValues: string,
+    cssClass = 'highlight'
+  ): string {
+    if (typeof originalText !== 'string' || !searchValues) {
+      return originalText;
+    }
+    const foundWords: Map<number, string> = new Map<number, string>();
 
-    const regex = new RegExp(query, 'gmi');
-    const match = content.match(regex);
+    const normalizedText = originalText
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
 
-    if (!match) {
-      return content;
+    let wordIndex = normalizedText.length - 1;
+    const searchNormalized = searchValues
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+
+    while (wordIndex > 0) {
+      wordIndex = normalizedText.lastIndexOf(searchNormalized, wordIndex - 1);
+      const foundWord = originalText.substring(
+        wordIndex,
+        wordIndex + searchValues.length
+      );
+
+      if (wordIndex > -1) {
+        foundWords.set(wordIndex, foundWord);
+      }
     }
 
-    if (queryIndex === -1) {
-      // Si la consulta no se encuentra en el contenido, simplemente devuelve el contenido truncado
-      return (
-        words
-          .slice(0, maxWords)
-          .join(' ')
-          .replace(regex, `<span class='highlight'>${match[0]}</span>`) +
-        (words.length > maxWords ? '...' : '')
-      );
-    } else {
-      // Si la consulta se encuentra en el contenido, devuelve una porción del contenido centrada en la consulta
-      const start = Math.max(0, queryIndex - maxWords / 2);
-      const end = Math.min(words.length, queryIndex + maxWords / 2);
-      return (
-        (start > 0 ? '...' : '') +
-        words
-          .slice(start, end)
-          .join(' ')
-          .replace(regex, `<span class='highlight'>${match[0]}</span>`) +
-        (end < words.length ? '...' : '')
-      );
+    const reverseFoundWords = new Map<number, string>(
+      Array.from(foundWords.entries()).reverse()
+    );
+    const reverseIterator = reverseFoundWords.entries();
+    let currentValue = reverseIterator.next().value;
+    let nextValue = reverseIterator.next().value;
+    while (nextValue !== undefined) {
+      const [currentKey] = currentValue;
+      const [nextKey] = nextValue;
+
+      if (currentKey + foundWords.get(currentKey)?.length >= nextKey) {
+        foundWords.delete(nextKey);
+      }
+      currentValue = nextValue;
+      nextValue = reverseIterator.next().value;
     }
+
+    let output = originalText;
+    foundWords.forEach((foundWord, foundIndex) => {
+      output =
+        (foundIndex > 0 ? output.substring(0, foundIndex) : '') +
+        `<span class="${cssClass}">${foundWord}</span>` +
+        output.substring(foundIndex + searchValues.length);
+    });
+
+    return output;
   }
 }

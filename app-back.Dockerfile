@@ -6,6 +6,7 @@ RUN getent group app-back || addgroup --system app-back && \
     id -u app-back &>/dev/null || adduser --system -G app-back app-back
 
 RUN apk  update && apk add graphicsmagick -i
+RUN apk update && apk add ghostscript -i
 
 WORKDIR ${APP_DIR}
 

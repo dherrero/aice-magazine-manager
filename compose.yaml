@@ -57,6 +57,7 @@ services:
       - back-network
     volumes:
       - upload_files:/home/app-back/${NODE_UPLOAD_FILES}
+      - tmp:/tmp
   # front:
   #   build:
   #     dockerfile: app-front.Dockerfile
@@ -72,5 +73,6 @@ volumes:
   postgresdb:
   pgadmindb:
   upload_files:
+  tmp:
 networks:
   back-network:

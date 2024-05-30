@@ -1,9 +1,19 @@
 <div class="card w-100 h-100">
+  @if (imageUrl) {
+  <img
+    [src]="imageUrl"
+    class="card-img-top"
+    alt="{{ title }}"
+    appImageOnError
+  />
+  }
   <div class="card-body d-flex flex-column">
     <h5 class="card-title">{{ title }}</h5>
     <div class="card-text" [innerHTML]="content"></div>
     <div class="card-footer">
-      <a [href]="pdfURL" target="_blank" class="card-link">Ver PDF</a>
+      <a [href]="pdfURL" target="_blank" class="card-link" ngbTooltip="Ver PDF">
+        <i class="lni lni-eye"></i>
+      </a>
     </div>
   </div>
 </div>

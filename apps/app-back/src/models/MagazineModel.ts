@@ -36,7 +36,7 @@ const Magazine = db.define<MagazineModel>(
       field: 'publhishedat',
     },
     image: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING(250),
       allowNull: true,
       defaultValue: null,
     },
