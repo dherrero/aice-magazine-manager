@@ -18,6 +18,16 @@
   .search-filters {
     .accordion {
       --bs-accordion-bg: transparent;
+
+      .accordion-button:not(.collapsed) {
+        color: black;
+        background-color: rgb(128 128 0 / 20%);
+      }
+
+      .filter-alert {
+        color: orange;
+        margin-left: 5px;
+      }
     }
   }
 }

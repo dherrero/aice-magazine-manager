@@ -42,6 +42,7 @@ export default class HomeComponent {
   }
 
   setSearch(value: SearchType) {
+    this.search = value.query ?? '';
     this.magazineService.searchMagazines(value);
   }
 }

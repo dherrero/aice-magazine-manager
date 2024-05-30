@@ -10,24 +10,41 @@
           class="form-control-lg w-100"
           placeholder="Escribe aquí para empezar a buscar..."
           formControlName="query"
+          aria-label="Escribe aquí para empezar a buscar..."
         />
       </div>
-      <div class="input-clean" (click)="cleanQuery()" title="limpiar">
-        <i class="lni lni-close" ngbTooltip="limpiar" placement="left"></i>
+      <div class="input-clean" (click)="cleanQuery()">
+        <i
+          class="lni lni-close"
+          ngbTooltip="Reiniciar búsqueda"
+          placement="left"
+          aria-label="Reiniciar busqueda"
+        ></i>
       </div>
     </div>
   </div>
   <div class="col-12 search-filters p-0">
-    <div ngbAccordion>
+    <div
+      ngbAccordion
+      (hidden)="filtersOpen = false"
+      (show)="filtersOpen = true"
+    >
       <div ngbAccordionItem>
         <div ngbAccordionHeader class="text-end" aria-label="ver filtros">
-          <button ngbAccordionButton>Ver filtros</button>
+          <button ngbAccordionButton>
+            {{ !filtersOpen ? 'Ver' : 'Ocultar' }} filtros
+            <span class="filter-alert">{{
+              !filtersOpen && search.value.number && search.value.type
+                ? ' ¡Antención! se están aplicando filtros de búsqueda.'
+                : ''
+            }}</span>
+          </button>
         </div>
         <div ngbAccordionCollapse>
           <div ngbAccordionBody>
             <ng-template>
               <div class="row">
-                <label for="inputRevista" class="col-sm-7 col-form-label"
+                <label for="inputRevista" class="col-sm-6 col-form-label"
                   >Filtrar entre las revistas cuyo número sean</label
                 >
                 <div class="col-sm-3">
@@ -52,6 +69,11 @@
                     placeholder="Número de revista"
                     formControlName="number"
                   />
+                </div>
+                <div class="col-1">
+                  <button class="btn btn-primary" (click)="searchByFilters()">
+                    Filtrar
+                  </button>
                 </div>
               </div>
             </ng-template>
