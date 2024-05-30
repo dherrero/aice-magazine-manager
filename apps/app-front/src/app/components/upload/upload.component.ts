@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MagazineService } from '../../services/magazine.service';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-upload',
@@ -17,7 +17,7 @@ export class UploadComponent {
   selectedFile: File | null = null;
   publicationNumber = '';
   publhishedAt = '';
-  #magazineService = inject(MagazineService);
+  #magazineService = inject(SearchService);
 
   onFileSelected(event: Event) {
     const { files } = event.currentTarget as HTMLInputElement;

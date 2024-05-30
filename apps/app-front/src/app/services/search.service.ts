@@ -9,7 +9,7 @@ import { AbstractState } from './abstract-state.class';
 @Injectable({
   providedIn: 'root',
 })
-export class MagazineService extends AbstractState<MagazineState> {
+export class SearchService extends AbstractState<MagazineState> {
   #http = inject(HttpClient);
   loading = this.select('loading');
   uploading = this.select('uploading');
