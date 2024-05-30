@@ -1,9 +1,22 @@
 :host {
-  ngb-progressbar {
-    position: fixed;
-    top: 1px;
-    left: 0;
-    width: 100vw;
-    z-index: 1056;
+  .nav {
+    --bs-nav-link-padding-x: 1rem;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-font-weight: ;
+    --bs-nav-link-color: olive;
+    --bs-nav-link-hover-color: darkolivegreen;
+    --bs-nav-link-disabled-color: var(--bs-secondary-color);
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+
+  main {
+    border-left: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    min-height: 80vh;
   }
 }

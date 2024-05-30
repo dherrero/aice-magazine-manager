@@ -61,7 +61,9 @@ export class SearchService extends AbstractState<MagazineState> {
               progressUpload: 0,
             }));
           } else if (resp.type === HttpEventType.UploadProgress) {
-            const progressUpload = Math.round((100 * resp.loaded) / fileSize);
+            const progressUpload = Math.round(
+              (100 * resp.loaded) / (resp.total ?? fileSize)
+            );
             this.update((state) => ({
               ...state,
               uploading: true,

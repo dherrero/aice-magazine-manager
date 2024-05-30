@@ -1,0 +1,45 @@
+<div class="row p-4">
+  <div class="col-10">
+    <h2>Gestor de revistas</h2>
+  </div>
+  <div class="col-2">
+    <button
+      class="btn btn-primary"
+      (click)="open(content)"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      Subir revista
+    </button>
+  </div>
+  <div class="col-12 mt-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Revista número</th>
+          <th scope="col">Portada</th>
+          <th scope="col">Publicada</th>
+          <th scope="col">Subida</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Subir revista</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-upload [afterSave]="modal.close"></app-upload>
+  </div>
+</ng-template>
