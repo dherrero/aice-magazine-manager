@@ -19,7 +19,7 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/app-front/public",
+            "input": "apps/app-front/assets",
             "output": "/assets"
           }
         ],

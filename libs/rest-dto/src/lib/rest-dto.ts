@@ -21,7 +21,7 @@ export interface MagazineDTO {
   number: number;
   path: string;
   publhishedAt: Date;
-  image?: unknown;
+  image?: string;
   deleted: boolean;
   createdAt: Date;
   updatedAt?: Date;

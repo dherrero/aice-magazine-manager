@@ -5,40 +5,113 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class HighlightQueryPipe implements PipeTransform {
-  transform(content: string, query: string): string {
-    const maxWords = 150;
-    const words = content.split(' ').flat();
-    const lowerWords = content.toLowerCase().split(' ').flat();
-    const queryIndex = lowerWords.indexOf(query.toLowerCase());
-
-    const regex = new RegExp(query, 'gmi');
-    const match = content.match(regex);
-
-    if (!match) {
-      return content;
+  transform(
+    originalText: string,
+    searchValues: string,
+    caseSensitive = false,
+    cssClass = 'highlight'
+  ): string {
+    if (typeof originalText !== 'string' || !searchValues) {
+      return originalText;
     }
 
-    if (queryIndex === -1) {
-      // Si la consulta no se encuentra en el contenido, simplemente devuelve el contenido truncado
-      return (
-        words
-          .slice(0, maxWords)
-          .join(' ')
-          .replace(regex, `<span class='highlight'>${match[0]}</span>`) +
-        (words.length > maxWords ? '...' : '')
-      );
-    } else {
-      // Si la consulta se encuentra en el contenido, devuelve una porción del contenido centrada en la consulta
-      const start = Math.max(0, queryIndex - maxWords / 2);
-      const end = Math.min(words.length, queryIndex + maxWords / 2);
-      return (
-        (start > 0 ? '...' : '') +
-        words
-          .slice(start, end)
-          .join(' ')
-          .replace(regex, `<span class='highlight'>${match[0]}</span>`) +
-        (end < words.length ? '...' : '')
+    if (caseSensitive) {
+      return this._transformWithCaseSensitive(
+        originalText,
+        searchValues,
+        cssClass
       );
     }
+    return this._transformWithoutCaseSensitive(
+      originalText,
+      searchValues,
+      cssClass
+    );
+  }
+
+  /**
+   * Transform function when caseSensitive is false
+   *
+   * @param {string} originalText original text where to search
+   * @param {string} searchValues values to search
+   * @param {string} cssClass css class, used to modify styles of results of search
+   * @returns {string} original text or modified text with search results
+   */
+  private _transformWithoutCaseSensitive(
+    originalText: string,
+    searchValues: string,
+    cssClass: string
+  ): string {
+    const foundWords: Map<number, string> = new Map<number, string>();
+
+    const normalizedText = originalText
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+
+    let wordIndex = normalizedText.length - 1;
+    const searchNormalized = searchValues
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+
+    while (wordIndex > 0) {
+      wordIndex = normalizedText.lastIndexOf(searchNormalized, wordIndex - 1);
+      const foundWord = originalText.substring(
+        wordIndex,
+        wordIndex + searchValues.length
+      );
+
+      if (wordIndex > -1) {
+        foundWords.set(wordIndex, foundWord);
+      }
+    }
+
+    const reverseFoundWords = new Map<number, string>(
+      Array.from(foundWords.entries()).reverse()
+    );
+    const reverseIterator = reverseFoundWords.entries();
+    let currentValue = reverseIterator.next().value;
+    let nextValue = reverseIterator.next().value;
+    while (nextValue !== undefined) {
+      const [currentKey] = currentValue;
+      const [nextKey] = nextValue;
+
+      if (currentKey + foundWords.get(currentKey)?.length >= nextKey) {
+        foundWords.delete(nextKey);
+      }
+      currentValue = nextValue;
+      nextValue = reverseIterator.next().value;
+    }
+
+    let output = originalText;
+    foundWords.forEach((foundWord, foundIndex) => {
+      output =
+        (foundIndex > 0 ? output.substring(0, foundIndex) : '') +
+        `<span class="${cssClass}">${foundWord}</span>` +
+        output.substring(foundIndex + searchValues.length);
+    });
+
+    return output;
+  }
+
+  /**
+   * Transform function when caseSensitive is true
+   *
+   * @param {string} originalText original text where to search
+   * @param {string} searchValues values to search
+   * @param {string} cssClass css class, used to modify styles of results of search
+   * @returns {string} original text or modified text with search results
+   */
+  private _transformWithCaseSensitive(
+    originalText: string,
+    searchValues: string,
+    cssClass: string
+  ): string {
+    const regex = new RegExp(searchValues, 'g');
+    return originalText.replace(
+      regex,
+      (match) => `<span class="${cssClass}">${match}</span>`
+    );
   }
 }

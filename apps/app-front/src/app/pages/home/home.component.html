@@ -1,17 +1,44 @@
-<section class="searcher row d-flex flex-column align-items-center m-2">
+<section class="searcher d-flex flex-column align-items-center m-2">
   <form
-    class="col-12 d-flex align-items-center justify-content-center"
+    class="row w-100 d-flex align-items-center justify-content-center"
     [formGroup]="search"
   >
-    <input
-      type="text"
-      class="form-control-lg w-100"
-      placeholder="Escribe aquí para empezar a buscar..."
-      formControlName="query"
-    />
-    <button class="btn btn-lg" (click)="open(content)" title="subir revista">
-      <h2>+</h2>
-    </button>
+    <div class="col-12">
+      <div class="row p-0">
+        <div class="col-12 p-0">
+          <input
+            type="text"
+            class="form-control-lg w-100"
+            placeholder="Escribe aquí para empezar a buscar..."
+            formControlName="query"
+          />
+        </div>
+        <div
+          class="input-clean"
+          (click)="cleanQuery()"
+          title="limpiar"
+          ngbTooltip="limpiar"
+          placement="left"
+        >
+          <i class="lni lni-close"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 search-ations">
+      <div class="row">
+        <div class="col-1">
+          <button
+            class="btn btn-lg fit-content"
+            (click)="open(content)"
+            title="subir revista"
+            ngbTooltip="Subir revista"
+            placement="bottom"
+          >
+            <i class="lni lni-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   </form>
 </section>
 <hr />
@@ -25,7 +52,7 @@
     </div>
   </div>
   } @else {
-  <div class="col-12 row d-flex flex-wrap justify-content-between">
+  <div class="col-12 row d-flex flex-wrap">
     @for (result of magazineService.results(); track $index) {
     <app-card
       class="col-xs-12 col-sm-6 col-md-4 mb-2"
@@ -37,6 +64,7 @@
       "
       [pdfPath]="result.Magazine.path"
       [page]="result.number"
+      [frontPage]="result.Magazine.image"
     ></app-card>
     }
   </div>

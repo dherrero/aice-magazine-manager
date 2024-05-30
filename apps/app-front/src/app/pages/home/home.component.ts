@@ -10,6 +10,7 @@ import {
   ModalDismissReasons,
   NgbDatepickerModule,
   NgbModal,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { CardComponent } from '../../components/card/card.component';
 import { HighlightQueryPipe } from '../../pipes/highlightQuery.pipe';
@@ -25,6 +26,7 @@ import { HighlightQueryPipe } from '../../pipes/highlightQuery.pipe';
     NgbDatepickerModule,
     CardComponent,
     HighlightQueryPipe,
+    NgbTooltipModule,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -60,6 +62,10 @@ export default class HomeComponent implements OnInit {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
+  }
+
+  cleanQuery() {
+    this.search.patchValue({ query: '' });
   }
 
   private getDismissReason(reason: any): string {
