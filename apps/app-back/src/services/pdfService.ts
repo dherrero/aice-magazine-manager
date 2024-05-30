@@ -88,10 +88,6 @@ export default class PdfService {
             [Op.iLike]: `%${query}%`,
           },
           deleted: false,
-          /*     title: {
-            [Op.iLike]: `%${query}%`,
-          },
-         */
         },
       },
     });
