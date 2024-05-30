@@ -9,7 +9,7 @@ import {
 import { StateConfig } from '../models/state.model';
 
 /**
- * Abstract class for managing states with or without reducers
+ * Abstract class for managing states with signals
  *
  * @template T - state type
  * @param {StateConfig<T>} options - configuration object
