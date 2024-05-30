@@ -28,9 +28,4 @@ export class CardComponent implements OnInit {
     if (this.frontPage)
       this.imageUrl = this.frontPage.replace('/home/app-back/', this.#basePdf);
   }
-
-  imageError(event: any): void {
-    console.log(event);
-    event.target.style.display = 'none';
-  }
 }
