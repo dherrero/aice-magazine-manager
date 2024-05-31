@@ -4,7 +4,7 @@ import {
   HttpEventType,
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { MagazineDTO, SearchDTO } from '@dto';
+import { MagazineDTO, PaginationDTO, SearchDTO } from '@dto';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { env } from '../../environments/environment';
 import { MagazineState, SearchType } from '../models/magazine.model';
@@ -34,9 +34,12 @@ export class MagazineService extends AbstractState<MagazineState> {
   }
 
   listMagazines(page = 1, limit = 10) {
-    return this.#http.get<MagazineDTO[]>(env.api + this.#magazineApi, {
-      params: this.#setParams({ page, limit }),
-    });
+    return this.#http.get<PaginationDTO<MagazineDTO>>(
+      env.api + this.#magazineApi + 'paged',
+      {
+        params: this.#setParams({ page, limit }),
+      }
+    );
   }
 
   searchPdf(search: SearchType) {

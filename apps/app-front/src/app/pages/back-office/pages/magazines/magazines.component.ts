@@ -3,7 +3,7 @@ import { Component, TemplateRef, inject } from '@angular/core';
 import { MagazineDTO } from '@dto';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MagazineService } from 'apps/app-front/src/app/services/magazine.service';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { UploadComponent } from '../../../../components/upload/upload.component';
 
 @Component({
@@ -16,7 +16,9 @@ import { UploadComponent } from '../../../../components/upload/upload.component'
 export default class MagazinesComponent {
   #modalService = inject(NgbModal);
   #magazineService = inject(MagazineService);
-  magazines$: Observable<MagazineDTO[]> = this.#magazineService.listMagazines();
+  magazines$: Observable<MagazineDTO[]> = this.#magazineService
+    .listMagazines()
+    .pipe(map((res) => res.rows));
 
   open(content: TemplateRef<unknown>) {
     this.#modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });

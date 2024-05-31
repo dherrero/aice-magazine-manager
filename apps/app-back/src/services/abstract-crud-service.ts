@@ -13,6 +13,22 @@ export abstract class AbstractCrudService {
     this.model = model;
   }
 
+  getAllPaged = async (
+    page: number,
+    limit: number,
+    where: Record<string, any> = { deleted: false },
+    excludeColumns?: string[]
+  ) => {
+    const offset = (page - 1) * limit;
+    return await this.model.findAndCountAll({
+      attributes: {
+        exclude: excludeColumns ?? this.excludeColumns(where.deleted),
+      },
+      where,
+      limit,
+      offset,
+    });
+  };
   getAll = async (
     where: Record<string, any> = { deleted: false },
     excludeColumns?: string[]

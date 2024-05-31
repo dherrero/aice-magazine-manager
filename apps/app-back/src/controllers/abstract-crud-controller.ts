@@ -8,6 +8,16 @@ export abstract class AbstractCrudController {
     this.service = service;
   }
 
+  getAllPaged = async (req, res) => {
+    try {
+      const { page, limit } = req.query;
+      const data = await this.service.getAllPaged(page, limit);
+      return HttpResponser.successJson(res, data);
+    } catch (error) {
+      return HttpResponser.errorJson(res, error);
+    }
+  };
+
   getAll = async (_, res) => {
     try {
       const data = await this.service.getAll();

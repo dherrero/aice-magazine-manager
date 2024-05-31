@@ -5,9 +5,16 @@ const magazineCrudRouter = Router();
 
 magazineCrudRouter.get(
   '/',
-  //authController.hasPermission('ADMIN'),
+  authController.hasPermission('ADMIN'),
   magazineCrudController.getAll
 );
+
+magazineCrudRouter.get(
+  '/paged',
+  authController.hasPermission(''),
+  magazineCrudController.getAllPaged
+);
+
 magazineCrudRouter.get(
   '/:id',
   authController.hasPermission('ADMIN'),
