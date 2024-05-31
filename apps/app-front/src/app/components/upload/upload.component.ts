@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
-import { SearchService } from '../../services/search.service';
+import { MagazineService } from '../../services/magazine.service';
 
 @Component({
   selector: 'app-upload',
@@ -18,7 +18,7 @@ export class UploadComponent {
   selectedFile: File | null = null;
   publicationNumber = '';
   publhishedAt = '';
-  #magazineService = inject(SearchService);
+  #magazineService = inject(MagazineService);
   uploadig = this.#magazineService.select('uploading');
   progressUpload = this.#magazineService.select('progressUpload');
 
@@ -44,7 +44,7 @@ export class UploadComponent {
     formData.append('publhishedAt', this.publhishedAt);
 
     this.#magazineService
-      .uploadMagazine(formData, this.selectedFile.size)
+      .uploadPdf(formData, this.selectedFile.size)
       .subscribe({
         next: () => {
           if (this.afterSave) {

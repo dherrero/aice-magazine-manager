@@ -24,7 +24,26 @@
         </tr>
       </thead>
       <tbody>
-        <tr></tr>
+        @for(magazine of magazines$ | async; track magazine.id) {
+        <tr>
+          <td>{{ magazine.number }}</td>
+          <td>
+            <img
+              src="{{ magazine.image }}"
+              alt="Portada de la revista"
+              class="img-thumbnail"
+              style="max-width: 100px"
+            />
+          </td>
+          <td>{{ magazine.publhishedAt | date : 'dd/MM/yyyy' }}</td>
+          <td>{{ magazine.createdAt | date : 'dd/MM/yyyy' }}</td>
+          <td>
+            <button class="btn btn-primary">Editar</button>
+            <button class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+
+        }
       </tbody>
     </table>
   </div>

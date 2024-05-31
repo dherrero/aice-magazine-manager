@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { SearchService } from '../../services/search.service';
+import { MagazineService } from '../../services/magazine.service';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardComponent } from '../../components/card/card.component';
@@ -25,12 +25,12 @@ import { HighlightQueryPipe } from '../../pipes/highlightQuery.pipe';
   styleUrls: ['./home.component.scss'],
 })
 export default class HomeComponent {
-  magazineService = inject(SearchService);
+  magazineService = inject(MagazineService);
   closeResult = '';
   search = '';
 
   setSearch(value: SearchType) {
     this.search = value.query ?? '';
-    this.magazineService.searchMagazines(value);
+    this.magazineService.searchPdf(value);
   }
 }

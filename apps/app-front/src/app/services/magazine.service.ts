@@ -4,7 +4,7 @@ import {
   HttpEventType,
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { SearchDTO } from '@dto';
+import { MagazineDTO, SearchDTO } from '@dto';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { env } from '../../environments/environment';
 import { MagazineState, SearchType } from '../models/magazine.model';
@@ -13,8 +13,10 @@ import { AbstractState } from './abstract-state.class';
 @Injectable({
   providedIn: 'root',
 })
-export class SearchService extends AbstractState<MagazineState> {
+export class MagazineService extends AbstractState<MagazineState> {
   #http = inject(HttpClient);
+  #pdfApi = 'pdf/';
+  #magazineApi = 'magazine/';
   loading = this.select('loading');
   uploading = this.select('uploading');
   results = this.select('results');
@@ -31,18 +33,24 @@ export class SearchService extends AbstractState<MagazineState> {
     });
   }
 
-  searchMagazines(search: SearchType) {
+  listMagazines(page = 1, limit = 10) {
+    return this.#http.get<MagazineDTO[]>(env.api + this.#magazineApi, {
+      params: this.#setParams({ page, limit }),
+    });
+  }
+
+  searchPdf(search: SearchType) {
     if (search.query && search.query.length > 3) {
-      this.#searchMagazines(search);
+      this.#searchPdf(search);
     } else {
       this.cleanResults();
     }
   }
 
-  uploadMagazine(formData: FormData, fileSize: number): Observable<unknown> {
+  uploadPdf(formData: FormData, fileSize: number): Observable<unknown> {
     this.update((state) => ({ ...state, uploading: true }));
     return this.#http
-      .post<null>(env.api + '/upload', formData, {
+      .post<null>(`${env.api}${this.#pdfApi}upload`, formData, {
         reportProgress: true,
         observe: 'events',
       })
@@ -83,13 +91,11 @@ export class SearchService extends AbstractState<MagazineState> {
     this.update((state) => ({ ...state, results: [] }));
   }
 
-  #searchMagazines(query: SearchType) {
+  #searchPdf(query: SearchType) {
     this.update((state) => ({ ...state, loading: true }));
     this.#http
-      .get<SearchDTO[]>(env.api + '/search', {
-        params: Object.entries(query)
-          .filter(([, value]) => value !== undefined && value !== null)
-          .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}),
+      .get<SearchDTO[]>(`${env.api}${this.#pdfApi}search`, {
+        params: this.#setParams(query as Record<string, string>),
       })
       .subscribe({
         next: (results: SearchDTO[]) => {
@@ -100,5 +106,11 @@ export class SearchService extends AbstractState<MagazineState> {
           this.update((state) => ({ ...state, loading: false }));
         },
       });
+  }
+
+  #setParams(params: Record<string, string | number>) {
+    return Object.entries(params)
+      .filter(([, value]) => value !== undefined && value !== null)
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   }
 }
