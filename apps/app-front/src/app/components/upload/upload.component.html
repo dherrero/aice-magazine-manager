@@ -1,6 +1,12 @@
 <div class="row">
   <div class="col-12">
-    <input class="form-control" type="file" (change)="onFileSelected($event)" />
+    <input
+      class="form-control"
+      type="file"
+      (change)="onFileSelected($event)"
+      accept="application/pdf"
+      aria-label="Seleccionar archivo"
+    />
   </div>
   <div class="col-xs-12 col-sm-4 mt-3">
     <input
@@ -9,6 +15,7 @@
       placeholder="Nº Revista"
       min="1"
       [(ngModel)]="publicationNumber"
+      aria-label="Número de revista"
     />
   </div>
   <div class="col-xs-12 col-sm-8 mt-3">
@@ -18,10 +25,26 @@
       placeholder="Fecha de publicación"
       min="1"
       [(ngModel)]="publhishedAt"
+      aria-label="Fecha de publicación"
     />
   </div>
 
   <div class="col-12 mt-3 d-flex justify-content-center">
-    <button class="btn btn-primary mt-2" (click)="onUpload()">Upload</button>
+    <button
+      class="btn btn-primary mt-2"
+      (click)="onUpload()"
+      [disabled]="uploadig()"
+      aria-label="Subir archivo"
+    >
+      Upload
+    </button>
+  </div>
+  <div class="col-12 mt-3">
+    <ngb-progressbar
+      *ngIf="uploadig()"
+      class="mb-3"
+      type="success"
+      [value]="progressUpload()"
+    />
   </div>
 </div>

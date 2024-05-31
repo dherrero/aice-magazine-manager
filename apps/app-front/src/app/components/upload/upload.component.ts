@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SearchService } from '../../services/search.service';
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import { MagazineService } from '../../services/magazine.service';
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbProgressbarModule],
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss'],
 })
@@ -17,7 +18,9 @@ export class UploadComponent {
   selectedFile: File | null = null;
   publicationNumber = '';
   publhishedAt = '';
-  #magazineService = inject(SearchService);
+  #magazineService = inject(MagazineService);
+  uploadig = this.#magazineService.select('uploading');
+  progressUpload = this.#magazineService.select('progressUpload');
 
   onFileSelected(event: Event) {
     const { files } = event.currentTarget as HTMLInputElement;
@@ -40,18 +43,20 @@ export class UploadComponent {
     formData.append('publicationNumber', this.publicationNumber);
     formData.append('publhishedAt', this.publhishedAt);
 
-    this.#magazineService.uploadMagazine(formData).subscribe({
-      next: () => {
-        if (this.afterSave) {
-          this.afterSave();
-        }
-      },
-      error: (error) => {
-        if (this.afterError) {
-          this.afterError();
-        }
-        console.error(error);
-      },
-    });
+    this.#magazineService
+      .uploadPdf(formData, this.selectedFile.size)
+      .subscribe({
+        next: () => {
+          if (this.afterSave) {
+            this.afterSave();
+          }
+        },
+        error: (error) => {
+          if (this.afterError) {
+            this.afterError();
+          }
+          console.error(error);
+        },
+      });
   }
 }

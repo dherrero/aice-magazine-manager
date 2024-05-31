@@ -33,18 +33,3 @@
   </div>
   }
 </section>
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Subir revista</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss()"
-    ></button>
-  </div>
-  <div class="modal-body">
-    <app-upload [afterSave]="modal.close"></app-upload>
-  </div>
-</ng-template>

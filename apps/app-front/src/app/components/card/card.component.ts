@@ -25,7 +25,9 @@ export class CardComponent implements OnInit {
   ngOnInit(): void {
     const pdfURL = new URL(this.pdfPath, this.#basePdf);
     this.pdfURL = `${pdfURL.href}#page=${this.page}`;
-    if (this.frontPage)
-      this.imageUrl = this.frontPage.replace('/home/app-back/', this.#basePdf);
+    if (this.frontPage) {
+      const imageUrl = new URL(this.frontPage, this.#basePdf);
+      this.imageUrl = imageUrl.href;
+    }
   }
 }

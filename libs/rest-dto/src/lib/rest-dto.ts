@@ -42,3 +42,8 @@ export interface PageDTO {
 export interface SearchDTO extends PageDTO {
   Magazine: MagazineDTO;
 }
+
+export interface PaginationDTO<T> {
+  count: number;
+  rows: T[];
+}

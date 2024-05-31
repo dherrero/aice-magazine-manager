@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { UPLOAD_DIR } from '../globals';
-import PdfService from '../services/pdfService';
+import { PdfService } from '../services';
 
+// Controller for PDF upload and search
 export default class PdfController {
   static async uploadPdf(req: Request, res: Response) {
     try {
