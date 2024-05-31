@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { User, UserModel } from '../models';
 
 class AuthService {
-  #secret = process.env.JWT_SECRET;
+  #secret = process.env.NODE_JWT_SECRET;
 
   login = async (email: string, password: string): Promise<UserModel> => {
     const user: UserModel = await User.findOne({ where: { email } });
@@ -24,7 +24,7 @@ class AuthService {
   };
 
   hashPassword = async (password: string) => {
-    return await hash(password, process.env.HASH_SALT_ROUNDS ?? 10);
+    return await hash(password, process.env.NODE_HASH_SALT_ROUNDS ?? 10);
   };
 
   #comparePassword = async (password: string, hash: string) => {

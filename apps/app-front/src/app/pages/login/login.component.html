@@ -1,0 +1,54 @@
+<div class="row login">
+  <div
+    class="col-12 d-flex flex-colum justify-content-center align-items-center"
+  >
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Iniciar sesión</h5>
+        <form
+          class="p-5 row flex-colum justify-content-center"
+          [formGroup]="login"
+        >
+          <div class="col-12 mb-3">
+            <label for="InputEmail1" class="form-label"
+              >Correo electrónico</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="InputEmail"
+              formControlName="email"
+            />
+          </div>
+          <div class="col-12 mb-3">
+            <label for="InputPassword" class="form-label">Contraseña</label>
+            <input
+              type="password"
+              class="form-control"
+              id="InputPassword"
+              formControlName="password"
+            />
+          </div>
+          <div class="col-12 mb-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="flexCheckDefault"
+                formControlName="remember"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Recordar
+              </label>
+            </div>
+          </div>
+          <div class="col-12 d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary" (click)="doLogin()">
+              Iniciar sesión
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

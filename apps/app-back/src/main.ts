@@ -36,6 +36,15 @@ class Main {
         : '/uploads',
       express.static(UPLOAD_DIR)
     );
+
+    // expose authorization headers
+    this.#app.use((_, res, next) => {
+      res.setHeader(
+        'Access-Control-Expose-Headers',
+        'Authorization, Refresh-Token'
+      );
+      next();
+    });
   }
   #setRoutes() {
     try {

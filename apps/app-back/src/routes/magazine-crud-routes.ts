@@ -5,7 +5,7 @@ const magazineCrudRouter = Router();
 
 magazineCrudRouter.get(
   '/',
-  authController.hasPermission('ADMIN'),
+  //authController.hasPermission('ADMIN'),
   magazineCrudController.getAll
 );
 magazineCrudRouter.get(

@@ -1,10 +1,19 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { PdfController } from '../controllers';
+import { PdfController, authController } from '../controllers';
 
 const pdfRouter = Router();
 
-pdfRouter.post('/upload', multer().single('file'), PdfController.uploadPdf);
-pdfRouter.get('/search', PdfController.searchPdf);
+pdfRouter.post(
+  '/upload',
+  authController.hasPermission('ADMIN'),
+  multer().single('file'),
+  PdfController.uploadPdf
+);
+pdfRouter.get(
+  '/search',
+  authController.hasPermission(),
+  PdfController.searchPdf
+);
 
 export default pdfRouter;

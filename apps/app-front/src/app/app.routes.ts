@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { canActivateFn } from './libs/auth/guards/auth.guard';
 
 export const appRoutes: Route[] = [
   {
@@ -8,6 +9,8 @@ export const appRoutes: Route[] = [
   {
     path: 'back-office',
     loadComponent: () => import('./pages/back-office/back-office.component'),
+    canActivate: [canActivateFn],
+    canActivateChild: [canActivateFn],
     children: [
       {
         path: '',
@@ -20,5 +23,9 @@ export const appRoutes: Route[] = [
           import('./pages/back-office/pages/users/users.component'),
       },
     ],
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./pages/login/login.component'),
   },
 ];

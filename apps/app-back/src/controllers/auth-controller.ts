@@ -111,7 +111,7 @@ class AuthController {
   ) => {
     const accessToken = await authService.generateToken(
       userData,
-      process.env.JWT_ACCESS_EXPIRES_IN || '4h'
+      process.env.NODE_JWT_ACCESS_EXPIRES_IN || '4h'
     );
     res.setHeader('Authorization', accessToken);
 
@@ -119,7 +119,9 @@ class AuthController {
       // If next is not defined, then it means that the request is a login request, so we need to send the refresh token
       const refreshToken = await authService.generateToken(
         { id: userData.id, remember: userData.remember },
-        userData.remember ? '365d' : process.env.JWT_REFRESH_EXPIRES_IN || '8h'
+        userData.remember
+          ? '365d'
+          : process.env.NODE_JWT_REFRESH_EXPIRES_IN || '8h'
       );
       res.setHeader('Refresh-Token', refreshToken);
       return HttpResponser.successEmpty(res);
