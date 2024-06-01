@@ -6,4 +6,31 @@
     width: 100vw;
     z-index: 1056;
   }
+  i {
+    cursor: pointer;
+    &.lni-cloud-upload {
+      color: darkolivegreen;
+      &:hover {
+        color: #405123;
+      }
+    }
+    &.lni-trash-can {
+      color: darkred;
+      &:hover {
+        color: #5a1f1f;
+      }
+    }
+    &.lni-eye {
+      color: darkblue;
+      &:hover {
+        color: #1f1f5a;
+      }
+    }
+    &.lni-pencil {
+      color: darkolivegreen;
+      &:hover {
+        color: #405123;
+      }
+    }
+  }
 }

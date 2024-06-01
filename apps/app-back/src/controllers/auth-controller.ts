@@ -8,7 +8,14 @@ class AuthController {
     try {
       const { email, password, remember } = req.body;
       const user = await authService.login(email, password);
-      const userData = { id: user.id, email: user.email, remember };
+      const userData = {
+        id: user.id,
+        email: user.email,
+        permision: user.permission
+          ? user.permission.split(/[\s,;]+/).filter(Boolean)
+          : [],
+        remember,
+      };
       return this.#responseWithTokens(res, userData);
     } catch (err) {
       console.log(err);
@@ -35,14 +42,14 @@ class AuthController {
           const decode = authService.verifyToken(token);
           res.locals.user = { ...decode };
           if (permision && Array.isArray(permision)) {
-            if (!decode.permisions)
+            if (!decode.permision)
               return HttpResponser.errorJson(
                 res,
                 { message: `Access denied code: ${randomCode}1` },
                 401
               );
             const intersection = permision.filter((x) =>
-              decode.permisions.includes(x)
+              decode.permision.includes(x)
             );
             if (!intersection.length)
               return HttpResponser.errorJson(
@@ -51,13 +58,13 @@ class AuthController {
                 401
               );
           } else if (permision) {
-            if (!decode.permisions)
+            if (!decode.permision)
               return HttpResponser.errorJson(
                 res,
                 { message: `Access denied code: ${randomCode}3` },
                 401
               );
-            if (!decode.permisions.includes(permision))
+            if (!decode.permision.includes(permision))
               return HttpResponser.errorJson(
                 res,
                 { message: `Access denied code: ${randomCode}4` },
@@ -96,6 +103,9 @@ class AuthController {
         id: user.id,
         email: user.email,
         remember: decode.remember,
+        permision: user.permission
+          ? user.permission.split(/[\s,;]+/).filter(Boolean)
+          : [],
       };
       res.locals.user = { ...userData };
       return this.#responseWithTokens(res, userData, next);

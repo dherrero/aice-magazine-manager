@@ -8,8 +8,9 @@ export interface UserDTO {
   id: CreationOptional<number>;
   email: string;
   name: string;
-  password: string;
   lastName: string;
+  permission: string;
+  password: string;
   deleted: boolean;
   createdAt: Date;
   updatedAt?: Date;

@@ -1,17 +1,16 @@
 <div class="row p-4">
-  <div class="col-10">
+  <div class="col-12 d-flex flex-row">
     <h2>Gestor de revistas</h2>
-  </div>
-  <div class="col-2">
-    <button
-      class="btn btn-primary"
+    <i
+      class="lni lni-cloud-upload fs-1 ms-4"
       (click)="open(content)"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
-    >
-      Subir revista
-    </button>
+      ngbTooltip="Subir revista"
+      placement="right"
+    ></i>
   </div>
+
   <div class="col-12 mt-3">
     <table class="table">
       <thead>
@@ -20,26 +19,44 @@
           <th scope="col">Portada</th>
           <th scope="col">Publicada</th>
           <th scope="col">Subida</th>
-          <th scope="col">Acciones</th>
+          <th scope="col" class="text-center">Acciones</th>
         </tr>
       </thead>
       <tbody>
         @for(magazine of magazines$ | async; track magazine.id) {
         <tr>
-          <td>{{ magazine.number }}</td>
-          <td>
+          <td class="align-middle">{{ magazine.number }}</td>
+          <td class="align-middle">
             <img
-              src="{{ magazine.image }}"
+              *ngIf="magazine.image"
+              [src]="mazineImage(magazine.image)"
               alt="Portada de la revista"
               class="img-thumbnail"
               style="max-width: 100px"
             />
           </td>
-          <td>{{ magazine.publhishedAt | date : 'dd/MM/yyyy' }}</td>
-          <td>{{ magazine.createdAt | date : 'dd/MM/yyyy' }}</td>
-          <td>
-            <button class="btn btn-primary">Editar</button>
-            <button class="btn btn-danger">Eliminar</button>
+          <td class="align-middle">
+            {{ magazine.publhishedAt | date : 'dd/MM/yyyy' }}
+          </td>
+          <td class="align-middle">
+            {{ magazine.createdAt | date : 'dd/MM/yyyy' }}
+          </td>
+          <td class="text-center align-middle">
+            <i
+              class="lni lni-eye me-3 fs-3"
+              ngbTooltip="Ver PDF"
+              placement="top"
+            ></i>
+            <i
+              class="lni lni-pencil me-3 fs-3"
+              ngbTooltip="Editar"
+              placement="top"
+            ></i>
+            <i
+              class="lni lni-trash-can fs-3"
+              ngbTooltip="Eliminar"
+              placement="top"
+            ></i>
           </td>
         </tr>
         }

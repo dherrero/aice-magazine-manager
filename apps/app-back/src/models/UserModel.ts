@@ -27,14 +27,18 @@ const User = db.define<UserModel>(
       type: DataTypes.STRING(150),
       allowNull: true,
     },
-    password: {
-      type: DataTypes.STRING(250),
-      allowNull: false,
-    },
     lastName: {
       type: DataTypes.STRING(150),
       allowNull: true,
       field: 'lastname',
+    },
+    permission: {
+      type: DataTypes.STRING(250),
+      allowNull: true,
+    },
+    password: {
+      type: DataTypes.STRING(250),
+      allowNull: false,
     },
     deleted: {
       type: DataTypes.BOOLEAN,
