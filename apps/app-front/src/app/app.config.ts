@@ -24,6 +24,11 @@ export const appConfig: ApplicationConfig = {
       config: languageConfig,
       loader: TranslocoHttpLoader,
     }),
-    importProvidersFrom(AuthModule.forRoot({ idpServer: env.api + 'auth' })),
+    importProvidersFrom(
+      AuthModule.forRoot({
+        idpServer: env.api + 'auth',
+        pingUrl: env.api + 'health/secure',
+      })
+    ),
   ],
 };

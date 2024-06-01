@@ -49,9 +49,6 @@ class Main {
   #setRoutes() {
     try {
       this.#app.use('/api', api);
-      this.#app.get('/health', (_, res) => {
-        res.status(200).send('OK');
-      });
     } catch (error) {
       console.error(error);
     }

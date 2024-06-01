@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import {
   AUTH_CONFIGURATION,
   REFRESH_TOKEN_STORAGE_KEY,
@@ -59,6 +59,12 @@ export class AuthService {
   setToken(token: string) {
     window.localStorage.setItem(TOKEN_STORAGE_KEY, token);
     this.token.set(token);
+  }
+
+  doPing() {
+    return this.#authConfig.pingUrl
+      ? this.#http.get<null>(this.#authConfig.pingUrl)
+      : of(null);
   }
 
   private setRefresh(token: string) {

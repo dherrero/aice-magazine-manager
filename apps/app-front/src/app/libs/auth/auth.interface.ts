@@ -1,5 +1,6 @@
 export interface AuthConfig {
   idpServer: string;
+  pingUrl?: string;
 }
 
 export interface Login {
