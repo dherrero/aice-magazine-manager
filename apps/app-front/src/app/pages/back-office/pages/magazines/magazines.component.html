@@ -48,15 +48,16 @@
               placement="top"
               (click)="openPdf(magazine.path)"
             ></i>
-            <i
+            <!--    <i
               class="lni lni-pencil me-3 fs-3"
               ngbTooltip="Editar"
               placement="top"
-            ></i>
+            ></i> -->
             <i
               class="lni lni-trash-can fs-3"
               ngbTooltip="Eliminar"
               placement="top"
+              (click)="confirmDelete(magazine)"
             ></i>
           </td>
         </tr>
