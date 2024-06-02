@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MagazineService } from '@front/app/services/magazine.service';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
-import { MagazineService } from '../../services/magazine.service';
 
 @Component({
   selector: 'app-upload',
@@ -12,8 +13,8 @@ import { MagazineService } from '../../services/magazine.service';
   styleUrls: ['./upload.component.scss'],
 })
 export class UploadComponent {
-  @Input() afterSave!: () => void;
-  @Input() afterError!: () => void;
+  @Output() afterSave = new EventEmitter();
+  @Output() afterError = new EventEmitter();
 
   selectedFile: File | null = null;
   publicationNumber = '';
@@ -46,16 +47,13 @@ export class UploadComponent {
     this.#magazineService
       .uploadPdf(formData, this.selectedFile.size)
       .subscribe({
-        next: () => {
-          if (this.afterSave) {
-            this.afterSave();
+        next: (resp: unknown) => {
+          if ((resp as HttpEvent<unknown>)?.type === HttpEventType.Response) {
+            this.afterSave.emit();
           }
         },
         error: (error) => {
-          if (this.afterError) {
-            this.afterError();
-          }
-          console.error(error);
+          this.afterError.emit(error);
         },
       });
   }

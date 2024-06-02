@@ -5,9 +5,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { Login } from '@front/app/libs/auth/auth.interface';
+import { AuthService } from '@front/app/libs/auth/services/auth.service';
 import { catchError, of, tap } from 'rxjs';
-import { Login } from '../../libs/auth/auth.interface';
-import { AuthService } from '../../libs/auth/services/auth.service';
 
 @Component({
   selector: 'app-login',

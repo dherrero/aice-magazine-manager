@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { UntilDestroy } from '@ngneat/until-destroy';
-import { MagazineService } from '../../services/magazine.service';
+import { MagazineService } from '@front/app/services/magazine.service';
 
-import { CardComponent } from '../../components/card/card.component';
-import { SearchComponent } from '../../components/search/search.component';
-import { SearchType } from '../../models/magazine.model';
-import { HighlightQueryPipe } from '../../pipes/highlightQuery.pipe';
+import { CardComponent } from '@front/app/components/card/card.component';
+import { SearchComponent } from '@front/app/components/search/search.component';
+import { SearchType } from '@front/app/models/magazine.model';
+import { HighlightQueryPipe } from '@front/app/pipes/highlightQuery.pipe';
 
-@UntilDestroy()
 @Component({
   selector: 'app-home',
   standalone: true,

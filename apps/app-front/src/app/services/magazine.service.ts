@@ -5,9 +5,9 @@ import {
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { MagazineDTO, PaginationDTO, SearchDTO } from '@dto';
+import { MagazineState, SearchType } from '@front/app/models/magazine.model';
+import { env } from '@front/environments/environment';
 import { Observable, catchError, of, tap } from 'rxjs';
-import { env } from '../../environments/environment';
-import { MagazineState, SearchType } from '../models/magazine.model';
 import { AbstractState } from './abstract-state.class';
 
 @Injectable({

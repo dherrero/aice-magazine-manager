@@ -46,6 +46,7 @@
               class="lni lni-eye me-3 fs-3"
               ngbTooltip="Ver PDF"
               placement="top"
+              (click)="openPdf(magazine.path)"
             ></i>
             <i
               class="lni lni-pencil me-3 fs-3"
@@ -63,6 +64,27 @@
       </tbody>
     </table>
   </div>
+  <div class="col-10">
+    <ngb-pagination
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [collectionSize]="collectionSize"
+      [rotate]="true"
+      [boundaryLinks]="true"
+    />
+  </div>
+  <div class="col-2">
+    <select
+      class="form-select"
+      aria-label="Default select example"
+      [(ngModel)]="pageSize"
+    >
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+      <option [value]="20">20</option>
+      <option [value]="50">50</option>
+    </select>
+  </div>
 </div>
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -75,6 +97,9 @@
     ></button>
   </div>
   <div class="modal-body">
-    <app-upload [afterSave]="modal.close"></app-upload>
+    <app-upload
+      (afterSave)="onUploadSuccess()"
+      (afterError)="onUploadError($event)"
+    ></app-upload>
   </div>
 </ng-template>

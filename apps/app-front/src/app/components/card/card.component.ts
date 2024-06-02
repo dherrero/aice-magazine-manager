@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { env } from '@front/environments/environment';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { env } from '../../../environments/environment';
 import { HideImageOnErrorDirectiveModule } from './error-image/error-image.directive';
 
 @Component({

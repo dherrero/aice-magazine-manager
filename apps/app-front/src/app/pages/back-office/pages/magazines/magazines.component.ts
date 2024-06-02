@@ -1,32 +1,107 @@
 import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MagazineDTO } from '@dto';
-import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { MagazineService } from 'apps/app-front/src/app/services/magazine.service';
-import { env } from 'apps/app-front/src/environments/environment';
-import { Observable, map } from 'rxjs';
-import { UploadComponent } from '../../../../components/upload/upload.component';
+import { HideImageOnErrorDirectiveModule } from '@front/app/components/card/error-image/error-image.directive';
+import { UploadComponent } from '@front/app/components/upload/upload.component';
+import { MagazineService } from '@front/app/services/magazine.service';
+import { env } from '@front/environments/environment';
+import {
+  NgbModal,
+  NgbModalRef,
+  NgbPaginationModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 
+interface StatusListView {
+  page: number;
+  pageSize: number;
+  loading: boolean;
+  search?: string;
+}
+
+@UntilDestroy()
 @Component({
   selector: 'app-back-office',
   standalone: true,
-  imports: [CommonModule, UploadComponent, NgbTooltipModule],
+  imports: [
+    CommonModule,
+    UploadComponent,
+    FormsModule,
+    HideImageOnErrorDirectiveModule,
+    NgbTooltipModule,
+    NgbPaginationModule,
+  ],
   templateUrl: './magazines.component.html',
   styleUrls: ['./magazines.component.scss'],
 })
 export default class MagazinesComponent {
+  collectionSize = 0;
+
+  get page() {
+    return this.#magazineViewStatus.value.page;
+  }
+  set page(page: number) {
+    this.#magazineViewStatus.next({ ...this.#magazineViewStatus.value, page });
+  }
+
+  get pageSize() {
+    return this.#magazineViewStatus.value.pageSize;
+  }
+  set pageSize(pageSize: number) {
+    this.#magazineViewStatus.next({
+      ...this.#magazineViewStatus.value,
+      pageSize,
+    });
+  }
+
+  #basePdf = env.pdfServer;
   #modalService = inject(NgbModal);
   #magazineService = inject(MagazineService);
-  magazines$: Observable<MagazineDTO[]> = this.#magazineService
-    .listMagazines()
-    .pipe(map((res) => res.rows));
-  #basePdf = env.pdfServer;
+  #magazineViewStatus = new BehaviorSubject<StatusListView>({
+    page: 1,
+    pageSize: 5,
+    loading: false,
+  });
+  #magazineViewStatus$ = this.#magazineViewStatus.asObservable();
+  magazines$: Observable<MagazineDTO[]> = this.#magazineViewStatus$.pipe(
+    untilDestroyed(this),
+    switchMap((status) =>
+      this.#magazineService.listMagazines(status.page, status.pageSize).pipe(
+        map((res) => {
+          this.collectionSize = res.count;
+          return res.rows;
+        })
+      )
+    )
+  );
+  #ngbModalRef: NgbModalRef | undefined;
+
   open(content: TemplateRef<unknown>) {
-    this.#modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.#ngbModalRef = this.#modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+    });
   }
+
   mazineImage(fileName: string | undefined) {
     if (!fileName) return '';
     const imageUrl = new URL(fileName, this.#basePdf);
     return imageUrl.href;
+  }
+
+  onUploadSuccess() {
+    this.#ngbModalRef?.close();
+    this.page = 1;
+  }
+
+  onUploadError(error: unknown) {
+    console.error(error);
+  }
+
+  openPdf(pdfPath: string) {
+    const pdfURL = new URL(pdfPath, this.#basePdf);
+    window.open(pdfURL.href, '_blank');
   }
 }

@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { FilterhMagazineType } from '@dto';
+import { SearchType } from '@front/app/models/magazine.model';
 import {
   NgbAccordionModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
-import { SearchType } from '../../models/magazine.model';
 
 @UntilDestroy()
 @Component({
