@@ -1,5 +1,5 @@
-import { userCrudService } from '../services';
-import { AbstractCrudController } from './abstract-crud-controller';
+import { userCrudService } from '@back/services';
+import { AbstractCrudController } from './abstract-crud.controller';
 
 class UserCrudController extends AbstractCrudController {
   constructor() {

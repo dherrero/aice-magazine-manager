@@ -1,5 +1,5 @@
-import { magazineCrudService } from '../services';
-import { AbstractCrudController } from './abstract-crud-controller';
+import { magazineCrudService } from '@back/services';
+import { AbstractCrudController } from './abstract-crud.controller';
 
 class MagazineCrudController extends AbstractCrudController {
   constructor() {

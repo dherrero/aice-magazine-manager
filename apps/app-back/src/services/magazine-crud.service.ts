@@ -1,5 +1,5 @@
-import { Magazine } from '../models';
-import { AbstractCrudService } from './abstract-crud-service';
+import { Magazine } from '@back/models';
+import { AbstractCrudService } from './abstract-crud.service';
 
 class MagazineCrudService extends AbstractCrudService {
   constructor() {

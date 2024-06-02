@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import authRouter from './auth-routes';
-import healthRouter from './health-routes';
-import magazineCrudRouter from './magazine-crud-routes';
-import pageCrudRouter from './page-crud-routes';
-import pdfRouter from './pdf-routes';
-import userCrudRouter from './user-crud-routes';
+import authRouter from './auth.routes';
+import healthRouter from './health.routes';
+import magazineCrudRouter from './magazine-crud.routes';
+import pageCrudRouter from './page-crud.routes';
+import pdfRouter from './pdf.routes';
+import userCrudRouter from './user-crud.routes';
 
 const api = Router();
 

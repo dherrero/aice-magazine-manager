@@ -3,7 +3,7 @@
     <h2>Gestor de revistas</h2>
     <i
       class="lni lni-cloud-upload fs-1 ms-4"
-      (click)="open(content)"
+      (click)="open(uploadModal)"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
       ngbTooltip="Subir revista"
@@ -86,7 +86,7 @@
     </select>
   </div>
 </div>
-<ng-template #content let-modal>
+<ng-template #uploadModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Subir revista</h4>
     <button

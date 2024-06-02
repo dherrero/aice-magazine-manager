@@ -1,6 +1,6 @@
+import { User, UserModel } from '@back/models';
 import { compare, hash } from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User, UserModel } from '../models';
 
 class AuthService {
   #secret = process.env.NODE_JWT_SECRET;

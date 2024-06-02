@@ -1,19 +1,21 @@
-import { PageDTO } from '@dto';
+import { db } from '@back/adapters/db/pg.connector';
+import { MagazineDTO } from '@dto';
 import {
   DataTypes,
   InferAttributes,
   InferCreationAttributes,
   Model,
 } from 'sequelize';
-import { Magazine } from '.';
-import { db } from '../adapters/db/connection';
 
-export interface PageModel
-  extends PageDTO,
-    Model<InferAttributes<PageModel>, InferCreationAttributes<PageModel>> {}
+export interface MagazineModel
+  extends MagazineDTO,
+    Model<
+      InferAttributes<MagazineModel>,
+      InferCreationAttributes<MagazineModel>
+    > {}
 
-const Page = db.define<PageModel>(
-  'Page',
+const Magazine = db.define<MagazineModel>(
+  'Magazine',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -24,14 +26,19 @@ const Page = db.define<PageModel>(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    content: {
-      type: DataTypes.TEXT,
+    path: {
+      type: DataTypes.STRING(250),
       allowNull: false,
     },
-    magazineId: {
-      type: DataTypes.INTEGER,
+    publhishedAt: {
+      type: DataTypes.DATE,
       allowNull: false,
-      field: 'magazine_id',
+      field: 'publhishedat',
+    },
+    image: {
+      type: DataTypes.STRING(250),
+      allowNull: true,
+      defaultValue: null,
     },
     deleted: {
       type: DataTypes.BOOLEAN,
@@ -55,9 +62,6 @@ const Page = db.define<PageModel>(
       field: 'deletedat',
     },
   },
-  { tableName: 'page' }
+  { tableName: 'magazine' }
 );
-
-Page.belongsTo(Magazine, { foreignKey: 'magazineId' });
-
-export default Page;
+export default Magazine;

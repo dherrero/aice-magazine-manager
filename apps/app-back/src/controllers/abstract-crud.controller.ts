@@ -1,5 +1,5 @@
-import HttpResponser from '../adapters/http/HttpResponser';
-import { AbstractCrudService } from '../services/abstract-crud-service';
+import HttpResponser from '@back/adapters/http/http.responser';
+import { AbstractCrudService } from '@back/services/abstract-crud.service';
 
 export abstract class AbstractCrudController {
   protected service: AbstractCrudService;

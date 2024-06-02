@@ -1,5 +1,5 @@
+import { authController, userCrudController } from '@back/controllers';
 import { Router } from 'express';
-import { authController, userCrudController } from '../controllers';
 
 const userCrudRouter = Router();
 

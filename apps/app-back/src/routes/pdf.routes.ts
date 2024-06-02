@@ -1,6 +1,6 @@
+import { PdfController, authController } from '@back/controllers';
 import { Router } from 'express';
 import multer from 'multer';
-import { PdfController, authController } from '../controllers';
 
 const pdfRouter = Router();
 

@@ -1,7 +1,7 @@
+import HttpResponser from '@back/adapters/http/http.responser';
+import { authService } from '@back/services';
 import { NextFunction, Request, Response } from 'express';
 import { TokenExpiredError } from 'jsonwebtoken';
-import HttpResponser from '../adapters/http/HttpResponser';
-import { authService } from '../services';
 
 class AuthController {
   login = async (req: Request, res: Response) => {

@@ -1,5 +1,5 @@
+import { authController, magazineCrudController } from '@back/controllers';
 import { Router } from 'express';
-import { authController, magazineCrudController } from '../controllers';
 
 const magazineCrudRouter = Router();
 

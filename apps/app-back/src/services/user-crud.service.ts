@@ -1,5 +1,5 @@
-import { User } from '../models';
-import { AbstractCrudService } from './abstract-crud-service';
+import { User } from '@back/models';
+import { AbstractCrudService } from './abstract-crud.service';
 
 class UserCrudService extends AbstractCrudService {
   constructor() {

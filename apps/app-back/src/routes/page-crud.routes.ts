@@ -1,5 +1,5 @@
+import { authController, pageCrudController } from '@back/controllers';
 import { Router } from 'express';
-import { authController, pageCrudController } from '../controllers';
 
 const pageCrudRouter = Router();
 

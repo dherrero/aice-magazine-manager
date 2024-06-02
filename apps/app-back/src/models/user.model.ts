@@ -1,3 +1,4 @@
+import { db } from '@back/adapters/db/pg.connector';
 import { UserDTO } from '@dto';
 import {
   DataTypes,
@@ -5,7 +6,6 @@ import {
   InferCreationAttributes,
   Model,
 } from 'sequelize';
-import { db } from '../adapters/db/connection';
 
 export interface UserModel
   extends UserDTO,

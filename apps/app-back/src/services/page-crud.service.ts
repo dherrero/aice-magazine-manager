@@ -1,5 +1,5 @@
-import { Page } from '../models';
-import { AbstractCrudService } from './abstract-crud-service';
+import { Page } from '@back/models';
+import { AbstractCrudService } from './abstract-crud.service';
 
 class PageCrudService extends AbstractCrudService {
   constructor() {

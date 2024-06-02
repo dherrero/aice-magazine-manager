@@ -1,10 +1,10 @@
+import { APP_DIR } from '@back/globals';
+import { Magazine, Page } from '@back/models';
 import { FilterhMagazineType } from '@dto';
 import pdf from 'pdf-parse';
 import { fromBuffer } from 'pdf2pic';
 import { WriteImageResponse } from 'pdf2pic/dist/types/convertResponse';
 import { Includeable, Op } from 'sequelize';
-import { APP_DIR } from '../globals';
-import { Magazine, Page } from '../models';
 interface PdfContent {
   textByPage: { pageNumber: number; text: string }[];
   metadata: string;

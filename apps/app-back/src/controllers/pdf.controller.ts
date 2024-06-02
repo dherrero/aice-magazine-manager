@@ -1,8 +1,8 @@
+import { UPLOAD_DIR } from '@back/globals';
+import { PdfService } from '@back/services';
 import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
-import { UPLOAD_DIR } from '../globals';
-import { PdfService } from '../services';
 
 // Controller for PDF upload and search
 export default class PdfController {
