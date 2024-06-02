@@ -1,5 +1,7 @@
 <section class="m-2 w-100 d-flex flex-column align-items-center">
   <app-search (searchValue)="setSearch($event)"></app-search>
+
+  <i class="lni lni-cog back-office-icon" (click)="goToBackOffice()"></i>
 </section>
 <section class="results row h-90">
   @if (magazineService.loading()){

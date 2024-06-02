@@ -1,19 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-confirm',
-  standalone: true,
-  imports: [NgbModalModule],
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss'],
 })
 export class ConfirmComponent {
-  @Input({ required: true }) title!: string;
-  @Input({ required: true }) message!: string;
-  @Input({ required: true }) confirmText!: string;
-  @Input() cancelText!: string;
-
-  @Output() confirm = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
+  title!: string;
+  message!: string;
+  confirmText!: string;
+  cancelText!: string;
+  confirm!: () => void;
+  cancel!: () => void;
+  dismiss!: () => void;
 }
