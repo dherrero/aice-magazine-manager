@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { SafeHtml } from '@angular/platform-browser';
 import { env } from '@front/environments/environment';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HideImageOnErrorDirectiveModule } from './error-image/error-image.directive';
@@ -13,7 +14,7 @@ import { HideImageOnErrorDirectiveModule } from './error-image/error-image.direc
 })
 export class CardComponent implements OnInit {
   @Input({ required: true }) title!: string;
-  @Input({ required: true }) content!: string;
+  @Input({ required: true }) content!: string | SafeHtml;
   @Input({ required: true }) pdfPath!: string;
   @Input({ required: true }) page!: number;
   @Input() frontPage!: string | undefined;

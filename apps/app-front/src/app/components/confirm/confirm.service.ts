@@ -13,11 +13,13 @@ export class ConfirmService {
   open(config: ConfirmConfig) {
     this.confirmResponseSubject = new Subject<boolean>();
     this.confirmResponse$ = this.confirmResponseSubject.asObservable();
+
     const modalRef = this.#modalService.open(ConfirmComponent);
     modalRef.componentInstance.title = config.title;
     modalRef.componentInstance.message = config.message;
     modalRef.componentInstance.confirmText = config.confirmText;
     modalRef.componentInstance.cancelText = config.cancelText;
+
     modalRef.dismissed.subscribe(() => {
       this.confirmResponseSubject.complete();
     });
@@ -38,6 +40,7 @@ export class ConfirmService {
       modalRef.close();
       this.confirmResponseSubject.complete();
     };
+
     return this.confirmResponse$;
   }
 }
