@@ -3,6 +3,8 @@ import { Component, TemplateRef, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MagazineDTO } from '@dto';
 import { HideImageOnErrorDirectiveModule } from '@front/app/components/card/error-image/error-image.directive';
+import { ConfirmModule } from '@front/app/components/confirm/confirm.module';
+import { ConfirmService } from '@front/app/components/confirm/confirm.service';
 import { UploadComponent } from '@front/app/components/upload/upload.component';
 import { MagazineService } from '@front/app/services/magazine.service';
 import { env } from '@front/environments/environment';
@@ -29,6 +31,7 @@ interface StatusListView {
   imports: [
     CommonModule,
     UploadComponent,
+    ConfirmModule,
     FormsModule,
     HideImageOnErrorDirectiveModule,
     NgbTooltipModule,
@@ -78,6 +81,7 @@ export default class MagazinesComponent {
     )
   );
   #ngbModalRef: NgbModalRef | undefined;
+  #confirmService = inject(ConfirmService);
 
   open(content: TemplateRef<unknown>) {
     this.#ngbModalRef = this.#modalService.open(content, {
@@ -103,5 +107,21 @@ export default class MagazinesComponent {
   openPdf(pdfPath: string) {
     const pdfURL = new URL(pdfPath, this.#basePdf);
     window.open(pdfURL.href, '_blank');
+  }
+
+  confirmDelete(magazine: MagazineDTO) {
+    this.#confirmService
+      .open({
+        title: 'Eliminar revista ' + magazine.number,
+        message:
+          '¿Estás seguro de que deseas eliminar la revista y todas sus páginas?',
+        confirmText: 'Eliminar',
+        cancelText: 'Cancelar',
+      })
+      .subscribe((confirm) => {
+        if (confirm) {
+          console.log('delete', magazine);
+        }
+      });
   }
 }

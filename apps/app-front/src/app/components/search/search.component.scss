@@ -1,15 +1,10 @@
 :host {
   width: 100%;
 
-  .input-clean {
-    position: absolute;
-    width: fit-content;
+  .button-clean {
     cursor: pointer;
-    font-size: 1.4rem;
-    margin: 12px 0 0 85%;
     color: olivedrab;
     font-weight: bold;
-    text-align: right;
     &:hover {
       color: darkolivegreen;
     }

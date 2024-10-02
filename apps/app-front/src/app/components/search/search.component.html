@@ -1,26 +1,21 @@
-<form
-  class="row w-100 d-flex align-items-center justify-content-center"
-  [formGroup]="search"
->
-  <div class="col-12">
-    <div class="row p-0">
-      <div class="col-12 p-0">
-        <input
-          type="text"
-          class="form-control-lg w-100"
-          placeholder="Escribe aquí para empezar a buscar..."
-          formControlName="query"
-          aria-label="Escribe aquí para empezar a buscar..."
-        />
-      </div>
-      <div class="input-clean" (click)="cleanQuery()">
+<form class="row p-sm-0 pe-5" [formGroup]="search">
+  <div class="col-12 p-0">
+    <div class="input-group w-100">
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        placeholder="Escribe aquí para empezar a buscar..."
+        formControlName="query"
+        aria-label="Escribe aquí para empezar a buscar..."
+      />
+      <span class="input-group-text button-clean" (click)="cleanQuery()">
         <i
           class="lni lni-close"
           ngbTooltip="Reiniciar búsqueda"
           placement="left"
           aria-label="Reiniciar busqueda"
         ></i>
-      </div>
+      </span>
     </div>
   </div>
   <div class="col-12 search-filters p-0">

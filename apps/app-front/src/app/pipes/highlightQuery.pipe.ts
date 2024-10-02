@@ -1,15 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Pipe({
   name: 'highlightQuery',
   standalone: true,
 })
 export class HighlightQueryPipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {}
   transform(
     originalText: string,
     searchValues: string,
     cssClass = 'highlight'
-  ): string {
+  ): SafeHtml {
     if (typeof originalText !== 'string' || !searchValues) {
       return originalText;
     }
@@ -63,6 +65,6 @@ export class HighlightQueryPipe implements PipeTransform {
         output.substring(foundIndex + searchValues.length);
     });
 
-    return output;
+    return this.sanitizer.bypassSecurityTrustHtml(output);
   }
 }
