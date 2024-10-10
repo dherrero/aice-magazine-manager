@@ -28,6 +28,8 @@ export const appConfig: ApplicationConfig = {
       AuthModule.forRoot({
         idpServer: env.api + 'auth',
         pingUrl: env.api + 'health/secure',
+        loginPath: '/login',
+        authOnAppStart: true,
       })
     ),
   ],
