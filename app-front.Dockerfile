@@ -17,14 +17,7 @@ COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 WORKDIR /app
 
 # Copia los archivos de package.json y configuración
-COPY package*.json ./
-
-COPY nx.json ./
-
-COPY tsconfig.base.json ./
-
-# Copia el código fuente del proyecto
-COPY apps/app-front ./
+COPY . /app
 
 # Instala dependencias y Node.js usando NVM
 RUN apt-get update && apt-get install -y curl gnupg2 && \
@@ -35,14 +28,14 @@ RUN apt-get update && apt-get install -y curl gnupg2 && \
     nvm alias default $NODE_VERSION && \
     npm install -g nx@19.2.0 && \
     npm install --verbose && \
+    nx reset && \
     npm run build:front -- --verbose && \
     # Copiar archivos generados al directorio Nginx
     cp -r ./dist/apps/app-front/* ${APP_DIR} && \
     # Limpiar archivos y dependencias innecesarias
     npm cache clean --force && \
-    rm -rf /app/node_modules && \
-    rm -rf /app/apps/app-front && \
-    rm -rf /app/*.json && \
+    cd .. && \
+    rm -rf ./app && \
     rm -rf /root/.nvm && \
     apt-get purge -y curl gnupg2 && \
     apt-get autoremove -y && \
@@ -51,14 +44,14 @@ RUN apt-get update && apt-get install -y curl gnupg2 && \
 
 # Crear usuario que no sea root
 RUN groupadd app-front && \
-    useradd -g 0 -l -m -s /bin/bash -u 109012 app-front && \
+    useradd -g 0 -l -m -s /bin/bash -u 1001 app-front && \
     usermod -a -G app-front app-front && \
-    mkdir -p ${APP_DIR} && \
-    chown -R app-front:app-front ${APP_DIR} && \
-    chmod -R 775 ${APP_DIR} && \
+    mkdir -p /usr/share/nginx/html/ && \
+    chown -R app-front:app-front /usr/share/nginx/html/ && \
+    chmod -R 775 /usr/share/nginx/html/ && \
     touch /var/run/nginx.pid && \
-    mkdir /var/cache/nginx/client_temp var/cache/nginx/uwsgi_temp var/cache/nginx/scgi_temp && \
-    mkdir /var/cache/nginx/proxy_temp var/cache/nginx/fastcgi_temp && \
+    mkdir -p /var/cache/nginx/client_temp /var/cache/nginx/uwsgi_temp /var/cache/nginx/scgi_temp && \
+    mkdir -p /var/cache/nginx/proxy_temp /var/cache/nginx/fastcgi_temp && \
     chown -R app-front:app-front /var/cache/nginx /var/run /var/log/nginx && \
     chmod -R 775 /var/cache/nginx /var/run /var/log/nginx
 
