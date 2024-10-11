@@ -60,7 +60,7 @@ export default class MagazinesComponent {
     });
   }
 
-  #basePdf = env.pdfServer;
+  #basePdf = env.api;
   #modalService = inject(NgbModal);
   #magazineService = inject(MagazineService);
   #magazineViewStatus = new BehaviorSubject<StatusListView>({
