@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../apps/app-back/src/routes/page-crud.routes.ts"],
+  "sourcesContent": ["import { authController, pageCrudController } from '@back/controllers';\nimport { Router } from 'express';\n\nconst pageCrudRouter = Router();\n\npageCrudRouter.get(\n  '/',\n  authController.hasPermission('ADMIN'),\n  pageCrudController.getAll\n);\npageCrudRouter.get(\n  '/:id',\n  authController.hasPermission('ADMIN'),\n  pageCrudController.getById\n);\npageCrudRouter.post(\n  '/',\n  authController.hasPermission('ADMIN'),\n  pageCrudController.post\n);\npageCrudRouter.put(\n  '/:id',\n  authController.hasPermission('ADMIN'),\n  pageCrudController.put\n);\npageCrudRouter.delete(\n  '/:id',\n  authController.hasPermission('ADMIN'),\n  pageCrudController.delete\n);\n\nexport default pageCrudRouter;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,yBAAmD;AACnD,qBAAuB;AAEvB,MAAM,qBAAiB,uBAAO;AAE9B,eAAe;AAAA,EACb;AAAA,EACA,kCAAe,cAAc,OAAO;AAAA,EACpC,sCAAmB;AACrB;AACA,eAAe;AAAA,EACb;AAAA,EACA,kCAAe,cAAc,OAAO;AAAA,EACpC,sCAAmB;AACrB;AACA,eAAe;AAAA,EACb;AAAA,EACA,kCAAe,cAAc,OAAO;AAAA,EACpC,sCAAmB;AACrB;AACA,eAAe;AAAA,EACb;AAAA,EACA,kCAAe,cAAc,OAAO;AAAA,EACpC,sCAAmB;AACrB;AACA,eAAe;AAAA,EACb;AAAA,EACA,kCAAe,cAAc,OAAO;AAAA,EACpC,sCAAmB;AACrB;AAEA,IAAO,2BAAQ;",
+  "names": []
+}

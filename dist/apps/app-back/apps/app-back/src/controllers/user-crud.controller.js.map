@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../apps/app-back/src/controllers/user-crud.controller.ts"],
+  "sourcesContent": ["import { userCrudService } from '@back/services';\nimport { AbstractCrudController } from './abstract-crud.controller';\n\nclass UserCrudController extends AbstractCrudController {\n  constructor() {\n    super(userCrudService);\n  }\n}\n\nconst userCrudController = new UserCrudController();\n\nexport default userCrudController;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,sBAAgC;AAChC,2BAAuC;AAEvC,MAAM,2BAA2B,4CAAuB;AAAA,EACtD,cAAc;AACZ,UAAM,+BAAe;AAAA,EACvB;AACF;AAEA,MAAM,qBAAqB,IAAI,mBAAmB;AAElD,IAAO,+BAAQ;",
+  "names": []
+}

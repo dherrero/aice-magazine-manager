@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../apps/app-back/src/services/page-crud.service.ts"],
+  "sourcesContent": ["import { Page } from '@back/models';\nimport { AbstractCrudService } from './abstract-crud.service';\n\nclass PageCrudService extends AbstractCrudService {\n  constructor() {\n    super(Page);\n  }\n}\n\nconst pageCrudService = new PageCrudService();\n\nexport default pageCrudService;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAAqB;AACrB,2BAAoC;AAEpC,MAAM,wBAAwB,yCAAoB;AAAA,EAChD,cAAc;AACZ,UAAM,kBAAI;AAAA,EACZ;AACF;AAEA,MAAM,kBAAkB,IAAI,gBAAgB;AAE5C,IAAO,4BAAQ;",
+  "names": []
+}

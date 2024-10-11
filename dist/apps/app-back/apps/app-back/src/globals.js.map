@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../apps/app-back/src/globals.ts"],
+  "sourcesContent": ["import path from 'path';\n\nexport const APP_DIR = process.cwd();\nexport const UPLOAD_DIR = process.env.NODE_UPLOAD_FILES\n  ? path.join(APP_DIR, `${process.env.NODE_UPLOAD_FILES}`)\n  : path.join(APP_DIR, 'uploads');\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,kBAAiB;AAEV,MAAM,UAAU,QAAQ,IAAI;AAC5B,MAAM,aAAa,QAAQ,IAAI,oBAClC,YAAAA,QAAK,KAAK,SAAS,GAAG,QAAQ,IAAI,iBAAiB,EAAE,IACrD,YAAAA,QAAK,KAAK,SAAS,SAAS;",
+  "names": ["path"]
+}

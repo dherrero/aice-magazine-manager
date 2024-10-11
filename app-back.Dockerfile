@@ -2,45 +2,37 @@ FROM docker.io/node:lts-alpine
 
 ENV APP_DIR /home/app-back/
 
-# Crear el grupo y usuario app-back
+# Crear el grupo y usuario de la aplicación
 RUN getent group app-back || addgroup --system app-back && \
     id -u app-back &>/dev/null || adduser --system -G app-back app-back
 
-# Instalar dependencias necesarias para el build
+# Instalar dependencias necesarias
 RUN apk update && apk add --no-cache \
     graphicsmagick \
-    ghostscript \
-    python3 \
-    make \
-    g++
+    ghostscript
 
-# Establece el directorio de trabajo
+# Copiar los archivos compilados desde dist
+ARG BUILD_DIR=./dist/apps/app-back
+
+COPY ${BUILD_DIR} ${APP_DIR}
+
 WORKDIR ${APP_DIR}
 
-# Copiar todo el repositorio
-COPY . .
+# Instalar solo dependencias de producción
+RUN npm install --omit=dev
 
-# Instalar dependencias
-RUN npm install --verbose
+# Crear directorio de uploads si es necesario
+RUN mkdir -p ${APP_DIR}uploads
 
-# Compilar la aplicación de back
-RUN npm run build:back --verbose
+# Cambiar la propiedad de los archivos
+RUN chown -R app-back:app-back .
 
-# Mover archivos generados al directorio adecuado y limpiar dependencias y archivos innecesarios
-RUN cp -r ./dist/apps/app-back/* ${APP_DIR} && \
-    npm prune --production && \
-    rm -rf /home/app-back/apps /home/app-back/libs /home/app-back/node_modules /home/app-back/dist && \
-    rm -rf /root/.npm /tmp/* /var/cache/apk/*
-
-# Crear directorio de uploads y cambiar permisos
-RUN mkdir -p ${APP_DIR}uploads && \
-    chown -R app-back:app-back ${APP_DIR}
-
-# Cambiar a usuario no root
+# Cambiar a un usuario no root
 USER app-back
 
-# Exponer el puerto 3200
+# Exponer el puerto (ajusta si es diferente)
 EXPOSE 3200
 
-# Comando para iniciar la aplicación
+# Ejecutar la aplicación apuntando correctamente a main.js
 CMD [ "node", "main.js" ]
+#CMD [ "sleep", "36000" ]

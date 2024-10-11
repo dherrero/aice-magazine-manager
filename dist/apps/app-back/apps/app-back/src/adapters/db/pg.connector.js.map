@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../apps/app-back/src/adapters/db/pg.connector.ts"],
+  "sourcesContent": ["import { Sequelize } from 'sequelize';\n\nexport const db = new Sequelize({\n  dialect: 'postgres',\n  host: process.env.NODE_POSTGRESDB_HOST ?? 'localhost',\n  port: process.env.NODE_POSTGRESDB_LOCAL_PORT\n    ? Number(process.env.NODE_POSTGRESDB_LOCAL_PORT)\n    : 5432,\n  database: process.env.NODE_POSTGRESDB_DATABASE ?? 'postgres',\n  username: process.env.NODE_POSTGRESDB_USER ?? 'postgres',\n  password: process.env.NODE_POSTGRESDB_PASSWORD ?? 'postgres',\n  logging: process.env.NODE_PRODUCTION === 'true' ? false : console.log,\n});\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,uBAA0B;AAEnB,MAAM,KAAK,IAAI,2BAAU;AAAA,EAC9B,SAAS;AAAA,EACT,MAAM,QAAQ,IAAI,wBAAwB;AAAA,EAC1C,MAAM,QAAQ,IAAI,6BACd,OAAO,QAAQ,IAAI,0BAA0B,IAC7C;AAAA,EACJ,UAAU,QAAQ,IAAI,4BAA4B;AAAA,EAClD,UAAU,QAAQ,IAAI,wBAAwB;AAAA,EAC9C,UAAU,QAAQ,IAAI,4BAA4B;AAAA,EAClD,SAAS,QAAQ,IAAI,oBAAoB,SAAS,QAAQ,QAAQ;AACpE,CAAC;",
+  "names": []
+}

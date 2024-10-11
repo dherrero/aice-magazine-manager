@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../apps/app-back/src/controllers/index.ts"],
+  "sourcesContent": ["import authController from './auth.controller';\nimport magazineCrudController from './magazine-crud.controller';\nimport pageCrudController from './page-crud.controller';\nimport PdfController from './pdf.controller';\nimport userCrudController from './user-crud.controller';\n\nexport {\n  PdfController,\n  authController,\n  magazineCrudController,\n  pageCrudController,\n  userCrudController,\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA,kCAAAA;AAAA,EAAA,kCAAAC;AAAA,EAAA,mDAAAC;AAAA,EAAA,2CAAAC;AAAA,EAAA,2CAAAC;AAAA;AAAA;AAAA,kBAA2B;AAC3B,2BAAmC;AACnC,uBAA+B;AAC/B,iBAA0B;AAC1B,uBAA+B;",
+  "names": ["PdfController", "authController", "magazineCrudController", "pageCrudController", "userCrudController"]
+}

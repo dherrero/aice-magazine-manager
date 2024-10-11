@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../apps/app-back/src/controllers/page-crud.controller.ts"],
+  "sourcesContent": ["import { pageCrudService } from '@back/services';\nimport { AbstractCrudController } from './abstract-crud.controller';\n\nclass PageCrudController extends AbstractCrudController {\n  constructor() {\n    super(pageCrudService);\n  }\n}\n\nconst pageCrudController = new PageCrudController();\n\nexport default pageCrudController;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,sBAAgC;AAChC,2BAAuC;AAEvC,MAAM,2BAA2B,4CAAuB;AAAA,EACtD,cAAc;AACZ,UAAM,+BAAe;AAAA,EACvB;AACF;AAEA,MAAM,qBAAqB,IAAI,mBAAmB;AAElD,IAAO,+BAAQ;",
+  "names": []
+}
