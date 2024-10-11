@@ -58,17 +58,17 @@ services:
     volumes:
       - upload_files:/home/app-back/${NODE_UPLOAD_FILES}
       - tmp:/tmp
-  # front:
-  #   build:
-  #     dockerfile: app-front.Dockerfile
-  #   container_name: front
-  #   restart: unless-stopped
-  #   ports: s
-  #     - 4200:80
-  #   depends_on:
-  #     - back
-  #   networks:
-  #     - front-network
+  front:
+    build:
+      dockerfile: app-front.Dockerfile
+    container_name: front
+    restart: unless-stopped
+    ports:
+      - 4200:80
+    depends_on:
+      - back
+    networks:
+      - front-network
 volumes:
   postgresdb:
   pgadmindb:
