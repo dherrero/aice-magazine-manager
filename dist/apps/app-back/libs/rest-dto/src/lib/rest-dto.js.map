@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../libs/rest-dto/src/lib/rest-dto.ts"],
-  "sourcesContent": ["declare const CreationAttributeBrand: unique symbol;\n\nexport type CreationOptional<T> =\n  // copied from sequelize's Model\n  T extends null | undefined ? T : T & { [CreationAttributeBrand]?: true };\n\nexport interface UserDTO {\n  id: CreationOptional<number>;\n  email: string;\n  name: string;\n  lastName: string;\n  permission: string;\n  password: string;\n  deleted: boolean;\n  createdAt: Date;\n  updatedAt?: Date;\n  deletedAt?: Date;\n}\n\nexport interface MagazineDTO {\n  id: CreationOptional<number>;\n  number: number;\n  path: string;\n  publhishedAt: Date;\n  image?: string;\n  deleted: boolean;\n  createdAt: Date;\n  updatedAt?: Date;\n  deletedAt?: Date;\n}\n\nexport interface PageDTO {\n  id: CreationOptional<number>;\n  number: number;\n  content: string;\n  magazineId: number;\n  deleted: boolean;\n  createdAt: Date;\n  updatedAt?: Date;\n  deletedAt?: Date;\n}\n\nexport interface SearchDTO extends PageDTO {\n  Magazine: MagazineDTO;\n}\n\nexport interface PaginationDTO<T> {\n  count: number;\n  rows: T[];\n}\n"],
-  "mappings": ";;;;;;;;;;;;;AAAA;AAAA;",
-  "names": []
-}

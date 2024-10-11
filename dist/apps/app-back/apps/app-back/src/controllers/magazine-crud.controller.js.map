@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../apps/app-back/src/controllers/magazine-crud.controller.ts"],
-  "sourcesContent": ["import { magazineCrudService } from '@back/services';\nimport { AbstractCrudController } from './abstract-crud.controller';\n\nclass MagazineCrudController extends AbstractCrudController {\n  constructor() {\n    super(magazineCrudService);\n  }\n}\n\nconst magazineCrudController = new MagazineCrudController();\n\nexport default magazineCrudController;\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,sBAAoC;AACpC,2BAAuC;AAEvC,MAAM,+BAA+B,4CAAuB;AAAA,EAC1D,cAAc;AACZ,UAAM,mCAAmB;AAAA,EAC3B;AACF;AAEA,MAAM,yBAAyB,IAAI,uBAAuB;AAE1D,IAAO,mCAAQ;",
-  "names": []
-}

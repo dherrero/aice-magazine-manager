@@ -1,4 +1,28 @@
-FROM docker.io/node:lts-alpine
+# Etapa 1: Construcción de la aplicación Back (Node.js)
+FROM node:18-bullseye AS build
+
+# Directorio de trabajo para la compilación
+WORKDIR /app
+
+# Copiar archivos de configuración y dependencias
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY nx.json ./
+
+# Actualizar npm a la última versión estable
+RUN npm install -g npm@10.9.0
+
+# Instalar las dependencias necesarias, ignorando post-install scripts
+RUN npm install --ignore-scripts --verbose
+
+# Copiar el código fuente para construir la aplicación Backend
+COPY . .
+
+# Construir la aplicación (los archivos compilados estarán en dist/apps/app-back)
+RUN npm run build:back --verbose
+
+# Etapa 2: Imagen final para producción
+FROM node:18-alpine
 
 ENV APP_DIR /home/app-back/
 
@@ -11,10 +35,8 @@ RUN apk update && apk add --no-cache \
     graphicsmagick \
     ghostscript
 
-# Copiar los archivos compilados desde dist
-ARG BUILD_DIR=./dist/apps/app-back
-
-COPY ${BUILD_DIR} ${APP_DIR}
+# Copiar los archivos compilados de la etapa de construcción
+COPY --from=build /app/dist/apps/app-back ${APP_DIR}
 
 WORKDIR ${APP_DIR}
 
@@ -35,4 +57,3 @@ EXPOSE 3200
 
 # Ejecutar la aplicación apuntando correctamente a main.js
 CMD [ "node", "main.js" ]
-#CMD [ "sleep", "36000" ]

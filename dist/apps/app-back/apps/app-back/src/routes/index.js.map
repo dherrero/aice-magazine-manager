@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../apps/app-back/src/routes/index.ts"],
-  "sourcesContent": ["import { Router } from 'express';\nimport authRouter from './auth.routes';\nimport healthRouter from './health.routes';\nimport magazineCrudRouter from './magazine-crud.routes';\nimport pageCrudRouter from './page-crud.routes';\nimport pdfRouter from './pdf.routes';\nimport userCrudRouter from './user-crud.routes';\n\nconst api = Router();\n\n/** public api */\napi.use('/v1/auth', authRouter);\n\n/** private api */\napi.use('/v1/user', userCrudRouter);\napi.use('/v1/magazine', magazineCrudRouter);\napi.use('/v1/page', pageCrudRouter);\napi.use('/v1/pdf', pdfRouter);\n\n/** health check */\napi.use('/v1/health', healthRouter);\n\nexport default api;\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,qBAAuB;AACvB,kBAAuB;AACvB,oBAAyB;AACzB,2BAA+B;AAC/B,uBAA2B;AAC3B,iBAAsB;AACtB,uBAA2B;AAE3B,MAAM,UAAM,uBAAO;AAGnB,IAAI,IAAI,YAAY,YAAAA,OAAU;AAG9B,IAAI,IAAI,YAAY,iBAAAC,OAAc;AAClC,IAAI,IAAI,gBAAgB,qBAAAC,OAAkB;AAC1C,IAAI,IAAI,YAAY,iBAAAC,OAAc;AAClC,IAAI,IAAI,WAAW,WAAAC,OAAS;AAG5B,IAAI,IAAI,cAAc,cAAAC,OAAY;AAElC,IAAO,iBAAQ;",
-  "names": ["authRouter", "userCrudRouter", "magazineCrudRouter", "pageCrudRouter", "pdfRouter", "healthRouter"]
-}

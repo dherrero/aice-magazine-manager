@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../apps/app-back/src/services/user-crud.service.ts"],
-  "sourcesContent": ["import { User } from '@back/models';\nimport { AbstractCrudService } from './abstract-crud.service';\n\nclass UserCrudService extends AbstractCrudService {\n  constructor() {\n    super(User);\n  }\n}\n\nconst userCrudService = new UserCrudService();\n\nexport default userCrudService;\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAAqB;AACrB,2BAAoC;AAEpC,MAAM,wBAAwB,yCAAoB;AAAA,EAChD,cAAc;AACZ,UAAM,kBAAI;AAAA,EACZ;AACF;AAEA,MAAM,kBAAkB,IAAI,gBAAgB;AAE5C,IAAO,4BAAQ;",
-  "names": []
-}

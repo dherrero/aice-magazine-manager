@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../apps/app-back/src/routes/auth.routes.ts"],
-  "sourcesContent": ["import { authController } from '@back/controllers';\nimport { Router } from 'express';\n\nconst authRouter = Router();\n\nauthRouter.post('/login', authController.login);\n\nexport default authRouter;\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,yBAA+B;AAC/B,qBAAuB;AAEvB,MAAM,iBAAa,uBAAO;AAE1B,WAAW,KAAK,UAAU,kCAAe,KAAK;AAE9C,IAAO,sBAAQ;",
-  "names": []
-}

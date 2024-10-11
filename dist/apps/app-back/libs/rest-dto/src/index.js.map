@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../libs/rest-dto/src/index.ts"],
-  "sourcesContent": ["export * from './lib/common-types';\nexport * from './lib/rest-dto';\n"],
-  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;AAAA,wBAAc,+BAAd;AACA,wBAAc,2BADd;",
-  "names": []
-}

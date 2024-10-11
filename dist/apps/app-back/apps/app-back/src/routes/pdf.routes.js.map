@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../apps/app-back/src/routes/pdf.routes.ts"],
-  "sourcesContent": ["import { PdfController, authController } from '@back/controllers';\nimport { Router } from 'express';\nimport multer from 'multer';\n\nconst pdfRouter = Router();\n\npdfRouter.post(\n  '/upload',\n  authController.hasPermission('ADMIN'),\n  multer().single('file'),\n  PdfController.uploadPdf\n);\npdfRouter.get(\n  '/search',\n  authController.hasPermission(),\n  PdfController.searchPdf\n);\n\nexport default pdfRouter;\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,yBAA8C;AAC9C,qBAAuB;AACvB,oBAAmB;AAEnB,MAAM,gBAAY,uBAAO;AAEzB,UAAU;AAAA,EACR;AAAA,EACA,kCAAe,cAAc,OAAO;AAAA,MACpC,cAAAA,SAAO,EAAE,OAAO,MAAM;AAAA,EACtB,iCAAc;AAChB;AACA,UAAU;AAAA,EACR;AAAA,EACA,kCAAe,cAAc;AAAA,EAC7B,iCAAc;AAChB;AAEA,IAAO,qBAAQ;",
-  "names": ["multer"]
-}

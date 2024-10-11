@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../libs/rest-dto/src/lib/common-types.ts"],
-  "sourcesContent": ["export enum FilterhMagazineType {\n  GREATERTHAN = 1,\n  GREATERTHANEQUAL = 2,\n  LESSTHAN = 3,\n  LESSTHANEQUAL = 4,\n  EQUAL = 5,\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,IAAK,sBAAL,kBAAKA,yBAAL;AACL,EAAAA,0CAAA,iBAAc,KAAd;AACA,EAAAA,0CAAA,sBAAmB,KAAnB;AACA,EAAAA,0CAAA,cAAW,KAAX;AACA,EAAAA,0CAAA,mBAAgB,KAAhB;AACA,EAAAA,0CAAA,WAAQ,KAAR;AALU,SAAAA;AAAA,GAAA;",
-  "names": ["FilterhMagazineType"]
-}

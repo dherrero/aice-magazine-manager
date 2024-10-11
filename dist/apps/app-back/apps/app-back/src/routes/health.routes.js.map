@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../apps/app-back/src/routes/health.routes.ts"],
-  "sourcesContent": ["import { authController } from '@back/controllers';\nimport { Router } from 'express';\n\nconst healthRouter = Router();\n\nhealthRouter.get('', (_, res) => {\n  res.status(200).json({ health: '\uD83D\uDC4C' });\n});\n\nhealthRouter.get('/secure', authController.hasPermission(), (_, res) => {\n  res.status(200).json({ health: '\uD83D\uDC4C', secure: '\uD83D\uDD10' });\n});\n\nexport default healthRouter;\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,yBAA+B;AAC/B,qBAAuB;AAEvB,MAAM,mBAAe,uBAAO;AAE5B,aAAa,IAAI,IAAI,CAAC,GAAG,QAAQ;AAC/B,MAAI,OAAO,GAAG,EAAE,KAAK,EAAE,QAAQ,YAAK,CAAC;AACvC,CAAC;AAED,aAAa,IAAI,WAAW,kCAAe,cAAc,GAAG,CAAC,GAAG,QAAQ;AACtE,MAAI,OAAO,GAAG,EAAE,KAAK,EAAE,QAAQ,aAAM,QAAQ,YAAK,CAAC;AACrD,CAAC;AAED,IAAO,wBAAQ;",
-  "names": []
-}

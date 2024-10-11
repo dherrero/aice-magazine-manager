@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../apps/app-back/src/models/index.ts"],
-  "sourcesContent": ["import Magazine, { MagazineModel } from './magazine.model';\nimport Page, { PageModel } from './page.model';\nimport User, { UserModel } from './user.model';\n\nexport { Magazine, MagazineModel, Page, PageModel, User, UserModel };\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA,kCAAAA;AAAA,EAAA;AAAA,0BAAAC;AAAA,EAAA;AAAA,0BAAAC;AAAA,EAAA;AAAA;AAAA;AAAA,sBAAwC;AACxC,kBAAgC;AAChC,kBAAgC;",
-  "names": ["Magazine", "Page", "User"]
-}
