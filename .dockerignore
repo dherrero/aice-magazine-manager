@@ -4,3 +4,6 @@ node_modules
 .angular
 .vscode
 .idea
+.nx
+tmp
+uploads

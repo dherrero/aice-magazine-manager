@@ -1,27 +1,59 @@
-FROM docker.io/node:lts-alpine
+# Etapa 1: Construcción de la aplicación Back (Node.js)
+FROM node:18-bullseye AS build
+
+# Directorio de trabajo para la compilación
+WORKDIR /app
+
+# Copiar archivos de configuración y dependencias
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY nx.json ./
+
+# Actualizar npm a la última versión estable
+RUN npm install -g npm@10.9.0
+
+# Instalar las dependencias necesarias, ignorando post-install scripts
+RUN npm install --ignore-scripts --verbose
+
+# Copiar el código fuente para construir la aplicación Backend
+COPY . .
+
+# Construir la aplicación (los archivos compilados estarán en dist/apps/app-back)
+RUN npm run build:back --verbose
+
+# Etapa 2: Imagen final para producción
+FROM node:18-alpine
 
 ENV APP_DIR /home/app-back/
 
+# Crear el grupo y usuario de la aplicación
 RUN getent group app-back || addgroup --system app-back && \
     id -u app-back &>/dev/null || adduser --system -G app-back app-back
 
-RUN apk  update && apk add graphicsmagick -i
-RUN apk update && apk add ghostscript -i
+# Instalar dependencias necesarias
+RUN apk update && apk add --no-cache \
+    graphicsmagick \
+    ghostscript
+
+# Copiar los archivos compilados de la etapa de construcción
+COPY --from=build /app/dist/apps/app-back ${APP_DIR}
 
 WORKDIR ${APP_DIR}
 
-ARG BUILD_DIR=./dist/apps/app-back
+# Instalar solo dependencias de producción
+RUN npm install --omit=dev
 
-COPY ${BUILD_DIR} ${APP_DIR}
-
-RUN npm -f install --omit=dev
-
+# Crear directorio de uploads si es necesario
 RUN mkdir -p ${APP_DIR}uploads
 
+# Cambiar la propiedad de los archivos
 RUN chown -R app-back:app-back .
 
+# Cambiar a un usuario no root
 USER app-back
 
+# Exponer el puerto (ajusta si es diferente)
 EXPOSE 3200
 
+# Ejecutar la aplicación apuntando correctamente a main.js
 CMD [ "node", "main.js" ]

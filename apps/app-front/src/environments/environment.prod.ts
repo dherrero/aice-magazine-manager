@@ -1,5 +1,4 @@
 export const env = {
-  production: false,
-  api: 'http://localhost:3333/api/v1/',
-  pdfServer: 'http://localhost:3333/',
+  production: true,
+  api: 'https://api-aice.dani-herrero.es/api/v1/',
 };

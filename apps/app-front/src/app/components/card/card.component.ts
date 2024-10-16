@@ -21,7 +21,7 @@ export class CardComponent implements OnInit {
 
   pdfURL!: string;
   imageUrl!: string;
-  #basePdf = env.pdfServer;
+  #basePdf = env.api;
 
   ngOnInit(): void {
     const pdfURL = new URL(this.pdfPath, this.#basePdf);

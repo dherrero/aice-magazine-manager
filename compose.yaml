@@ -10,10 +10,16 @@ services:
     ports:
       - ${POSTGRESDB_LOCAL_PORT}:${POSTGRESDB_DOCKER_PORT}
     volumes:
-      - postgresdb:/var/lib/postgres
+      - postgresdb:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d
     networks:
       - back-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRESDB_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   pgadmin:
     depends_on:
       - postgresdb
@@ -25,10 +31,20 @@ services:
     ports:
       - ${PGADMIN_LOCAL_PORT}:${PGADMIN_DOCKER_PORT}
     volumes:
-      - pgadmindb:/var/lib/postgres
+      - pgadmindb:/var/lib/pgadmin
       - ./pgadmin_config.json:/pgadmin4/servers.json
     networks:
       - back-network
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'curl -f http://localhost:${PGADMIN_DOCKER_PORT} || exit 1',
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   back:
     depends_on:
       - postgresdb
@@ -56,24 +72,30 @@ services:
       - ${NODE_PORT}:${NODE_PORT}
     networks:
       - back-network
+      - front-network
     volumes:
       - upload_files:/home/app-back/${NODE_UPLOAD_FILES}
       - tmp:/tmp
+
   front:
     build:
       dockerfile: app-front.Dockerfile
     container_name: front
     restart: unless-stopped
     ports:
-      - 4200:80
+      - ${FRONT_EXTERNAL_PORT}:${FRONT_INTERNAL_PORT}
     depends_on:
       - back
     networks:
       - front-network
+      - back-network
+
 volumes:
   postgresdb:
   pgadmindb:
   upload_files:
   tmp:
+
 networks:
   back-network:
+  front-network:
