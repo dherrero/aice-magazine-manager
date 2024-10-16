@@ -5,6 +5,7 @@ import { MagazineService } from '@front/app/services/magazine.service';
 import { Router } from '@angular/router';
 import { CardComponent } from '@front/app/components/card/card.component';
 import { SearchComponent } from '@front/app/components/search/search.component';
+import { AuthService } from '@front/app/libs/auth/services/auth.service';
 import { SearchType } from '@front/app/models/magazine.model';
 import { HighlightQueryPipe } from '@front/app/pipes/highlightQuery.pipe';
 
@@ -18,6 +19,7 @@ import { HighlightQueryPipe } from '@front/app/pipes/highlightQuery.pipe';
 export default class HomeComponent {
   magazineService = inject(MagazineService);
   #router = inject(Router);
+  #authService = inject(AuthService);
   closeResult = '';
   search = '';
 
@@ -27,5 +29,12 @@ export default class HomeComponent {
   }
   goToBackOffice() {
     this.#router.navigate(['back-office']);
+  }
+
+  getCredentials() {
+    this.#authService.registerBiometrics();
+  }
+  loginCredentials() {
+    this.#authService.loginWithBiometrics();
   }
 }

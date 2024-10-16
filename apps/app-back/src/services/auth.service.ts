@@ -27,6 +27,24 @@ class AuthService {
     return await hash(password, process.env.NODE_HASH_SALT_ROUNDS ?? 10);
   };
 
+  base64ToArrayBuffer = (base64: string): ArrayBuffer => {
+    return Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)).buffer;
+  };
+
+  base64UrlToBase64 = (base64UrlString: string): string => {
+    return base64UrlString
+      .replace(/-/g, '+') // Reemplaza '-' con '+'
+      .replace(/_/g, '/') // Reemplaza '_' con '/'
+      .padEnd(
+        base64UrlString.length + ((4 - (base64UrlString.length % 4)) % 4),
+        '='
+      ); // Añadir relleno '=' si es necesario
+  };
+
+  arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
+    return Buffer.from(buffer).toString('base64');
+  };
+
   #comparePassword = async (password: string, hash: string) => {
     return await compare(password, hash);
   };

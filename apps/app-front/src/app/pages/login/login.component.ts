@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Router, RouterModule } from '@angular/router';
@@ -16,7 +16,7 @@ import { catchError, of, tap } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, TranslocoModule],
 })
-export default class LoginComponent implements OnInit {
+export default class LoginComponent implements OnInit, AfterViewInit {
   login = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -38,6 +38,10 @@ export default class LoginComponent implements OnInit {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as { currentRoute: string };
     this.redirectUrl = state?.currentRoute ?? '';
+  }
+
+  ngAfterViewInit(): void {
+    this.#checkBiometric();
   }
 
   doLogin() {
@@ -69,6 +73,29 @@ export default class LoginComponent implements OnInit {
           })
         )
         .subscribe();
+    }
+  }
+
+  async doLoginWithBiometric() {
+    (await this.auth.loginWithBiometrics())
+      .pipe(
+        tap(() => {
+          this.loading = false;
+          this.redirectUrl
+            ? this.router.navigateByUrl(this.redirectUrl, {})
+            : this.router.navigateByUrl('');
+        }),
+        catchError(() => {
+          this.loading = false;
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  async #checkBiometric() {
+    if (this.auth.checkBiometricData()) {
+      await this.doLoginWithBiometric();
     }
   }
 }

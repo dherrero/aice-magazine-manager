@@ -24,3 +24,8 @@ export interface ChallengeDTO {
   challengeBase64: string;
   credentialIdBase64: string;
 }
+
+export interface CredentialData {
+  rawId: number[];
+  challenge: string;
+}

@@ -11,6 +11,9 @@ export interface UserDTO {
   lastName: string;
   permission: string;
   password: string;
+  challenge?: string;
+  publicKey?: string;
+  counter?: number;
   deleted: boolean;
   createdAt: Date;
   updatedAt?: Date;

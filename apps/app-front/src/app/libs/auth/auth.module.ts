@@ -45,12 +45,9 @@ export class AuthModule {
                       (moduleConfig.loginPath &&
                         location.search?.includes(moduleConfig.loginPath))
                     ) {
-                      if (service.checkAfterLogin()) {
-                        return service.checkAndLoginWithBiometrics();
-                      }
                       return EMPTY;
                     }
-                    return of(service.logout());
+                    return of(service.logout(moduleConfig.loginPath));
                   })
                 );
             }

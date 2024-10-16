@@ -40,6 +40,19 @@ const User = db.define<UserModel>(
       type: DataTypes.STRING(250),
       allowNull: false,
     },
+    challenge: {
+      type: DataTypes.STRING(250),
+      allowNull: true,
+    },
+    publicKey: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      field: 'publickey',
+    },
+    counter: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     deleted: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
