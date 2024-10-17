@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { MagazineService } from '@front/app/services/magazine.service';
 
 import { Router } from '@angular/router';
@@ -16,12 +16,24 @@ import { HighlightQueryPipe } from '@front/app/pipes/highlightQuery.pipe';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export default class HomeComponent {
+export default class HomeComponent implements AfterViewInit {
   magazineService = inject(MagazineService);
   #router = inject(Router);
   #authService = inject(AuthService);
   closeResult = '';
   search = '';
+
+  ngAfterViewInit(): void {
+    if (
+      this.#authService.checkAfterLogin() &&
+      !this.#authService.checkBiometricData()
+    ) {
+      const askBiometric = window.confirm(
+        '¿Desea activar el acceso biométrico para futuros accesos?'
+      );
+      if (askBiometric) this.#authService.registerBiometrics();
+    }
+  }
 
   setSearch(value: SearchType) {
     this.search = value.query ?? '';
@@ -29,12 +41,5 @@ export default class HomeComponent {
   }
   goToBackOffice() {
     this.#router.navigate(['back-office']);
-  }
-
-  getCredentials() {
-    this.#authService.registerBiometrics();
-  }
-  loginCredentials() {
-    this.#authService.loginWithBiometrics();
   }
 }

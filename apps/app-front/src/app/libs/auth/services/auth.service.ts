@@ -192,7 +192,6 @@ export class AuthService {
         )
         .pipe(
           tap((response) => {
-            window.localStorage.setItem(AFTER_LOGIN_STORAGE_KEY, '1');
             this.setToken(response.headers.get('Authorization') ?? '');
             this.setRefresh(response.headers.get('Refresh-Token') ?? '');
           }),
@@ -205,7 +204,13 @@ export class AuthService {
   }
 
   checkBiometricData(): boolean {
-    return this.getStoredCredential() !== null;
+    return this.getStoredCredential() !== null && 'credentials' in navigator;
+  }
+
+  checkAfterLogin(): boolean {
+    const check = window.localStorage.getItem(AFTER_LOGIN_STORAGE_KEY) === '1';
+    window.localStorage.removeItem(AFTER_LOGIN_STORAGE_KEY);
+    return check;
   }
 
   private setRefresh(token: string) {
@@ -218,12 +223,6 @@ export class AuthService {
     window.localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
     this.token.set('');
     this.refreshToken.set('');
-  }
-
-  private generateRandomBuffer(length: number): Uint8Array {
-    const randomBuffer = new Uint8Array(length);
-    window.crypto.getRandomValues(randomBuffer);
-    return randomBuffer;
   }
 
   private arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
