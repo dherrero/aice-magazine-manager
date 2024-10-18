@@ -17,9 +17,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@back/*": ["apps/app-back/src/*"],
       "@dto": ["libs/rest-dto/src/index.ts"],
-      "@front/*": ["apps/app-front/src/*"],
-      "@back/*": ["apps/app-back/src/*"]
+      "@front/*": ["apps/app-front/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
