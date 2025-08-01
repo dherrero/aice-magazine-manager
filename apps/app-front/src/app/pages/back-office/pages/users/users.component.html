@@ -1,5 +1,110 @@
 <div class="row p-4">
-  <div class="col-12">
-    <h1>Users works</h1>
+  <div class="col-12 d-flex flex-row">
+    <h2>Gestión de usuarios</h2>
+    <i
+      class="lni lni-user fs-1 ms-4"
+      (click)="openCreateUser()"
+      ngbTooltip="Crear usuario"
+      placement="right"
+      style="cursor: pointer"
+    ></i>
+  </div>
+
+  <div class="col-12 mt-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Email</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellidos</th>
+          <th scope="col">Permisos</th>
+          <th scope="col">Creado</th>
+          <th scope="col" class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(user of users$ | async; track user.id) {
+        <tr>
+          <td class="align-middle">{{ user.id }}</td>
+          <td class="align-middle">{{ user.email }}</td>
+          <td class="align-middle">{{ user.name }}</td>
+          <td class="align-middle">{{ user.lastName }}</td>
+          <td class="align-middle">
+            <span
+              class="badge"
+              [ngClass]="{
+                'bg-danger': user.permission === 'ADMIN',
+                'bg-warning': user.permission === 'EDIT_MAGAZINE',
+                'bg-info': user.permission === 'SEARCH_MAGAZINE'
+              }"
+            >
+              {{ getPermissionLabel(user.permission) }}
+            </span>
+          </td>
+          <td class="align-middle">
+            {{ user.createdAt | date : 'dd/MM/yyyy' }}
+          </td>
+          <td class="text-center align-middle">
+            <i
+              class="lni lni-pencil me-3 fs-3"
+              ngbTooltip="Editar"
+              placement="top"
+              (click)="openEditUser(user)"
+              style="cursor: pointer"
+            ></i>
+            <i
+              class="lni lni-trash-can fs-3"
+              ngbTooltip="Eliminar"
+              placement="top"
+              (click)="confirmDelete(user)"
+              style="cursor: pointer"
+            ></i>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-10">
+    <ngb-pagination
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [collectionSize]="collectionSize"
+      [rotate]="true"
+      [boundaryLinks]="true"
+    />
+  </div>
+  <div class="col-2">
+    <select
+      class="form-select"
+      aria-label="Default select example"
+      [(ngModel)]="pageSize"
+    >
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+      <option [value]="20">20</option>
+      <option [value]="50">50</option>
+    </select>
   </div>
 </div>
+
+<!-- Modal para crear/editar usuario -->
+<ng-template #userModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Usuario</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-user-form
+      (afterSave)="onUserSave()"
+      (afterError)="onUserError($event)"
+    ></app-user-form>
+  </div>
+</ng-template>
