@@ -12,6 +12,7 @@ import {
   NgbPaginationModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 
@@ -33,6 +34,7 @@ interface StatusListView {
     FormsModule,
     NgbTooltipModule,
     NgbPaginationModule,
+    TranslocoModule,
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
@@ -59,6 +61,7 @@ export default class UsersComponent {
 
   #modalService = inject(NgbModal);
   #userService = inject(UserService);
+  #translocoService = inject(TranslocoService);
   #userViewStatus = new BehaviorSubject<StatusListView>({
     page: 1,
     pageSize: 5,
@@ -133,19 +136,23 @@ export default class UsersComponent {
     // Mostrar mensaje de error al usuario
     this.#confirmService
       .open({
-        title: 'Error',
+        title: this.#translocoService.translate('common.error'),
         message: error,
-        confirmText: 'Aceptar',
-        cancelText: 'Cancelar',
+        confirmText: this.#translocoService.translate('common.ok'),
+        cancelText: this.#translocoService.translate('common.cancel'),
       })
       .subscribe();
   }
 
   getPermissionLabel(permission: string): string {
     const permissionMap: Record<string, string> = {
-      ADMIN: 'Administrador',
-      SEARCH_MAGAZINE: 'Buscar revistas',
-      EDIT_MAGAZINE: 'Editar revistas',
+      ADMIN: this.#translocoService.translate('permissions.admin'),
+      SEARCH_MAGAZINE: this.#translocoService.translate(
+        'permissions.searchMagazine'
+      ),
+      EDIT_MAGAZINE: this.#translocoService.translate(
+        'permissions.editMagazine'
+      ),
     };
     return permissionMap[permission] || permission;
   }
@@ -153,10 +160,10 @@ export default class UsersComponent {
   confirmDelete(user: UserDTO) {
     this.#confirmService
       .open({
-        title: 'Eliminar usuario',
-        message: `¿Estás seguro de que deseas eliminar al usuario ${user.name} ${user.lastName}?`,
-        confirmText: 'Eliminar',
-        cancelText: 'Cancelar',
+        title: this.#translocoService.translate('user.deleteUser'),
+        message: this.#translocoService.translate('user.deleteUserConfirm'),
+        confirmText: this.#translocoService.translate('common.delete'),
+        cancelText: this.#translocoService.translate('common.cancel'),
       })
       .subscribe((confirm) => {
         if (confirm) {
@@ -176,12 +183,12 @@ export default class UsersComponent {
         const errorMessage =
           error.error?.message ||
           error.message ||
-          'Error al eliminar el usuario';
+          this.#translocoService.translate('user.deleteUserError');
         this.#confirmService
           .open({
-            title: 'Error',
+            title: this.#translocoService.translate('common.error'),
             message: errorMessage,
-            confirmText: 'Aceptar',
+            confirmText: this.#translocoService.translate('common.ok'),
             cancelText: undefined,
           })
           .subscribe();

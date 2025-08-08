@@ -8,7 +8,7 @@
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
           [routerLinkActiveOptions]="{ exact: true }"
-          >Revistas</a
+          >{{ 'backOffice.magazines' | transloco }}</a
         >
       </li>
       <li class="nav-item">
@@ -17,7 +17,7 @@
           routerLink="/back-office/users"
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
-          >Usuarios</a
+          >{{ 'backOffice.users' | transloco }}</a
         >
       </li>
       <li class="nav-item">
@@ -27,7 +27,7 @@
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
           [routerLinkActiveOptions]="{ exact: true }"
-          >Volver al buscador</a
+          >{{ 'backOffice.backToSearch' | transloco }}</a
         >
       </li>
     </ul>

@@ -7,6 +7,7 @@ import {
   NgbAccordionModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
 
@@ -19,6 +20,7 @@ import { filter } from 'rxjs';
     ReactiveFormsModule,
     NgbAccordionModule,
     NgbTooltipModule,
+    TranslocoModule,
   ],
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
@@ -38,11 +40,11 @@ export class SearchComponent implements OnInit {
     (value) => typeof value === 'number'
   ) as unknown as number[];
   typeDescription = [
-    'Mayor que',
-    'Mayor o igual que',
-    'Menor que',
-    'Menor o igual que',
-    'Igual a',
+    'filters.greaterThan',
+    'filters.greaterThanEqual',
+    'filters.lessThan',
+    'filters.lessThanEqual',
+    'filters.equal',
   ];
 
   ngOnInit() {

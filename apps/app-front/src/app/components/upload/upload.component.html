@@ -5,27 +5,27 @@
       type="file"
       (change)="onFileSelected($event)"
       accept="application/pdf"
-      aria-label="Seleccionar archivo"
+      [attr.aria-label]="'magazine.selectFile' | transloco"
     />
   </div>
   <div class="col-xs-12 col-sm-4 mt-3">
     <input
       class="form-control"
       type="number"
-      placeholder="Nº Revista"
+      [placeholder]="'magazine.number' | transloco"
       min="1"
       [(ngModel)]="publicationNumber"
-      aria-label="Número de revista"
+      [attr.aria-label]="'magazine.number' | transloco"
     />
   </div>
   <div class="col-xs-12 col-sm-8 mt-3">
     <input
       class="form-control"
       type="date"
-      placeholder="Fecha de publicación"
+      [placeholder]="'magazine.publishedAt' | transloco"
       min="1"
       [(ngModel)]="publhishedAt"
-      aria-label="Fecha de publicación"
+      [attr.aria-label]="'magazine.publishedAt' | transloco"
     />
   </div>
 
@@ -34,9 +34,9 @@
       class="btn btn-primary mt-2"
       (click)="onUpload()"
       [disabled]="uploadig()"
-      aria-label="Subir archivo"
+      [attr.aria-label]="'magazine.uploadPdf' | transloco"
     >
-      Upload
+      {{ 'magazine.uploadPdf' | transloco }}
     </button>
   </div>
   <div class="col-12 mt-3">

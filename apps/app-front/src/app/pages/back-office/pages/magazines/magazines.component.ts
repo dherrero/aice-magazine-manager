@@ -14,6 +14,7 @@ import {
   NgbPaginationModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 
@@ -36,6 +37,7 @@ interface StatusListView {
     HideImageOnErrorDirectiveModule,
     NgbTooltipModule,
     NgbPaginationModule,
+    TranslocoModule,
   ],
   templateUrl: './magazines.component.html',
   styleUrls: ['./magazines.component.scss'],

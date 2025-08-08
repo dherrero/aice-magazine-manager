@@ -4,11 +4,12 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MagazineService } from '@front/app/services/magazine.service';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgbProgressbarModule],
+  imports: [CommonModule, FormsModule, NgbProgressbarModule, TranslocoModule],
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss'],
 })

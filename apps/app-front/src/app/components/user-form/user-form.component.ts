@@ -16,6 +16,7 @@ import {
 import { UserDTO } from '@dto';
 import { UserService } from '@front/app/services/user.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { finalize } from 'rxjs';
 
@@ -32,7 +33,7 @@ export interface UserFormData {
 @Component({
   selector: 'app-user-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslocoModule],
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
 })
@@ -115,9 +116,9 @@ export class UserFormComponent implements OnInit {
 
   getPermissionOptions() {
     return [
-      { value: 'ADMIN', label: 'Administrador' },
-      { value: 'SEARCH_MAGAZINE', label: 'Buscar revistas' },
-      { value: 'EDIT_MAGAZINE', label: 'Editar revistas' },
+      { value: 'ADMIN', label: 'permissions.admin' },
+      { value: 'SEARCH_MAGAZINE', label: 'permissions.searchMagazine' },
+      { value: 'EDIT_MAGAZINE', label: 'permissions.editMagazine' },
     ];
   }
 }
