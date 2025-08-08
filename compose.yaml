@@ -49,7 +49,8 @@ services:
     depends_on:
       - postgresdb
     build:
-      dockerfile: app-back.Dockerfile
+      context: .
+      dockerfile: apps/app-back/Dockerfile
     container_name: back
     restart: unless-stopped
     environment:
@@ -78,7 +79,8 @@ services:
 
   front:
     build:
-      dockerfile: app-front.Dockerfile
+      context: .
+      dockerfile: apps/app-front/Dockerfile
     container_name: front
     restart: unless-stopped
     ports:
