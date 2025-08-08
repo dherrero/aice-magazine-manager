@@ -1,11 +1,15 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    {{ isEditMode ? 'Editar usuario' : 'Crear usuario' }}
+    {{
+      isEditMode
+        ? ('user.editUser' | transloco)
+        : ('user.createUser' | transloco)
+    }}
   </h4>
   <button
     type="button"
     class="btn-close"
-    aria-label="Close"
+    [attr.aria-label]="'common.close' | transloco"
     (click)="close()"
   ></button>
 </div>
@@ -14,7 +18,9 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="col-md-6 mb-3">
-        <label for="email" class="form-label">Email *</label>
+        <label for="email" class="form-label"
+          >{{ 'user.email' | transloco }} *</label
+        >
         <input
           type="email"
           class="form-control"
@@ -29,16 +35,18 @@
           *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
         >
           <div *ngIf="form.get('email')?.errors?.['required']">
-            El email es requerido
+            {{ 'user.emailRequired' | transloco }}
           </div>
           <div *ngIf="form.get('email')?.errors?.['email']">
-            El email no es válido
+            {{ 'user.emailInvalid' | transloco }}
           </div>
         </div>
       </div>
 
       <div class="col-md-6 mb-3">
-        <label for="permission" class="form-label">Permisos *</label>
+        <label for="permission" class="form-label"
+          >{{ 'user.permission' | transloco }} *</label
+        >
         <select
           class="form-select"
           id="permission"
@@ -47,12 +55,12 @@
             form.get('permission')?.invalid && form.get('permission')?.touched
           "
         >
-          <option value="">Seleccionar permisos</option>
+          <option value="">{{ 'search.selectType' | transloco }}</option>
           <option
             *ngFor="let option of getPermissionOptions()"
             [value]="option.value"
           >
-            {{ option.label }}
+            {{ option.label | transloco }}
           </option>
         </select>
         <div
@@ -61,14 +69,16 @@
             form.get('permission')?.invalid && form.get('permission')?.touched
           "
         >
-          Los permisos son requeridos
+          {{ 'user.permissionRequired' | transloco }}
         </div>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-6 mb-3">
-        <label for="name" class="form-label">Nombre *</label>
+        <label for="name" class="form-label"
+          >{{ 'user.name' | transloco }} *</label
+        >
         <input
           type="text"
           class="form-control"
@@ -82,12 +92,14 @@
           class="invalid-feedback"
           *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
         >
-          El nombre es requerido
+          {{ 'user.nameRequired' | transloco }}
         </div>
       </div>
 
       <div class="col-md-6 mb-3">
-        <label for="lastName" class="form-label">Apellidos *</label>
+        <label for="lastName" class="form-label"
+          >{{ 'user.lastName' | transloco }} *</label
+        >
         <input
           type="text"
           class="form-control"
@@ -101,7 +113,7 @@
           class="invalid-feedback"
           *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched"
         >
-          Los apellidos son requeridos
+          {{ 'user.lastNameRequired' | transloco }}
         </div>
       </div>
     </div>
@@ -109,7 +121,8 @@
     <div class="row">
       <div class="col-md-6 mb-3">
         <label for="password" class="form-label">
-          Contraseña {{ isEditMode ? '(opcional)' : '*' }}
+          {{ 'user.password' | transloco }}
+          {{ isEditMode ? ('common.optional' | transloco) : '*' }}
         </label>
         <input
           type="password"
@@ -125,21 +138,21 @@
           *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
         >
           <div *ngIf="form.get('password')?.errors?.['required']">
-            La contraseña es requerida
+            {{ 'user.passwordRequired' | transloco }}
           </div>
           <div *ngIf="form.get('password')?.errors?.['minlength']">
-            La contraseña debe tener al menos 6 caracteres
+            {{ 'user.passwordMinLength' | transloco }}
           </div>
         </div>
         <div class="form-text" *ngIf="isEditMode">
-          Deja en blanco para mantener la contraseña actual
+          {{ 'user.passwordOptional' | transloco }}
         </div>
       </div>
     </div>
 
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="close()">
-        Cancelar
+        {{ 'common.cancel' | transloco }}
       </button>
       <button
         type="submit"
@@ -150,7 +163,11 @@
           *ngIf="loading"
           class="spinner-border spinner-border-sm me-2"
         ></span>
-        {{ isEditMode ? 'Actualizar' : 'Crear' }}
+        {{
+          isEditMode
+            ? ('common.update' | transloco)
+            : ('common.create' | transloco)
+        }}
       </button>
     </div>
   </form>

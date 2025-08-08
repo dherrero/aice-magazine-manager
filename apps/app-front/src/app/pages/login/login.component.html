@@ -4,15 +4,15 @@
   >
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Iniciar sesión</h5>
+        <h5 class="card-title">{{ 'auth.login' | transloco }}</h5>
         <form
           class="p-5 row flex-colum justify-content-center"
           [formGroup]="login"
         >
           <div class="col-12 mb-3">
-            <label for="InputEmail1" class="form-label"
-              >Correo electrónico</label
-            >
+            <label for="InputEmail1" class="form-label">{{
+              'auth.email' | transloco
+            }}</label>
             <input
               type="email"
               class="form-control"
@@ -21,7 +21,9 @@
             />
           </div>
           <div class="col-12 mb-3">
-            <label for="InputPassword" class="form-label">Contraseña</label>
+            <label for="InputPassword" class="form-label">{{
+              'auth.password' | transloco
+            }}</label>
             <input
               type="password"
               class="form-control"
@@ -38,13 +40,13 @@
                 formControlName="remember"
               />
               <label class="form-check-label" for="flexCheckDefault">
-                Recordar
+                {{ 'auth.remember' | transloco }}
               </label>
             </div>
           </div>
           <div class="col-12 d-flex justify-content-center mt-4">
             <button type="submit" class="btn btn-primary" (click)="doLogin()">
-              Iniciar sesión
+              {{ 'auth.loginButton' | transloco }}
             </button>
           </div>
         </form>

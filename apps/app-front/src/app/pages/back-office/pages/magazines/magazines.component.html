@@ -1,12 +1,12 @@
 <div class="row p-4">
   <div class="col-12 d-flex flex-row">
-    <h2>Gestor de revistas</h2>
+    <h2>{{ 'magazine.title' | transloco }}</h2>
     <i
       class="lni lni-cloud-upload fs-1 ms-4"
       (click)="open(uploadModal)"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
-      ngbTooltip="Subir revista"
+      [ngbTooltip]="'magazine.uploadPdf' | transloco"
       placement="right"
     ></i>
   </div>
@@ -15,11 +15,11 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Revista número</th>
-          <th scope="col">Portada</th>
-          <th scope="col">Publicada</th>
-          <th scope="col">Subida</th>
-          <th scope="col" class="text-center">Acciones</th>
+          <th scope="col">{{ 'magazine.number' | transloco }}</th>
+          <th scope="col">{{ 'magazine.image' | transloco }}</th>
+          <th scope="col">{{ 'magazine.publishedAt' | transloco }}</th>
+          <th scope="col">{{ 'user.createdAt' | transloco }}</th>
+          <th scope="col" class="text-center">{{ 'user.actions' | transloco }}</th>
         </tr>
       </thead>
       <tbody>
@@ -30,7 +30,7 @@
             <img
               *ngIf="magazine.image"
               [src]="mazineImage(magazine.image)"
-              alt="Portada de la revista"
+              [alt]="'magazine.image' | transloco"
               class="img-thumbnail"
               style="max-width: 100px"
             />
@@ -44,7 +44,7 @@
           <td class="text-center align-middle">
             <i
               class="lni lni-eye me-3 fs-3"
-              ngbTooltip="Ver PDF"
+              [ngbTooltip]="'magazine.viewPdf' | transloco"
               placement="top"
               (click)="openPdf(magazine.path)"
             ></i>
@@ -55,7 +55,7 @@
             ></i> -->
             <i
               class="lni lni-trash-can fs-3"
-              ngbTooltip="Eliminar"
+              [ngbTooltip]="'common.delete' | transloco"
               placement="top"
               (click)="confirmDelete(magazine)"
             ></i>
@@ -77,7 +77,7 @@
   <div class="col-2">
     <select
       class="form-select"
-      aria-label="Default select example"
+      [attr.aria-label]="'pagination.itemsPerPage' | transloco"
       [(ngModel)]="pageSize"
     >
       <option [value]="5">5</option>
@@ -89,11 +89,11 @@
 </div>
 <ng-template #uploadModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Subir revista</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'magazine.uploadPdfTitle' | transloco }}</h4>
     <button
       type="button"
       class="btn-close"
-      aria-label="Close"
+      [attr.aria-label]="'common.close' | transloco"
       (click)="modal.dismiss()"
     ></button>
   </div>

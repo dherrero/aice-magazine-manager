@@ -4,16 +4,16 @@
       <input
         type="text"
         class="form-control form-control-lg"
-        placeholder="Escribe aquí para empezar a buscar..."
+        [placeholder]="'search.placeholder' | transloco"
         formControlName="query"
-        aria-label="Escribe aquí para empezar a buscar..."
+        [attr.aria-label]="'search.searchInMagazines' | transloco"
       />
       <span class="input-group-text button-clean" (click)="cleanQuery()">
         <i
           class="lni lni-close"
-          ngbTooltip="Reiniciar búsqueda"
+          [ngbTooltip]="'search.clearSearch' | transloco"
           placement="left"
-          aria-label="Reiniciar busqueda"
+          [attr.aria-label]="'search.clearSearch' | transloco"
         ></i>
       </span>
     </div>
@@ -25,12 +25,20 @@
       (show)="filtersOpen = true"
     >
       <div ngbAccordionItem>
-        <div ngbAccordionHeader class="text-end" aria-label="ver filtros">
+        <div
+          ngbAccordionHeader
+          class="text-end"
+          [attr.aria-label]="'search.advancedFilters' | transloco"
+        >
           <button ngbAccordionButton>
-            {{ !filtersOpen ? 'Ver' : 'Ocultar' }} filtros
+            {{
+              !filtersOpen
+                ? ('search.advancedFilters' | transloco)
+                : ('search.hideFilters' | transloco)
+            }}
             <span class="filter-alert">{{
               !filtersOpen && search.value.number && search.value.type
-                ? ' ¡Antención! se están aplicando filtros de búsqueda.'
+                ? ' ' + ('search.activeFilters' | transloco) + '.'
                 : ''
             }}</span>
           </button>
@@ -39,18 +47,21 @@
           <div ngbAccordionBody>
             <ng-template>
               <div class="row">
-                <label for="inputRevista" class="col-sm-6 col-form-label"
-                  >Filtrar entre las revistas cuyo número sean</label
-                >
+                <label for="inputRevista" class="col-sm-6 col-form-label">{{
+                  'search.filterByMagazine' | transloco
+                }}</label>
                 <div class="col-sm-3">
                   <select
                     class="form-select"
-                    aria-label="Default select example"
+                    [attr.aria-label]="'search.filterType' | transloco"
                     formControlName="type"
                   >
+                    <option value="">
+                      {{ 'search.selectType' | transloco }}
+                    </option>
                     @for(type of typeOptions; track $index){
                     <option [value]="type">
-                      {{ typeDescription[$index] }}
+                      {{ typeDescription[$index] | transloco }}
                     </option>
                     }
                   </select>
@@ -61,13 +72,15 @@
                     type="number"
                     class="form-control"
                     id="inputRevista"
-                    placeholder="Número de revista"
+                    [placeholder]="
+                      'search.magazineNumberPlaceholder' | transloco
+                    "
                     formControlName="number"
                   />
                 </div>
                 <div class="col-1">
                   <button class="btn btn-primary" (click)="searchByFilters()">
-                    Filtrar
+                    {{ 'search.applyFilters' | transloco }}
                   </button>
                 </div>
               </div>

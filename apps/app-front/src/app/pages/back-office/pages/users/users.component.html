@@ -1,10 +1,10 @@
 <div class="row p-4">
   <div class="col-12 d-flex flex-row">
-    <h2>Gestión de usuarios</h2>
+    <h2>{{ 'user.users' | transloco }}</h2>
     <i
       class="lni lni-user fs-1 ms-4"
       (click)="openCreateUser()"
-      ngbTooltip="Crear usuario"
+      [ngbTooltip]="'user.createUser' | transloco"
       placement="right"
       style="cursor: pointer"
     ></i>
@@ -15,12 +15,12 @@
       <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">Email</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Apellidos</th>
-          <th scope="col">Permisos</th>
-          <th scope="col">Creado</th>
-          <th scope="col" class="text-center">Acciones</th>
+          <th scope="col">{{ 'user.email' | transloco }}</th>
+          <th scope="col">{{ 'user.name' | transloco }}</th>
+          <th scope="col">{{ 'user.lastName' | transloco }}</th>
+          <th scope="col">{{ 'user.permission' | transloco }}</th>
+          <th scope="col">{{ 'user.createdAt' | transloco }}</th>
+          <th scope="col" class="text-center">{{ 'user.actions' | transloco }}</th>
         </tr>
       </thead>
       <tbody>
@@ -48,14 +48,14 @@
           <td class="text-center align-middle">
             <i
               class="lni lni-pencil me-3 fs-3"
-              ngbTooltip="Editar"
+              [ngbTooltip]="'common.edit' | transloco"
               placement="top"
               (click)="openEditUser(user)"
               style="cursor: pointer"
             ></i>
             <i
               class="lni lni-trash-can fs-3"
-              ngbTooltip="Eliminar"
+              [ngbTooltip]="'common.delete' | transloco"
               placement="top"
               (click)="confirmDelete(user)"
               style="cursor: pointer"
@@ -79,7 +79,7 @@
   <div class="col-2">
     <select
       class="form-select"
-      aria-label="Default select example"
+      [attr.aria-label]="'pagination.itemsPerPage' | transloco"
       [(ngModel)]="pageSize"
     >
       <option [value]="5">5</option>
@@ -93,11 +93,11 @@
 <!-- Modal para crear/editar usuario -->
 <ng-template #userModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Usuario</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'user.title' | transloco }}</h4>
     <button
       type="button"
       class="btn-close"
-      aria-label="Close"
+      [attr.aria-label]="'common.close' | transloco"
       (click)="modal.dismiss()"
     ></button>
   </div>

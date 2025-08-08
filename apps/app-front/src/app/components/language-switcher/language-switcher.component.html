@@ -1,0 +1,18 @@
+<div class="language-switcher">
+  <button
+    type="button"
+    class="btn btn-outline-primary btn-sm"
+    (click)="switchLanguage('es')"
+    [class.active]="currentLang === 'es'"
+  >
+    {{ 'language.es' | transloco }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-primary btn-sm"
+    (click)="switchLanguage('ca')"
+    [class.active]="currentLang === 'ca'"
+  >
+    {{ 'language.ca' | transloco }}
+  </button>
+</div> 
