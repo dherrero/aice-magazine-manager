@@ -33,7 +33,7 @@ ALTER SEQUENCE public.user_id_seq OWNED BY public.user.id;
 ALTER TABLE ONLY public.user ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
 
 
-INSERT INTO public.user (id, email, name, lastname, password, permission) VALUES (1, 'dani@local.com', 'Daniel', 'HT', '$2b$10$MFlYds40Bv5jd3BAOvuuk.XrgzeniY84r572RGfbr5/d7O8f5bouy', 'ADMIN SEARCH_MAGAZINE');
+INSERT INTO public.user (id, email, name, lastname, password, permission) VALUES (1, 'dani@local.com', 'Daniel', 'HT', '$2b$10$MFlYds40Bv5jd3BAOvuuk.XrgzeniY84r572RGfbr5/d7O8f5bouy', 'ADMIN');
 INSERT INTO public.user (id, email, name, lastname, password, permission) VALUES (2, 'eva@local.com', 'Eva', 'HT', '$2b$10$MFlYds40Bv5jd3BAOvuuk.XrgzeniY84r572RGfbr5/d7O8f5bouy', 'SEARCH_MAGAZINE');
 
 

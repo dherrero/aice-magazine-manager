@@ -1,0 +1,157 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{ isEditMode ? 'Editar usuario' : 'Crear usuario' }}
+  </h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="close()"
+  ></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="email" class="form-label">Email *</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+          [class.is-invalid]="
+            form.get('email')?.invalid && form.get('email')?.touched
+          "
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+        >
+          <div *ngIf="form.get('email')?.errors?.['required']">
+            El email es requerido
+          </div>
+          <div *ngIf="form.get('email')?.errors?.['email']">
+            El email no es válido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="permission" class="form-label">Permisos *</label>
+        <select
+          class="form-select"
+          id="permission"
+          formControlName="permission"
+          [class.is-invalid]="
+            form.get('permission')?.invalid && form.get('permission')?.touched
+          "
+        >
+          <option value="">Seleccionar permisos</option>
+          <option
+            *ngFor="let option of getPermissionOptions()"
+            [value]="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            form.get('permission')?.invalid && form.get('permission')?.touched
+          "
+        >
+          Los permisos son requeridos
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="name" class="form-label">Nombre *</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          formControlName="name"
+          [class.is-invalid]="
+            form.get('name')?.invalid && form.get('name')?.touched
+          "
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+        >
+          El nombre es requerido
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="lastName" class="form-label">Apellidos *</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          formControlName="lastName"
+          [class.is-invalid]="
+            form.get('lastName')?.invalid && form.get('lastName')?.touched
+          "
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched"
+        >
+          Los apellidos son requeridos
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="password" class="form-label">
+          Contraseña {{ isEditMode ? '(opcional)' : '*' }}
+        </label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          formControlName="password"
+          [class.is-invalid]="
+            form.get('password')?.invalid && form.get('password')?.touched
+          "
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+        >
+          <div *ngIf="form.get('password')?.errors?.['required']">
+            La contraseña es requerida
+          </div>
+          <div *ngIf="form.get('password')?.errors?.['minlength']">
+            La contraseña debe tener al menos 6 caracteres
+          </div>
+        </div>
+        <div class="form-text" *ngIf="isEditMode">
+          Deja en blanco para mantener la contraseña actual
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="form.invalid || loading"
+      >
+        <span
+          *ngIf="loading"
+          class="spinner-border spinner-border-sm me-2"
+        ></span>
+        {{ isEditMode ? 'Actualizar' : 'Crear' }}
+      </button>
+    </div>
+  </form>
+</div>

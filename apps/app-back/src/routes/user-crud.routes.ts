@@ -9,6 +9,11 @@ userCrudRouter.get(
   userCrudController.getAll
 );
 userCrudRouter.get(
+  '/paged',
+  authController.hasPermission('ADMIN'),
+  userCrudController.getAllPaged
+);
+userCrudRouter.get(
   '/:id',
   authController.hasPermission('ADMIN'),
   userCrudController.getById

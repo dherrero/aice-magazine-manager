@@ -9,8 +9,8 @@ COPY package*.json ./
 COPY nx.json ./
 COPY tsconfig.base.json ./
 
-# Actualizar npm a la última versión estable
-RUN npm install -g npm@latest
+# Actualizar npm a una versión compatible con Node.js 18
+RUN npm install -g npm@10.9.0
 
 # Instalar las dependencias necesarias ignorando scripts post-instalación
 RUN npm install --ignore-scripts --verbose

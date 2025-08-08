@@ -16,13 +16,29 @@
         "bundle": false,
         "main": "apps/app-back/src/main.ts",
         "tsConfig": "apps/app-back/tsconfig.app.json",
-        "assets": ["apps/app-back/src/assets"],
         "external": ["pg", "pg-hstore"],
         "generatePackageJson": true,
         "esbuildOptions": {
-          "sourcemap": true,
           "outExtension": {
             ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {
+          "esbuildOptions": {
+            "sourcemap": true,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        },
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
           }
         }
       }

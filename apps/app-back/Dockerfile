@@ -30,18 +30,26 @@ ENV APP_DIR /home/app-back/
 RUN getent group app-back || addgroup --system app-back && \
     id -u app-back &>/dev/null || adduser --system -G app-back app-back
 
-# Instalar dependencias necesarias
+# Instalar dependencias necesarias incluyendo Python y herramientas de compilación
 RUN apk update && apk add --no-cache \
     graphicsmagick \
-    ghostscript
+    ghostscript \
+    python3 \
+    make \
+    g++ \
+    libc6-compat \
+    ca-certificates
 
 # Copiar los archivos compilados de la etapa de construcción
 COPY --from=build /app/dist/apps/app-back ${APP_DIR}
 
 WORKDIR ${APP_DIR}
 
-# Instalar solo dependencias de producción
-RUN npm install --omit=dev
+# Instalar solo dependencias de producción con configuración para bcrypt
+ENV PYTHON=/usr/bin/python3
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
+RUN npm config set strict-ssl false && \
+    npm install --omit=dev
 
 # Crear directorio de uploads si es necesario
 RUN mkdir -p ${APP_DIR}uploads
