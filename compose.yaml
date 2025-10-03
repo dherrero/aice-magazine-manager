@@ -15,7 +15,7 @@ services:
     networks:
       - back-network
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRESDB_USER}']
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESDB_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -38,8 +38,8 @@ services:
     healthcheck:
       test:
         [
-          'CMD-SHELL',
-          'curl -f http://localhost:${PGADMIN_DOCKER_PORT} || exit 1',
+          "CMD-SHELL",
+          "curl -f http://localhost:${PGADMIN_DOCKER_PORT} || exit 1",
         ]
       interval: 30s
       timeout: 10s
@@ -77,19 +77,19 @@ services:
       - upload_files:/home/app-back/${NODE_UPLOAD_FILES}
       - tmp:/tmp
 
-  front:
-    build:
-      context: .
-      dockerfile: apps/app-front/Dockerfile
-    container_name: front
-    restart: unless-stopped
-    ports:
-      - ${FRONT_EXTERNAL_PORT}:${FRONT_INTERNAL_PORT}
-    depends_on:
-      - back
-    networks:
-      - front-network
-      - back-network
+  # front:
+  #   build:
+  #     context: .
+  #     dockerfile: apps/app-front/Dockerfile
+  #   container_name: front
+  #   restart: unless-stopped
+  #   ports:
+  #     - ${FRONT_EXTERNAL_PORT}:${FRONT_INTERNAL_PORT}
+  #   depends_on:
+  #     - back
+  #   networks:
+  #     - front-network
+  #     - back-network
 
 volumes:
   postgresdb:

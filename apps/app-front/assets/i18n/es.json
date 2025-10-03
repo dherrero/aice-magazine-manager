@@ -22,7 +22,8 @@
     "warning": "Advertencia",
     "info": "Información",
     "required": "Requerido",
-    "optional": "Opcional"
+    "optional": "Opcional",
+    "notifications": "Notificaciones"
   },
   "search": {
     "title": "Buscador de Revistas",

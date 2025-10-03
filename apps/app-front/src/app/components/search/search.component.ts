@@ -64,7 +64,18 @@ export class SearchComponent implements OnInit {
   cleanQuery() {
     this.search.patchValue({ query: '', type: '', number: '' });
   }
+
   searchByFilters() {
     this.searchValue.emit(this.search.value);
+  }
+
+  canApplyFilters(): boolean {
+    const value = this.search.value;
+    return !!(value.type && value.number);
+  }
+
+  hasActiveFilters(): boolean {
+    const value = this.search.value;
+    return !!(value.type || value.number);
   }
 }

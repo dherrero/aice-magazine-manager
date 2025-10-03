@@ -1,42 +1,56 @@
-<section class="m-2 w-100 d-flex flex-column align-items-center">
-  <div class="d-flex justify-content-between align-items-center w-100 mb-3">
-    <div></div>
-    <app-language-switcher></app-language-switcher>
-  </div>
-  
-  <app-search (searchValue)="setSearch($event)"></app-search>
+<div class="home-container">
+  <main class="home-main">
+    <div class="container">
+      <div class="search-section">
+        <app-search (searchValue)="setSearch($event)"></app-search>
+      </div>
 
-  <i class="lni lni-cog back-office-icon" (click)="goToBackOffice()"></i>
-</section>
-<section class="results row h-90">
-  @if (magazineService.loading()){
-  <div
-    class="col-12 d-flex flex-colum align-items-center justify-content-center loading"
-  >
-    <div class="spinner-border text-warning-emphasis" role="status">
-      <span class="sr-only">{{ 'common.loading' | transloco }}</span>
+      <div class="results-section">
+        @if (magazineService.loading()) {
+        <div class="loading-state">
+          <div class="spinner" role="status">
+            <span class="sr-only">{{ 'common.loading' | transloco }}</span>
+          </div>
+        </div>
+        } @else if (magazineService.results().length === 0 && search.length > 3)
+        {
+        <div class="no-results">
+          <h2>{{ 'search.noResults' | transloco }}</h2>
+        </div>
+        } @else {
+        <h2 class="results-title">{{ 'search.title' | transloco }}</h2>
+        <div class="results-grid">
+          @for (result of magazineService.results(); track result.id) {
+          <div class="result-card">
+            <div class="card-image">
+              <img
+                [src]="result.Magazine.image || '/assets/default-magazine.png'"
+                [alt]="'Revista nº ' + result.Magazine.number"
+                class="magazine-cover"
+              />
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">
+                Revista nº {{ result.Magazine.number }} - Página
+                {{ result.number }}
+              </h3>
+              <p class="card-description">
+                {{ result.content | highlightQuery : search }}
+              </p>
+              <a
+                [href]="result.Magazine.path"
+                target="_blank"
+                class="card-link"
+              >
+                {{ 'magazine.viewPdf' | transloco }}
+                <i class="lni lni-external-link"></i>
+              </a>
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </div>
     </div>
-  </div>
-  } @else if(magazineService.results().length === 0 && search.length > 3){
-  <div
-    class="col-12 d-flex flex-colum align-items-center justify-content-center"
-  >
-    <h2>{{ 'search.noResults' | transloco }}</h2>
-  </div>
-  } @else {
-  <div class="col-12 row d-flex flex-wrap">
-    @for (result of magazineService.results(); track result.id) {
-    <app-card
-      class="mb-2 col-12 col-sm-6 col-md-4 col-xxl-3"
-      [title]="
-        'Revista nº ' + result.Magazine.number + ' página ' + result.number
-      "
-      [content]="result.content | highlightQuery : search"
-      [pdfPath]="result.Magazine.path"
-      [page]="result.number"
-      [frontPage]="result.Magazine.image"
-    ></app-card>
-    }
-  </div>
-  }
-</section>
+  </main>
+</div>

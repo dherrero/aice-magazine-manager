@@ -1,0 +1,58 @@
+<header class="app-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="header-left">
+        <div class="logo">
+          <i class="lni lni-search-alt"></i>
+          <h1>{{ 'search.title' | transloco }}</h1>
+        </div>
+        <nav class="nav-menu" *ngIf="isLoggedIn">
+          <a routerLink="/" routerLinkActive="active" class="nav-link">
+            {{ 'backOffice.backToSearch' | transloco }}
+          </a>
+          <a
+            routerLink="/back-office"
+            routerLinkActive="active"
+            class="nav-link"
+          >
+            {{ 'backOffice.magazines' | transloco }}
+          </a>
+          <a
+            routerLink="/back-office/users"
+            routerLinkActive="active"
+            class="nav-link"
+          >
+            {{ 'backOffice.users' | transloco }}
+          </a>
+        </nav>
+      </div>
+      <div class="header-right">
+        <app-language-switcher></app-language-switcher>
+        <button
+          class="notification-btn"
+          *ngIf="isLoggedIn"
+          [title]="'common.notifications' | transloco"
+        >
+          <i class="lni lni-bell"></i>
+        </button>
+        <div class="user-menu" *ngIf="isLoggedIn">
+          <div class="user-avatar">
+            <i class="lni lni-user"></i>
+          </div>
+          <div class="user-dropdown">
+            <div class="user-info">
+              <span class="user-name"
+                >{{ user?.['name'] }} {{ user?.['lastName'] }}</span
+              >
+              <span class="user-email">{{ user?.['email'] }}</span>
+            </div>
+            <button class="logout-btn" (click)="logout()">
+              <i class="lni lni-exit"></i>
+              {{ 'auth.logout' | transloco }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

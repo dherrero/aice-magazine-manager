@@ -22,7 +22,8 @@
     "warning": "Advertència",
     "info": "Informació",
     "required": "Requerit",
-    "optional": "Opcional"
+    "optional": "Opcional",
+    "notifications": "Notificacions"
   },
   "search": {
     "title": "Buscador de Revistes",
