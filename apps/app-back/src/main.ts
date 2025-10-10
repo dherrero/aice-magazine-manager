@@ -20,13 +20,24 @@ class Main {
     this.#config();
     this.#setRoutes();
 
-    this.#app.listen(this.#port, () => {
+    this.#app.listen(this.#port, '0.0.0.0', () => {
       console.log(`Server is running on port ${this.#port}`);
     });
   }
 
   #config() {
-    this.#app.use(cors());
+    // Detrás de Traefik
+    this.#app.set('trust proxy', 1);
+
+    // Configure CORS for subdomain deployment
+    const corsOptions = {
+      origin: ['https://aice.dani-herrero.es', 'http://localhost:4200'],
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'Refresh-Token'],
+    };
+
+    this.#app.use(cors(corsOptions));
     this.#app.use(express.json());
 
     // static files, pdf and front page images

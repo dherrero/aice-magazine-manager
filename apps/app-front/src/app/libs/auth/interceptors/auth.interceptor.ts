@@ -24,6 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
         headers: req.headers
           .set('Authorization', authToken)
           .set('refresh-token', refreshToken),
+        withCredentials: true,
       });
       return next.handle(authReq).pipe(
         tap((event: HttpEvent<unknown>) => {
@@ -38,7 +39,12 @@ export class AuthInterceptor implements HttpInterceptor {
       );
     }
 
-    return next.handle(req).pipe(catchError(this.errorHandle.bind(this)));
+    const reqWithCredentials = req.clone({
+      withCredentials: true,
+    });
+    return next
+      .handle(reqWithCredentials)
+      .pipe(catchError(this.errorHandle.bind(this)));
   }
   private errorHandle(error: HttpErrorResponse) {
     if (error.status === 401) {
