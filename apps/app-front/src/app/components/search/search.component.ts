@@ -9,7 +9,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { filter } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -51,7 +51,12 @@ export class SearchComponent implements OnInit {
     this.search.valueChanges
       .pipe(
         untilDestroyed(this),
-        filter(() => !this.filtersOpen)
+        filter(() => !this.filtersOpen),
+        debounceTime(300), // Esperar 300ms después del último cambio
+        distinctUntilChanged((prev, curr) => {
+          // Solo emitir si realmente cambió el contenido
+          return JSON.stringify(prev) === JSON.stringify(curr);
+        })
       )
       .subscribe((value) => {
         if (value.query && value.query.length > 3) {

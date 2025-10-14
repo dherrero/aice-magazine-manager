@@ -3,20 +3,24 @@ import {
   HttpErrorResponse,
   HttpEventType,
 } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { MagazineDTO, PaginationDTO, SearchDTO } from '@dto';
 import { MagazineState, SearchType } from '@front/app/models/magazine.model';
 import { env } from '@front/environments/environment';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, Subject, catchError, of, takeUntil, tap } from 'rxjs';
 import { AbstractState } from './abstract-state.class';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MagazineService extends AbstractState<MagazineState> {
+export class MagazineService
+  extends AbstractState<MagazineState>
+  implements OnDestroy
+{
   #http = inject(HttpClient);
   #pdfApi = 'pdf/';
   #magazineApi = 'magazine/';
+  #searchCancel$ = new Subject<void>();
   loading = this.select('loading');
   uploading = this.select('uploading');
   results = this.select('results');
@@ -43,10 +47,15 @@ export class MagazineService extends AbstractState<MagazineState> {
   }
 
   searchPdf(search: SearchType) {
+    // Cancelar búsqueda anterior
+    this.#searchCancel$.next();
+
     if (search.query && search.query.length > 3) {
       this.#searchPdf(search);
     } else {
       this.cleanResults();
+      // Asegurar que el estado de carga se resetee
+      this.update((state) => ({ ...state, loading: false }));
     }
   }
 
@@ -100,13 +109,24 @@ export class MagazineService extends AbstractState<MagazineState> {
       .get<SearchDTO[]>(`${env.api}${this.#pdfApi}search`, {
         params: this.#setParams(query as Record<string, string>),
       })
+      .pipe(takeUntil(this.#searchCancel$))
       .subscribe({
         next: (results: SearchDTO[]) => {
           this.update((state) => ({ ...state, results, loading: false }));
         },
         error: (error) => {
-          console.error(error);
-          this.update((state) => ({ ...state, loading: false }));
+          // Solo mostrar error si no fue cancelado
+          if (error.name !== 'AbortError' && error.name !== 'TimeoutError') {
+            console.error('Error en búsqueda:', error);
+            this.update((state) => ({
+              ...state,
+              loading: false,
+              results: [], // Limpiar resultados en caso de error
+            }));
+          } else {
+            // Si fue cancelado, solo resetear loading sin limpiar resultados
+            this.update((state) => ({ ...state, loading: false }));
+          }
         },
       });
   }
@@ -115,5 +135,11 @@ export class MagazineService extends AbstractState<MagazineState> {
     return Object.entries(params)
       .filter(([, value]) => value !== undefined && value !== null)
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+  }
+
+  ngOnDestroy() {
+    // Cancelar todas las búsquedas pendientes
+    this.#searchCancel$.next();
+    this.#searchCancel$.complete();
   }
 }
