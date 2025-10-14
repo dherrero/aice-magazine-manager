@@ -1,14 +1,14 @@
 name: aice-magazine-manager
 services:
   postgresdb:
-    image: postgres:15
+    image: postgres
     restart: unless-stopped
     environment:
       - POSTGRES_USER=${POSTGRESDB_USER}
       - POSTGRES_PASSWORD=${POSTGRESDB_PASSWORD}
       - POSTGRES_DB=${POSTGRESDB_DATABASE}
     volumes:
-      - postgresdb:/var/lib/postgresql/data
+      - aice-postgresdb:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d
     networks:
       - back-aice-network
@@ -20,7 +20,6 @@ services:
   back:
     depends_on:
       - postgresdb
-
     build:
       context: .
       dockerfile: apps/app-back/Dockerfile
@@ -59,7 +58,7 @@ services:
       - back
 
 volumes:
-  postgresdb:
+  aice-postgresdb:
   upload_files:
   tmp:
 
