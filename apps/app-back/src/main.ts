@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import multer from 'multer';
 
+import { testConnection } from './adapters/db/pg.connector';
 import { UPLOAD_DIR } from './globals';
 import api from './routes';
 
@@ -16,12 +17,19 @@ class Main {
     this.#port = port;
   }
 
-  start() {
+  async start() {
+    // Probar conexión a la base de datos antes de iniciar el servidor
+    const dbConnected = await testConnection();
+    if (!dbConnected) {
+      console.error('❌ Failed to connect to database. Exiting...');
+      process.exit(1);
+    }
+
     this.#config();
     this.#setRoutes();
 
     this.#app.listen(this.#port, '0.0.0.0', () => {
-      console.log(`Server is running on port ${this.#port}`);
+      console.log(`🚀 Server is running on port ${this.#port}`);
     });
   }
 
@@ -67,6 +75,9 @@ class Main {
 }
 const PORT = process.env.NODE_PORT
   ? Number(process.env.NODE_PORT)
-  : Number('3333');
+  : Number('3200');
 const main = new Main(PORT);
-main.start();
+main.start().catch((error) => {
+  console.error('❌ Failed to start server:', error);
+  process.exit(1);
+});

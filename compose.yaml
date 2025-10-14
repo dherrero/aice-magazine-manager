@@ -1,48 +1,48 @@
 name: aice-magazine-manager
 services:
   postgresdb:
-    image: postgres
+    image: postgres:15
     restart: unless-stopped
     environment:
-      - POSTGRES_USER=${POSTGRESDB_USER}
-      - POSTGRES_PASSWORD=${POSTGRESDB_PASSWORD}
-      - POSTGRES_DB=${POSTGRESDB_DATABASE}
+      - POSTGRES_USER=${POSTGRESDB_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRESDB_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRESDB_DATABASE:-aice_magazine}
     volumes:
       - postgresdb:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d
     networks:
-      - back-network
+      - back-aice-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESDB_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESDB_USER:-postgres}"]
       interval: 10s
       timeout: 5s
       retries: 5
   back:
     depends_on:
-      - postgresdb
+      postgresdb:
+        condition: service_healthy
     build:
       context: .
       dockerfile: apps/app-back/Dockerfile
     container_name: back
     restart: unless-stopped
     environment:
-      - NODE_PORT=${NODE_PORT}
-      - POSTGRESDB_USER=${POSTGRESDB_USER}
-      - POSTGRESDB_PASSWORD=${POSTGRESDB_PASSWORD}
-      - POSTGRESDB_DATABASE=${POSTGRESDB_DATABASE}
-      - POSTGRESDB_PORT=${POSTGRESDB_PORT}
-      - POSTGRESDB_HOST=${POSTGRESDB_HOST}
-      - NODE_JWT_SECRET=${NODE_JWT_SECRET}
-      - NODE_JWT_ACCESS_EXPIRES_IN=${NODE_JWT_ACCESS_EXPIRES_IN}
-      - NODE_JWT_REFRESH_EXPIRES_IN=${NODE_JWT_REFRESH_EXPIRES_IN}
-      - NODE_HASH_SALT_ROUNDS=${NODE_HASH_SALT_ROUNDS}
-      - NODE_PRODUCTION=${NODE_PRODUCTION}
-      - NODE_UPLOAD_FILES=${NODE_UPLOAD_FILES}
+      - NODE_PORT=${NODE_PORT:-3200}
+      - POSTGRESDB_USER=${POSTGRESDB_USER:-postgres}
+      - POSTGRESDB_PASSWORD=${POSTGRESDB_PASSWORD:-postgres}
+      - POSTGRESDB_DATABASE=${POSTGRESDB_DATABASE:-aice_magazine}
+      - POSTGRESDB_PORT=${POSTGRESDB_PORT:-5432}
+      - POSTGRESDB_HOST=postgresdb
+      - NODE_JWT_SECRET=${NODE_JWT_SECRET:-your_jwt_secret_here}
+      - NODE_JWT_ACCESS_EXPIRES_IN=${NODE_JWT_ACCESS_EXPIRES_IN:-15m}
+      - NODE_JWT_REFRESH_EXPIRES_IN=${NODE_JWT_REFRESH_EXPIRES_IN:-7d}
+      - NODE_HASH_SALT_ROUNDS=${NODE_HASH_SALT_ROUNDS:-10}
+      - NODE_PRODUCTION=${NODE_PRODUCTION:-true}
+      - NODE_UPLOAD_FILES=${NODE_UPLOAD_FILES:-uploads}
     ports:
-      - ${NODE_PORT}
+      - "${NODE_PORT:-3200}"
     networks:
-      - back-network
-      - front-network
+      - back-aice-network
     volumes:
       - upload_files:/home/app-back/${NODE_UPLOAD_FILES}
       - tmp:/tmp
@@ -57,9 +57,6 @@ services:
       - ${FRONT_PORT}
     depends_on:
       - back
-    networks:
-      - front-network
-      - back-network
 
 volumes:
   postgresdb:
@@ -67,5 +64,4 @@ volumes:
   tmp:
 
 networks:
-  back-network:
-  front-network:
+  back-aice-network:
